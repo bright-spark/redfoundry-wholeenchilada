@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp id="APPCODE" appkey="APPKEY"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+	
+		<!-- Tab 1 View Start -->
+		<view id="tabWidgets">
+			
+		</view>
+		<!-- Tab 1 View End -->
+		
+		
+		
+		<!-- Tab 2 View Start -->
+		<view id="tabMenus">
+			
+		</view>
+		<!-- Tab 2 View End -->
+		
+		
+		
+		<!-- Tab 3 View Start -->
+		<view id="tabFeatures">
+			
+		</view>
+		<!-- Tab 3 View End -->
+		
+		
+		
+		<!-- Tab 4 View Start -->
+		<view id="tabFeatures">
+			
+		</view>
+		<!-- Tab 4 View End -->
+		
+		
+		
+		<!-- Tab 5 View Start -->
+		<view id="tabMore">
+			<datasources>
+
+				<!-- Tab More menu data Start -->
+				<RFXMLDataProvider id="tabMore_data_menu">
+					<property name="allow-cache">YES</property>
+					<property name="data">
+						  <![CDATA[
+				          <items>
+				            <item>
+				              <name>View 1</name>
+				              <submit_to>RFML_View1.xml</submit_to>
+				            </item>
+				            <item>
+				              <name>View 2</name>
+				              <submit_to>RFML_View2.xml</submit_to>
+				            </item>
+				            <item>
+				              <name>View 3</name>
+				              <submit_to>RFML_View3.xml</submit_to>
+				            </item>
+				          </items>
+				          ]]>
+			        </property>
+				</RFXMLDataProvider>
+				<!-- Tab More menu data End -->
+
+			</datasources>
+			<widgets>
+				<RFLayoutWidget id="tabMore_menu">
+					<property name="height">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<widgets>
+
+						<!-- Start menu UI -->
+						<RFRepeaterWidget id="myMenu">
+							<actions>
+								<navigate on="touch">
+									<property name="to">[data:row("submit_to")]</property>
+								</navigate>
+							</actions>
+							<property name="row-data-id">tabMore_data_menu</property>
+							<property name="row-data-path">items/item</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="item-height">57</property>
+							<property name="separator-color">#e0e0e0</property>
+							<property name="padding">0</property>
+							<property name="animate-new-rows">NO</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="fade-rows">NO</property>
+							<widgets>
+
+								<!-- Start menu row -->
+								<RFLayoutWidget id="myMenuRow">
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#FFFFFF</property>
+									<property name="padding">0</property>
+									<property name="height">57</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">HelveticaNeue-Bold:20.0</property>
+											<property name="color">#000000</property>
+											<property name="text">[data:row("name")]</property>
+											<property name="left-padding">20</property>
+											<property name="max-lines">1</property>
+											<property name="padding">0</property>
+											<property name="vertical-alignment">middle</property>
+										</RFTextWidget>
+										<RFImageWidget>
+											<property name="image">resources/chev_east.png</property>
+											<property name="height">14</property>
+											<property name="width">19</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="right-padding">10</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- End menu row -->
+
+							</widgets>
+						</RFRepeaterWidget>
+						<!-- End menu UI -->
+
+					</widgets>
+				</RFLayoutWidget>
+			</widgets>
+		</view>
+		<!-- Tab 5 View End -->
+		
+	</views>
+</rfapp>
