@@ -2,40 +2,150 @@
 <rfapp id="APPCODE" appkey="APPKEY"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<property name="enable-debug-console">YES</property>
+	<property name="use-standard-tab-bar">YES</property>
+	<property name="enable-location-services" ">YES</property>
 	<views>
-	
+
 		<!-- Tab 1 View Start -->
 		<view id="tabWidgets">
-			
+
 		</view>
 		<!-- Tab 1 View End -->
-		
-		
-		
+
+
+
 		<!-- Tab 2 View Start -->
 		<view id="tabMenus">
-			
+		
 		</view>
 		<!-- Tab 2 View End -->
-		
-		
-		
+
+
+
 		<!-- Tab 3 View Start -->
 		<view id="tabFeatures">
-			
+			<datasources>
+
+				<!-- Tab Features menu data Start -->
+				<RFXMLDataProvider id="tabFeatures_data_menu">
+					<property name="allow-cache">YES</property>
+					<property name="data">
+						  <![CDATA[
+				          <items>
+				            <item>
+				              <name>Photo Gallery</name>
+				              <submit_to>Tab_Feature_PhotoGallery.xml</submit_to>
+				              <description>A simple grid based photo gallery directly integrated into Flickr.</description>
+				            </item>
+				            <item>
+				              <name>Tab_RSS Newspaper</name>
+				              <submit_to>Feature_RSSNewspaper</submit_to>
+				              <description>View RSS feeds in a newspaper style where you can swipe from page to page.</description>
+				            </item>
+				            <item>
+				              <name>"Live" Magazine</name>
+				              <submit_to>Tab_Feature_Magazine.xml</submit_to>
+				              <description>A sexy living magazine automatically generated from an RSS feed.</description>
+				            </item>
+				            <item>
+				              <name>Radio Station</name>
+				              <submit_to>Tab_Feature_RadioStation.xml</submit_to>
+				              <description>Live streaming of an online radio station with real-time meta data.</description>
+				            </item>
+				            <item>
+				              <name>Interactive Map</name>
+				              <submit_to>Tab_Feature_InteractiveMap.xml</submit_to>
+				              <description>A full-screen interative map. See how one view can work on both the iPhone and iPad.</description>
+				            </item>
+				            <item>
+				              <name>iPad Virtual Coffee Table Book</name>
+				              <submit_to>Tab_Feature_Automotif.xml</submit_to>
+				              <description>A very cool multi-media coffee table book with page animations.</description>
+				            </item>
+				          </items>
+				          ]]>
+			        </property>
+				</RFXMLDataProvider>
+				<!-- Tab Features menu data End -->
+
+			</datasources>
+			<widgets>
+
+				<!-- Start menu UI -->
+				<RFRepeaterWidget id="menuFeatures">
+					<actions>
+						<navigate on="touch">
+							<property name="to">[data:row("submit_to")]</property>
+						</navigate>
+					</actions>
+					<property name="row-data-id">tabMore_data_menu</property>
+					<property name="row-data-path">items/item</property>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="item-height">80</property>
+					<property name="separator-color">#e0e0e0</property>
+					<property name="padding">0</property>
+					<property name="animate-new-rows">NO</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="fade-rows">NO</property>
+					<widgets>
+
+						<!-- Start menu row -->
+						<RFLayoutWidget id="menuFeaturesRow">
+							<property name="width">100%</property>
+							<property name="layout-flow">horizontal</property>
+							<property name="background-color">#FFFFFF</property>
+							<property name="padding">0</property>
+							<property name="height">57</property>
+							<widgets>
+								<RFTextWidget>
+									<property name="font">HelveticaNeue-Bold:20.0</property>
+									<property name="color">#000000</property>
+									<property name="text">[data:row("name")]</property>
+									<property name="left-padding">20</property>
+									<property name="max-lines">1</property>
+									<property name="padding">0</property>
+									<property name="vertical-alignment">top</property>
+								</RFTextWidget>
+								<RFTextWidget>
+									<property name="font">HelveticaNeue:14.0</property>
+									<property name="color">#000000</property>
+									<property name="text">[data:row("description")]</property>
+									<property name="left-padding">20</property>
+									<property name="max-lines">2</property>
+									<property name="padding">0</property>
+								</RFTextWidget>
+								<RFImageWidget>
+									<property name="image">resources/chev_east.png</property>
+									<property name="height">14</property>
+									<property name="width">19</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="right-padding">10</property>
+								</RFImageWidget>
+							</widgets>
+						</RFLayoutWidget>
+						<!-- End menu row -->
+
+					</widgets>
+				</RFRepeaterWidget>
+				<!-- End menu UI -->
+				
+			</widgets>
 		</view>
 		<!-- Tab 3 View End -->
-		
-		
-		
+
+
+
 		<!-- Tab 4 View Start -->
-		<view id="tabFeatures">
-			
+		<view id="">
+
 		</view>
 		<!-- Tab 4 View End -->
-		
-		
-		
+
+
+
 		<!-- Tab 5 View Start -->
 		<view id="tabMore">
 			<datasources>
@@ -72,7 +182,7 @@
 					<widgets>
 
 						<!-- Start menu UI -->
-						<RFRepeaterWidget id="myMenu">
+						<RFRepeaterWidget id="menuMore">
 							<actions>
 								<navigate on="touch">
 									<property name="to">[data:row("submit_to")]</property>
@@ -91,7 +201,7 @@
 							<widgets>
 
 								<!-- Start menu row -->
-								<RFLayoutWidget id="myMenuRow">
+								<RFLayoutWidget id="menuMoreRow">
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
 									<property name="background-color">#FFFFFF</property>
@@ -128,6 +238,6 @@
 			</widgets>
 		</view>
 		<!-- Tab 5 View End -->
-		
+
 	</views>
 </rfapp>

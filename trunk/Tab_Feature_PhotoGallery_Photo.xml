@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Photo</property>
+			<property name="background-color">#000000</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<actions>
+				<set on="first-appeared">
+					<values>
+						<property name="photo-visible">false</property>
+						<property name="overlays-visible">true</property>
+					</values>
+				</set>
+			</actions>
+			<datasources>
+				<RFXMLDataProvider id="Photos">
+					<property name="data-location">[form:feedURL]</property>
+					<property name="method">GET</property>
+					<property name="allow-cache">NO</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">photoRepeater</property>
+							<property name="delay">1.5</property>
+							<property name="duration">2.0</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+						<function on="success">
+							<property name="widget-id">photoRepeater</property>
+							<property name="delay">2</property>
+							<property name="function-name">goto-row</property>
+							<values>
+								<property name="row-index">[form:row-index]</property>
+							</values>
+						</function>
+					</actions>
+				</RFXMLDataProvider>
+			</datasources>
+			<widgets>
+				<!-- START Custom Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">65</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">20</property>
+					<widgets>
+						<RFTextWidget id="rfTitleBarName">
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Photo - [form:title]</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="image">resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">middle</property>
+						</RFImageWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Custom Title Bar -->
+				
+				<!-- START Large Photos -->
+				<RFRepeaterWidget id="photoRepeater">
+					<property name="row-data-id">Photos</property>
+					<property name="row-data-path">//item</property>
+					<property name="height">100%</property>
+					<property name="width">100%</property>
+					<property name="item-height">100%</property>
+					<property name="item-width">100%</property>
+					<property name="enable-paging">YES</property>
+					<property name="orientation">horizontal</property>
+					<property name="alpha">1.0</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<set on="touch">
+									<values>
+										<property name="overlays-visible">[eval:("![session:overlays-visible]")]</property>
+									</values>
+								</set>
+								<modify on="touch">
+									<property name="widget-id">caption</property>
+									<property name="duration">0.5</property>
+									<values>
+										<property name="left-position" if="[session:overlays-visible]">0</property>
+										<property name="left-position" if="![session:overlays-visible]">1050</property>
+									</values>
+								</modify>
+								<modify on="touch">
+									<property name="widget-id">rfTitleBar</property>
+									<property name="duration">0.5</property>
+									<values>
+										<property name="top-position" if="[session:overlays-visible]">0</property>
+										<property name="top-position" if="![session:overlays-visible]">-300</property>
+									</values>
+								</modify>
+								<modify on="page-changed">
+									<property name="widget-id">rfTitleBarName</property>
+									<values>
+										<property name="text">Photo - [data:row("title")]</property>
+									</values>
+								</modify>
+							</actions>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-type">absolute</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="image">[data:row("media:content/@url")]</property>
+							<property name="animate-touch">NO</property>
+						</RFImageWidget>
+						<RFTextWidget id="caption">
+							<property name="width">100%</property>
+							<property name="padding">15</property>
+							<property name="padding" device="iPad">30</property>
+							<property name="background-color">#000000A0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="font">interval.otf:17.0</property>
+							<property name="font" device="iPad">interval.otf:22.0</property>
+							<property name="text">[data:row("title")]</property>
+							<property name="layout-type">absolute</property>
+							<property name="vertical-alignment">bottom</property>
+							<property name="bottom-margin">52</property>
+							<property name="bottom-margin" device="iPad">68</property>
+							<property name="visible">YES</property>
+						</RFTextWidget>
+					</widgets>
+				</RFRepeaterWidget>
+				<!-- END Large Photos -->
+				
+			</widgets>
+		</view>
+	</views>
+</rfapp>
