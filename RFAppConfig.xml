@@ -87,10 +87,8 @@
 					<property name="layout-flow">horizontal</property>
 					<property name="bottom-margin">0</property>
 					<property name="padding">0</property>
-					<property name="top-padding">110</property>
-					<property name="top-padding" device="iPad">140</property>
-					<property name="top-padding" orientation="landscape">85</property>
-					<property name="top-padding" device="iPad" orientation="landscape">95</property>
+					<property name="top-padding">140</property>
+					<property name="top-padding" device="iPad">190</property>
 					<widgets>
 						<RFRepeaterWidget id="menu">
 							<actions>
@@ -105,9 +103,9 @@
 							<property name="item-height">57</property>
 							<property name="separator-color">#e0e0e033</property>
 							<property name="padding">0</property>
-							<property name="animate-new-rows">NO</property>
 							<property name="vertical-alignment">middle</property>
-							<property name="fade-rows">NO</property>
+							<property name="animate-new-rows">YES</property>
+							<property name="fade-rows">YES</property>
 							<widgets>
 								<RFLayoutWidget>
 									<property name="width">100%</property>
@@ -171,7 +169,7 @@
 				            </item>
 				            <item>
 				              <name>RSS Newspaper</name>
-				              <submit_to>Tab_Modules/RSSNewspaper</submit_to>
+				              <submit_to>Tab_Modules/RSSNewspaper.xml</submit_to>
 				              <description>View RSS feeds in a newspaper style where you can swipe from page to page.</description>
 				            </item>
 				            <item>
@@ -236,10 +234,8 @@
 					<property name="layout-flow">horizontal</property>
 					<property name="bottom-margin">0</property>
 					<property name="padding">0</property>
-					<property name="top-padding">110</property>
-					<property name="top-padding" device="iPad">140</property>
-					<property name="top-padding" orientation="landscape">85</property>
-					<property name="top-padding" device="iPad" orientation="landscape">95</property>
+					<property name="top-padding">140</property>
+					<property name="top-padding" device="iPad">190</property>
 					<widgets>
 						<RFRepeaterWidget id="menu">
 							<property name="row-data-id">tabModules_data_menu</property>
@@ -249,9 +245,9 @@
 							<property name="item-height">100</property>
 							<property name="separator-color">#e0e0e033</property>
 							<property name="padding">0</property>
-							<property name="animate-new-rows">NO</property>
 							<property name="vertical-alignment">middle</property>
-							<property name="fade-rows">NO</property>
+							<property name="animate-new-rows">YES</property>
+							<property name="fade-rows">YES</property>
 							<widgets>
 								<RFLayoutWidget>
 									<property name="width">100%</property>
@@ -382,10 +378,8 @@
 					<property name="layout-flow">horizontal</property>
 					<property name="bottom-margin">0</property>
 					<property name="padding">0</property>
-					<property name="top-padding">110</property>
-					<property name="top-padding" device="iPad">140</property>
-					<property name="top-padding" orientation="landscape">85</property>
-					<property name="top-padding" device="iPad" orientation="landscape">95</property>
+					<property name="top-padding">140</property>
+					<property name="top-padding" device="iPad">190</property>
 					<widgets>
 						<RFRepeaterWidget id="menu">
 							<property name="row-data-id">tabDemos_data_menu</property>
@@ -395,9 +389,9 @@
 							<property name="item-height">100</property>
 							<property name="separator-color">#e0e0e033</property>
 							<property name="padding">0</property>
-							<property name="animate-new-rows">NO</property>
 							<property name="vertical-alignment">middle</property>
-							<property name="fade-rows">NO</property>
+							<property name="animate-new-rows">YES</property>
+							<property name="fade-rows">YES</property>
 							<widgets>
 								<RFLayoutWidget>
 									<property name="width">100%</property>
@@ -505,77 +499,6 @@
 
 			</datasources>
 			<widgets>
-
-				<!-- Start menu UI -->
-				<RFRepeaterWidget id="menuSocial">
-					<property name="height">100%</property>
-					<property name="layout-flow">horizontal</property>
-					<property name="bottom-margin">0</property>
-					<property name="padding">0</property>
-					<widgets>
-						<RFRepeaterWidget id="menu">
-							<actions>
-								<navigate on="touch">
-									<property name="to">[data:row("submit_to")]</property>
-								</navigate>
-							</actions>
-							<property name="row-data-id">MenuData</property>
-							<property name="row-data-path">menu_items/item</property>
-							<property name="width">100%</property>
-							<property name="height">100%</property>
-							<property name="item-height">57</property>
-							<property name="separator-color">#e0e0e033</property>
-							<property name="padding">0</property>
-							<property name="animate-new-rows">NO</property>
-							<property name="vertical-alignment">middle</property>
-							<property name="fade-rows">NO</property>
-							<widgets>
-
-								<!-- Start menu row -->
-								<RFLayoutWidget>
-									<property name="width">100%</property>
-									<property name="layout-flow">horizontal</property>
-									<property name="background-color">#FFFFFF</property>
-									<property name="padding">0</property>
-									<property name="height">57</property>
-									<widgets>
-										<RFImageWidget>
-											<property name="image">[data:row("image")]</property>
-											<property name="left-margin">20</property>
-											<property name="width">32</property>
-											<property name="height">32</property>
-											<property name="max-lines">1</property>
-											<property name="padding">0</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="visible" if="'[data:row('image')]'==''">NO</property>
-										</RFImageWidget>
-										<RFTextWidget>
-											<property name="font">HelveticaNeue-Bold:20.0</property>
-											<property name="color">#000000</property>
-											<property name="text">[data:row("name")]</property>
-											<property name="left-padding">20</property>
-											<property name="max-lines">1</property>
-											<property name="padding">0</property>
-											<property name="vertical-alignment">middle</property>
-										</RFTextWidget>
-										<RFImageWidget>
-											<property name="image">resources/chev_east.png</property>
-											<property name="height">14</property>
-											<property name="width">19</property>
-											<property name="horizontal-alignment">right</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="right-padding">10</property>
-										</RFImageWidget>
-									</widgets>
-								</RFLayoutWidget>
-								<!-- End menu row -->
-
-							</widgets>
-						</RFRepeaterWidget>
-					</widgets>
-				</RFRepeaterWidget>
-				<!-- End menu UI -->
-
 			</widgets>
 
 
@@ -613,65 +536,6 @@
 
 			</datasources>
 			<widgets>
-				<RFLayoutWidget id="tabMore_menu">
-					<property name="height">100%</property>
-					<property name="layout-flow">horizontal</property>
-					<widgets>
-
-						<!-- Start menu UI -->
-						<RFRepeaterWidget id="menuMore">
-							<actions>
-								<navigate on="touch">
-									<property name="to">[data:row("submit_to")]</property>
-								</navigate>
-							</actions>
-							<property name="row-data-id">tabMore_data_menu</property>
-							<property name="row-data-path">items/item</property>
-							<property name="width">100%</property>
-							<property name="height">100%</property>
-							<property name="item-height">57</property>
-							<property name="separator-color">#e0e0e033</property>
-							<property name="padding">0</property>
-							<property name="animate-new-rows">NO</property>
-							<property name="vertical-alignment">middle</property>
-							<property name="fade-rows">NO</property>
-							<widgets>
-
-								<!-- Start menu row -->
-								<RFLayoutWidget id="menuMoreRow">
-									<property name="width">100%</property>
-									<property name="layout-flow">horizontal</property>
-									<property name="background-color">#FFFFFF</property>
-									<property name="padding">0</property>
-									<property name="height">57</property>
-									<widgets>
-										<RFTextWidget>
-											<property name="font">HelveticaNeue-Bold:20.0</property>
-											<property name="color">#000000</property>
-											<property name="text">[data:row("name")]</property>
-											<property name="left-padding">20</property>
-											<property name="max-lines">1</property>
-											<property name="padding">0</property>
-											<property name="vertical-alignment">middle</property>
-										</RFTextWidget>
-										<RFImageWidget>
-											<property name="image">resources/chev_east.png</property>
-											<property name="height">14</property>
-											<property name="width">19</property>
-											<property name="horizontal-alignment">right</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="right-padding">10</property>
-										</RFImageWidget>
-									</widgets>
-								</RFLayoutWidget>
-								<!-- End menu row -->
-
-							</widgets>
-						</RFRepeaterWidget>
-						<!-- End menu UI -->
-
-					</widgets>
-				</RFLayoutWidget>
 			</widgets>
 		</view>
 		<!-- Tab 5 View End -->

@@ -9,15 +9,15 @@
 					<property name="data">
 						<![CDATA[
 						<pages>
-							<page>Page1.xml</page>
-							<page>Page2.xml</page>
-							<page>Page3.xml</page>
-							<page>Page4.xml</page>
-							<page>Page5.xml</page>
-							<page>Page6.xml</page>
-							<page>Page7.xml</page>
-							<page>Page8.xml</page>
-							<page>Page9.xml</page>
+							<page>/Page1.xml</page>
+							<page>/Page2.xml</page>
+							<page>/Page3.xml</page>
+							<page>/Page4.xml</page>
+							<page>/Page5.xml</page>
+							<page>/Page6.xml</page>
+							<page>/Page7.xml</page>
+							<page>/Page8.xml</page>
+							<page>/Page9.xml</page>
 						</pages>
 						]]>
 					</property>
@@ -84,7 +84,7 @@
 					</widgets>
 				</RFVerticalLayoutWidget>
 				<RFImageWidget id="MenuIcon">
-					<property name="image">resources/menu-icon.png</property>
+					<property name="image">/resources/menu-icon.png</property>
 					<property name="layout-type">float</property>
 					<property name="horizontal-alignment">right</property>
 					<property name="width">50</property>

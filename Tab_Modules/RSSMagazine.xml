@@ -61,7 +61,7 @@
 											<property name="visible">YES</property>
 											<property name="height">64</property>
 											<property name="width">64</property>
-											<property name="image">resources/rssmagazine_back.png</property>
+											<property name="image">/Tab_Modules/resources/rssmagazine_back.png</property>
 											<property name="background-color">#C42728FF</property>
 											<actions>
 												<navigate on="touch">
@@ -138,7 +138,7 @@
 						<RFImageWidget>
 							<property name="height">25</property>
 							<property name="width">100%</property>
-							<property name="image">resources/rssmagazine_stripe.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_stripe.png</property>
 							<property name="layout-type">absolute</property>
 							<property name="top-position">400</property>
 							<property name="allow-stretch">YES</property>
@@ -149,13 +149,13 @@
 							<property name="horizontal-alignment">right</property>
 							<property name="vertical-alignment">bottom</property>
 							<property name="bottom-margin">26.0</property>
-							<property name="image">resources/rssmagazine_email.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_email.png</property>
 							<property name="animate-touch">YES</property>
 							<property name="background-color">#2C9CA8FF</property>
 							<property name="alpha">0.95</property>
 							<actions>
 								<navigate on="touch">
-									<property name="to">RSSMagazine_EmailComposer.xml</property>
+									<property name="to">/Tab_Modules/RSSMagazine_EmailComposer.xml</property>
 									<values>
 										<property name="sharing-subject">Article: [session:currentTitle]</property>
 										<property name="sharing-html"><![CDATA[
@@ -176,13 +176,13 @@
 							<property name="horizontal-alignment">right</property>
 							<property name="vertical-alignment">bottom</property>
 							<property name="bottom-margin">26.0</property>
-							<property name="image">resources/rssmagazine_twitter.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_twitter.png</property>
 							<property name="animate-touch">YES</property>
 							<property name="background-color">#2C9CA8FF</property>
 							<property name="alpha">0.90</property>
 							<actions>
 								<navigate on="touch">
-									<property name="to">RSSMagazine_TweetComposer.xml</property>
+									<property name="to">/Tab_Modules/RSSMagazine_TweetComposer.xml</property>
 									<values>
 										<property name="sharing-text">[session:currentLink]</property>
 									</values>
@@ -194,13 +194,13 @@
 							<property name="horizontal-alignment">right</property>
 							<property name="vertical-alignment">bottom</property>
 							<property name="bottom-margin">26.0</property>
-							<property name="image">resources/rssmagazine_facebook.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_facebook.png</property>
 							<property name="animate-touch">YES</property>
 							<property name="background-color">#2C9CA8FF</property>
 							<property name="alpha">0.85</property>
 							<actions>
 								<navigate on="touch">
-									<property name="to">RSSMagazine_FacebookComposer.xml</property>
+									<property name="to">/Tab_Modules/RSSMagazine_FacebookComposer.xml</property>
 									<values>
 										<property name="sharing-text">[session:currentLink]</property>
 									</values>
@@ -219,7 +219,7 @@
 						<RFImageWidget id="ForwardButton">
 							<property name="layout-type">absolute</property>
 							<property name="horizontal-alignment">right</property>
-							<property name="image">resources/rssmagazine_forward.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_forward.png</property>
 							<property name="animate-touch">YES</property>
 							<property name="background-color">#7A994DFF</property>
 							<actions>
@@ -232,7 +232,7 @@
 						<RFImageWidget id="ShareButton">
 							<property name="layout-type">absolute</property>
 							<property name="horizontal-alignment">right</property>
-							<property name="image">resources/rssmagazine_share.png</property>
+							<property name="image">/Tab_Modules/resources/rssmagazine_share.png</property>
 							<property name="animate-touch">NO</property>
 							<property name="background-color">#2C9CA8FF</property>
 							<actions>
@@ -276,7 +276,7 @@
 							<widgets>
 								<RFImageWidget>
 									<property name="layout-type">absolute</property>
-									<property name="image">resources/rssmagazine_toc_close.png</property>
+									<property name="image">/Tab_Modules/resources/rssmagazine_toc_close.png</property>
 									<actions>
 										<set on="touch">
 											<values>
@@ -354,7 +354,7 @@
 								</RFImageWidget>
 								<RFImageWidget>
 									<property name="layout-type">absolute</property>
-									<property name="image">resources/rssmagazine_refresh.png</property>
+									<property name="image">/Tab_Modules/resources/rssmagazine_refresh.png</property>
 									<property name="horizontal-alignment">right</property>
 									<property name="animate-touch">YES</property>
 									<actions>
@@ -370,7 +370,7 @@
 				<RFImageWidget id="TOCOpen">
 					<property name="layout-type">float</property>
 					<property name="horizontal-alignment">right</property>
-					<property name="image">resources/rssmagazine_toc_open.png</property>
+					<property name="image">/Tab_Modules/resources/rssmagazine_toc_open.png</property>
 					<actions>
 						<set on="touch">
 							<values>

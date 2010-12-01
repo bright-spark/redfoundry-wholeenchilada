@@ -5,21 +5,21 @@
 		<view>
 			<property name="title">Photo Gallery</property>
 			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="top-padding">60</property>
 			<property name="top-padding" device="iPad">90</property>
-			<property name="top-padding" orientation="landscape">65</property>
-			<property name="top-padding" orientation="landscape" device="iPad">90</property>
 			<datasources>
 				<RFXMLDataProvider id="Photos">
-					<property name="data-location">http://api.flickr.com/services/feeds/photos_public.gne?format=rss2</property>
-					<property name="allow-cache">YES</property>
+					<property name="data-location">http://api.flickr.com/services/feeds/photos_public.gne?id=27587514@N08&amp;lang=en-us&amp;format=rss_200</property>
+					<property name="allow-cache">NO</property>
 					<property name="method">GET</property>
 				</RFXMLDataProvider>
 			</datasources>
 			<widgets>
-				<!-- START Custom Title Bar -->
+				
+				<!-- START Title Bar -->
 				<RFLayoutWidget id="rfTitleBar">
 					<property name="width">100%</property>
 					<property name="layout-flow">horizontal</property>
@@ -44,7 +44,7 @@
 								</navigate>
 							</actions>
 							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
-							<property name="image">resources/titlebar_backarrow.png</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
 							<property name="height">32</property>
 							<property name="width">32</property>
 							<property name="height" device="iPad">64</property>
@@ -54,7 +54,8 @@
 						</RFImageWidget>
 					</widgets>
 				</RFLayoutWidget>
-				<!-- END Custom Title Bar -->
+				<!-- END Title Bar -->
+				
 				<RFRepeaterWidget id="photos">
 					<property name="orientation">vertical</property>
 					<property name="top-margin">5</property>
@@ -71,21 +72,10 @@
 					<property name="item-width" device="iPad">192</property>
 					<property name="item-height" device="iPad" orientation="landscape">204.8</property>
 					<property name="item-width" device="iPad" orientation="landscape">204.8</property>
+					<property name="fade-rows">YES</property>
+					<property name="animate-new-rows">NO</property>
 					<widgets>
 						<RFLayoutWidget>
-							<actions>
-								<navigate on="touch">
-									<property name="to">PhotoGallery_Photo.xml</property>
-									<values>
-										<property name="thumbnail">[eval:("'[data:row("media:content/@url")]'.replace(/_s.jpg/i, '_z.jpg').replace(/_m.jpg/i, '_z.jpg')")]</property>
-										<property name="photo">[data:row("media:content/@url")]</property>
-										<property name="title">[data:row("title")]</property>
-										<property name="author">[data:row("author")]</property>
-										<property name="row-index">[data:row-index()]</property>
-										<property name="feedURL">http://api.flickr.com/services/feeds/photos_public.gne?format=rss2</property>
-									</values>
-								</navigate>
-							</actions>
 							<property name="padding">0</property>
 							<property name="width">100%</property>
 							<property name="height">100%</property>
@@ -95,12 +85,25 @@
 							<property name="bottom-margin">0</property>
 							<widgets>
 								<RFImageWidget>
-									<property name="image">[eval:("'[data:row("media:content/@url")]'.replace(/_s.jpg/i, '_z.jpg').replace(/_m.jpg/i, '_z.jpg')")]</property>
+									<property name="image">[data:row("media:content/@url")]</property>
 									<property name="width">96%</property>
 									<property name="height">96%</property>
 									<property name="horizontal-alignment">center</property>
 									<property name="vertical-alignment">middle</property>
 									<property name="bottom-margin">0</property>
+									<actions>
+										<navigate on="touch">
+											<property name="to">/Tab_Modules/PhotoGallery_Photo.xml</property>
+											<values>
+												<property name="thumbnail">[data:row("media:content/@url")]</property>
+												<property name="photo">[eval:("'[data:row("media:content/@url")]'.replace(/_s.jpg/i, '_z.jpg').replace(/_m.jpg/i, '_z.jpg')")]</property>
+												<property name="title">[data:row("title")]</property>
+												<property name="author">[data:row("author")]</property>
+												<property name="row-index">[data:row-index()]</property>
+												<property name="feedURL">http://api.flickr.com/services/feeds/photos_public.gne?id=27587514@N08&amp;lang=en-us&amp;format=rss_200</property>
+											</values>
+										</navigate>
+									</actions>
 								</RFImageWidget>
 							</widgets>
 						</RFLayoutWidget>

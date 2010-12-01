@@ -5,12 +5,11 @@
 		<view>
 			<property name="title">RSS Newspaper</property>
 			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="top-padding">60</property>
 			<property name="top-padding" device="iPad">90</property>
-			<property name="top-padding" orientation="landscape">65</property>
-			<property name="top-padding" orientation="landscape" device="iPad">90</property>
 			<datasources>
 				<RFXMLDataProvider id="RSSData">
 					<property name="data-location">http://feeds.feedburner.com/fastcompany/headlines</property>
@@ -26,7 +25,7 @@
 				</set>
 			</actions>
 			<widgets>
-				<!-- START Custom Title Bar -->
+				<!-- START Title Bar -->
 				<RFLayoutWidget id="rfTitleBar">
 					<property name="width">100%</property>
 					<property name="layout-flow">horizontal</property>
@@ -51,7 +50,7 @@
 								</navigate>
 							</actions>
 							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
-							<property name="image">resources/titlebar_backarrow.png</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
 							<property name="height">32</property>
 							<property name="width">32</property>
 							<property name="height" device="iPad">64</property>
@@ -61,7 +60,7 @@
 						</RFImageWidget>
 					</widgets>
 				</RFLayoutWidget>
-				<!-- END Custom Title Bar -->
+				<!-- END Title Bar -->
 
 				<!-- ContentHeader Start -->
 				<RFLayoutWidget id="ContentHeader">
@@ -100,7 +99,7 @@
 										</RFTextWidget>
 										<RFImageWidget>
 											<property name="visible">YES</property>
-											<property name="image">resources/rssnewspaper_textsmaller.png</property>
+											<property name="image">/Tab_Modules/resources/rssnewspaper_textsmaller.png</property>
 											<property name="height">18</property>
 											<property name="width">18</property>
 											<property name="height" device="iPad">24</property>
@@ -127,7 +126,7 @@
 										</RFImageWidget>
 										<RFImageWidget>
 											<property name="visible">YES</property>
-											<property name="image">resources/rssnewspaper_textlarger.png</property>
+											<property name="image">/Tab_Modules/resources/rssnewspaper_textlarger.png</property>
 											<property name="height">18</property>
 											<property name="width">18</property>
 											<property name="height" device="iPad">24</property>
@@ -191,7 +190,7 @@
 					<property name="top-padding">40</property>
 					<property name="top-padding" device="iPad">50</property>
 					<property name="top-padding" if="'YES' == 'NO'">0</property>
-					<property name="background-color">#f5f5f5</property>
+					<property name="background-color">#f5f5f5CC</property>
 					<widgets>
 						<RFLayoutWidget>
 							<property name="width">100%</property>
