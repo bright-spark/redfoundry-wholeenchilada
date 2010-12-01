@@ -45,7 +45,7 @@
 				<RFLayoutWidget id="rfTitleBar">
 					<property name="width">100%</property>
 					<property name="layout-flow">horizontal</property>
-					<property name="height">65</property>
+					<property name="height">60</property>
 					<property name="height" device="iPad">90</property>
 					<property name="background-color">#000000A0</property>
 					<property name="layout-type">float</property>

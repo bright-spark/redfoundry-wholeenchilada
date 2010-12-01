@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RSS Magazine</property>
+			<property name="background-color">#000000</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<datasources>
+				<RFXMLDataProvider id="FeedData">
+					<property name="data-location">http://becauseimaddicted.net/feeds/posts/default?alt=rss</property>
+					<property name="allow-cache">YES</property>
+				</RFXMLDataProvider>
+				<RFHTMLDataProvider id="ImageExtractor">
+					<actions>
+						<modify on="success">
+							<property name="widget-id">ContentImages[session:currentPageIndex]</property>
+							<values>
+								<property name="row-data-id">ImageExtractor</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">ContentImages[session:currentPageIndex]</property>
+							<property name="duration">1.0</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFHTMLDataProvider>
+			</datasources>
+			<actions>
+				<set on="first-appeared">
+					<values>
+						<property name="toc-visible">false</property>
+						<property name="overlay-visible">true</property>
+						<property name="share-menu-visible">false</property>
+						<property name="full-article">false</property>
+					</values>
+				</set>
+			</actions>
+			<widgets>
+				<RFVerticalLayoutWidget id="TOC">
+					<property name="layout-type">float</property>
+					<property name="height">425</property>
+					<property name="top-position">-425</property>
+					<property name="width">100%</property>
+					<widgets>
+						<RFVerticalLayoutWidget>
+							<property name="layout-type">absolute</property>
+							<property name="background-color">#FFFFFF</property>
+							<property name="height">400</property>
+							<property name="width">100%</property>
+							<widgets>
+								<RFHorizontalLayoutWidget>
+									<property name="height">64</property>
+									<widgets>
+										<!-- Alt Back -->
+										<RFImageWidget>
+											<property name="visible">YES</property>
+											<property name="height">64</property>
+											<property name="width">64</property>
+											<property name="image">resources/rssmagazine_back.png</property>
+											<property name="background-color">#C42728FF</property>
+											<actions>
+												<navigate on="touch">
+													<property name="navigation-stack-type">pop</property>
+												</navigate>
+											</actions>
+										</RFImageWidget>
+										<RFTextWidget>
+											<property name="text">[data:FeedData("rss/channel/title")-&gt;clean_html-&gt;to_upper]</property>
+											<property name="font">HelveticaNeue:60</property>
+											<property name="color">#A0A0A0FF</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+									</widgets>
+								</RFHorizontalLayoutWidget>
+								<RFRepeaterWidget>
+									<property name="row-data-id">FeedData</property>
+									<property name="row-data-path">rss/channel/item</property>
+									<property name="orientation">horizontal</property>
+									<property name="item-width">220</property>
+									<property name="item-height">300</property>
+									<property name="height">300</property>
+									<property name="footer-padding">300</property>
+									<widgets>
+										<RFVerticalLayoutWidget>
+											<actions>
+												<function on="touch">
+													<property name="widget-id">ContentRepeater</property>
+													<property name="function-name">goto-row</property>
+													<values>
+														<property name="row-index">[data:row-index()]</property>
+													</values>
+												</function>
+											</actions>
+											<property name="width">200</property>
+											<property name="height">300</property>
+											<property name="background-color">#FFFFFF</property>
+											<property name="animate-touch">YES</property>
+											<widgets>
+												<RFImageWidget>
+													<property name="layout-type">absolute</property>
+													<property name="width">200</property>
+													<property name="height">300</property>
+													<property name="image">[data:row("description")-&gt;extract_image]</property>
+													<property name="image"
+														if="'[data:row('content:encoded')]' != ''">[data:row("content:encoded")-&gt;extract_image]</property>
+												</RFImageWidget>
+												<RFTextWidget>
+													<property name="layout-type">absolute</property>
+													<property name="vertical-alignment">bottom</property>
+													<property name="background-color">#000000CC</property>
+													<property name="text">[data:row("title")-&gt;clean_html-&gt;to_upper]</property>
+													<property name="max-lines">4</property>
+													<property name="bottom-margin">100</property>
+													<property name="width">100%</property>
+													<property name="font">HelveticaNeue:15</property>
+													<property name="font" device="iPad">HelveticaNeue:25</property>
+													<property name="padding">5</property>
+													<property name="top-padding">8</property>
+												</RFTextWidget>
+											</widgets>
+										</RFVerticalLayoutWidget>
+									</widgets>
+								</RFRepeaterWidget>
+								<RFWidget>
+									<property name="layout-type">absolute</property>
+									<property name="vertical-alignment">bottom</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="background-color">#000000</property>
+								</RFWidget>
+							</widgets>
+						</RFVerticalLayoutWidget>
+						<RFImageWidget>
+							<property name="height">25</property>
+							<property name="width">100%</property>
+							<property name="image">resources/rssmagazine_stripe.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">400</property>
+							<property name="allow-stretch">YES</property>
+							<property name="alpha">0.75</property>
+						</RFImageWidget>
+						<RFImageWidget id="EmailShareButton">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">bottom</property>
+							<property name="bottom-margin">26.0</property>
+							<property name="image">resources/rssmagazine_email.png</property>
+							<property name="animate-touch">YES</property>
+							<property name="background-color">#2C9CA8FF</property>
+							<property name="alpha">0.95</property>
+							<actions>
+								<navigate on="touch">
+									<property name="to">RSSMagazine_EmailComposer.xml</property>
+									<values>
+										<property name="sharing-subject">Article: [session:currentTitle]</property>
+										<property name="sharing-html"><![CDATA[
+<br/>
+<strong>[session:currentTitle]</strong>
+<br/>
+<a href="[session:currentLink]">[session:currentLink]</a>
+<br/>
+<br/>
+(Sent from [app:app-name])
+                                                                                ]]></property>
+									</values>
+								</navigate>
+							</actions>
+						</RFImageWidget>
+						<RFImageWidget id="TwitterShareButton">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">bottom</property>
+							<property name="bottom-margin">26.0</property>
+							<property name="image">resources/rssmagazine_twitter.png</property>
+							<property name="animate-touch">YES</property>
+							<property name="background-color">#2C9CA8FF</property>
+							<property name="alpha">0.90</property>
+							<actions>
+								<navigate on="touch">
+									<property name="to">RSSMagazine_TweetComposer.xml</property>
+									<values>
+										<property name="sharing-text">[session:currentLink]</property>
+									</values>
+								</navigate>
+							</actions>
+						</RFImageWidget>
+						<RFImageWidget id="FacebookShareButton">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">bottom</property>
+							<property name="bottom-margin">26.0</property>
+							<property name="image">resources/rssmagazine_facebook.png</property>
+							<property name="animate-touch">YES</property>
+							<property name="background-color">#2C9CA8FF</property>
+							<property name="alpha">0.85</property>
+							<actions>
+								<navigate on="touch">
+									<property name="to">RSSMagazine_FacebookComposer.xml</property>
+									<values>
+										<property name="sharing-text">[session:currentLink]</property>
+									</values>
+								</navigate>
+							</actions>
+						</RFImageWidget>
+					</widgets>
+				</RFVerticalLayoutWidget>
+				<RFVerticalLayoutWidget id="TOCFooter">
+					<property name="layout-type">float</property>
+					<property name="height">100</property>
+					<property name="width">300</property>
+					<property name="horizontal-alignment">right</property>
+					<property name="top-position">-100</property>
+					<widgets>
+						<RFImageWidget id="ForwardButton">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="image">resources/rssmagazine_forward.png</property>
+							<property name="animate-touch">YES</property>
+							<property name="background-color">#7A994DFF</property>
+							<actions>
+								<navigate on="touch">
+									<property name="to">[session:currentLink]</property>
+									<property name="navigation-type">url</property>
+								</navigate>
+							</actions>
+						</RFImageWidget>
+						<RFImageWidget id="ShareButton">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="image">resources/rssmagazine_share.png</property>
+							<property name="animate-touch">NO</property>
+							<property name="background-color">#2C9CA8FF</property>
+							<actions>
+								<set on="touch">
+									<values>
+										<property name="share-menu-visible">[eval:("![session:share-menu-visible]")]</property>
+									</values>
+								</set>
+								<modify on="touch">
+									<property name="widget-id">EmailShareButton</property>
+									<property name="duration">0.25</property>
+									<values>
+										<property name="bottom-margin" if="[session:share-menu-visible]">126.0</property>
+										<property name="bottom-margin" if="![session:share-menu-visible]">26.0</property>
+									</values>
+								</modify>
+								<modify on="touch">
+									<property name="widget-id">TwitterShareButton</property>
+									<property name="duration">0.25</property>
+									<values>
+										<property name="bottom-margin" if="[session:share-menu-visible]">226.0</property>
+										<property name="bottom-margin" if="![session:share-menu-visible]">26.0</property>
+									</values>
+								</modify>
+								<modify on="touch">
+									<property name="widget-id">FacebookShareButton</property>
+									<property name="duration">0.25</property>
+									<values>
+										<property name="bottom-margin" if="[session:share-menu-visible]">326.0</property>
+										<property name="bottom-margin" if="![session:share-menu-visible]">26.0</property>
+									</values>
+								</modify>
+							</actions>
+						</RFImageWidget>
+						<RFVerticalLayoutWidget id="TOCCloseRefresh">
+							<property name="layout-type">absolute</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="animate-touch">YES</property>
+							<property name="width">100</property>
+							<property name="height">100</property>
+							<widgets>
+								<RFImageWidget>
+									<property name="layout-type">absolute</property>
+									<property name="image">resources/rssmagazine_toc_close.png</property>
+									<actions>
+										<set on="touch">
+											<values>
+												<property name="toc-visible">false</property>
+												<property name="share-menu-visible">false</property>
+											</values>
+										</set>
+										<modify on="touch">
+											<property name="widget-id">TOCOpen</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.5</property>
+											<values>
+												<property name="alpha">1.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">EmailShareButton</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.25</property>
+											<values>
+												<property name="right-margin">0.0</property>
+												<property name="bottom-margin">26.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">TwitterShareButton</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.25</property>
+											<values>
+												<property name="right-margin">0.0</property>
+												<property name="bottom-margin">26.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">FacebookShareButton</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.25</property>
+											<values>
+												<property name="right-margin">0.0</property>
+												<property name="bottom-margin">26.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">ShareButton</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.25</property>
+											<values>
+												<property name="right-margin">0.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">ForwardButton</property>
+											<property name="duration">0.25</property>
+											<values>
+												<property name="right-margin">0.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">TOC</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.5</property>
+											<values>
+												<property name="top-position">-525</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">TOCFooter</property>
+											<property name="duration">0.25</property>
+											<property name="delay">0.5</property>
+											<values>
+												<property name="top-position">-100</property>
+											</values>
+										</modify>
+									</actions>
+								</RFImageWidget>
+								<RFImageWidget>
+									<property name="layout-type">absolute</property>
+									<property name="image">resources/rssmagazine_refresh.png</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="animate-touch">YES</property>
+									<actions>
+										<load_datasource on="touch">
+											<property name="datasource-id">FeedData</property>
+										</load_datasource>
+									</actions>
+								</RFImageWidget>
+							</widgets>
+						</RFVerticalLayoutWidget>
+					</widgets>
+				</RFVerticalLayoutWidget>
+				<RFImageWidget id="TOCOpen">
+					<property name="layout-type">float</property>
+					<property name="horizontal-alignment">right</property>
+					<property name="image">resources/rssmagazine_toc_open.png</property>
+					<actions>
+						<set on="touch">
+							<values>
+								<property name="toc-visible">true</property>
+							</values>
+						</set>
+						<modify on="touch">
+							<property name="widget-id">TOCOpen</property>
+							<property name="duration">0.25</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">ShareButton</property>
+							<property name="duration">0.25</property>
+							<property name="delay">0.25</property>
+							<values>
+								<property name="right-margin">100.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">EmailShareButton</property>
+							<property name="duration">0.25</property>
+							<property name="delay">0.25</property>
+							<values>
+								<property name="right-margin">100.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">TwitterShareButton</property>
+							<property name="duration">0.25</property>
+							<property name="delay">0.25</property>
+							<values>
+								<property name="right-margin">100.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">FacebookShareButton</property>
+							<property name="duration">0.25</property>
+							<property name="delay">0.25</property>
+							<values>
+								<property name="right-margin">100.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">ForwardButton</property>
+							<property name="duration">0.25</property>
+							<property name="delay">0.5</property>
+							<values>
+								<property name="right-margin">200.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">TOCFooter</property>
+							<property name="duration">0.25</property>
+							<values>
+								<property name="top-position">299</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">TOC</property>
+							<property name="duration">0.25</property>
+							<values>
+								<property name="top-position">0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFImageWidget>
+				<RFRepeaterWidget id="ContentRepeater">
+					<property name="row-data-id">FeedData</property>
+					<property name="row-data-path">rss/channel/item</property>
+					<property name="orientation">horizontal</property>
+					<property name="enable-paging">YES</property>
+					<property name="item-width">100%</property>
+					<property name="item-height">100%</property>
+					<property name="layout-type">absolute</property>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<actions>
+						<modify on="page-will-change">
+							<property name="widget-id">ContentImages[session:currentPageIndex]</property>
+							<values>
+								<property name="row-data-id">
+                </property>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="page-will-change">
+							<property name="widget-id">ContentImages[data:row-index()]</property>
+							<values>
+								<property name="alpha">0.0</property>
+								<property name="row-data-id">
+                </property>
+							</values>
+						</modify>
+						<modify on="page-will-change">
+							<property name="widget-id">ContentBGImage[data:row-index()]</property>
+							<values>
+								<property name="image">[data:row("description")-&gt;extract_image]</property>
+								<property name="image" if="'[data:row('content:encoded')]' != ''">[data:row("content:encoded")-&gt;extract_image]</property>
+							</values>
+						</modify>
+						<set on="page-changed">
+							<values>
+								<property name="currentPageIndex">[data:row-index()]</property>
+								<property name="currentTitle">[data:row("title")]</property>
+								<property name="currentLink">[data:row("link")]</property>
+							</values>
+						</set>
+						<modify on="page-changed">
+							<property name="widget-id">ContentBGImage[data:row-index()]</property>
+							<property name="duration">15</property>
+							<values>
+								<property name="image">[data:row("description")-&gt;extract_image]</property>
+								<property name="image" if="'[data:row('content:encoded')]' != ''">[data:row("content:encoded")-&gt;extract_image]</property>
+								<property name="top-position">[eval:("Math.floor(Math.random() * -21)")]%</property>
+								<property name="left-position">[eval:("Math.floor(Math.random() * -21)")]%</property>
+								<property name="width">[eval:("Math.floor(Math.random() * 21) + 120")]%</property>
+								<property name="height">[eval:("Math.floor(Math.random() * 21) + 120")]%</property>
+							</values>
+						</modify>
+						<modify on="page-changed">
+							<property name="datasource-id" device="iPad">ImageExtractor</property>
+							<values>
+								<property name="data">[data:row("description")]</property>
+								<property name="data" if="'[data:row('content:encoded')]' != ''">[data:row("content:encoded")]</property>
+							</values>
+						</modify>
+					</actions>
+					<widgets>
+						<RFVerticalLayoutWidget id="Content">
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<widgets>
+								<RFImageWidget id="ContentBGImage">
+									<property name="id">ContentBGImage[data:row-index()]</property>
+									<property name="image">
+									</property>
+									<property name="include-in-parent-autosize">NO</property>
+									<property name="layout-type">absolute</property>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="top-position">0</property>
+									<property name="animate-touch">NO</property>
+									<property name="hide-loading-indicator">NO</property>
+									<actions>
+										<set on="touch">
+											<values>
+												<property name="overlay-visible" if="![session:toc-visible]">[eval:("![session:overlay-visible]")]</property>
+											</values>
+										</set>
+										<modify on="touch">
+											<property name="widget-id">Overlay</property>
+											<property name="duration">0.5</property>
+											<values>
+												<property name="alpha" if="[session:overlay-visible]">1.0</property>
+												<property name="alpha" if="![session:overlay-visible]">0.0</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">TOCOpen</property>
+											<property name="duration">0.5</property>
+											<values>
+												<property name="alpha"
+													if="[session:overlay-visible] &amp;&amp; ![session:toc-visible]">1.0</property>
+												<property name="alpha" if="![session:overlay-visible]">0.0</property>
+											</values>
+										</modify>
+									</actions>
+								</RFImageWidget>
+								<RFVerticalLayoutWidget id="Overlay">
+									<property name="width">100%</property>
+									<property name="padding">20</property>
+									<property name="top-padding">40</property>
+									<property name="top-padding" device="iPad">60</property>
+									<property name="bottom-padding">25</property>
+									<property name="bottom-padding" device="iPad">20</property>
+									<property name="layout-type">absolute</property>
+									<property name="vertical-alignment">bottom</property>
+									<property name="alpha" if="![session:overlay-visible]">0.0</property>
+									<property name="alpha" if="[session:overlay-visible]">1.0</property>
+									<property name="background-color" if="[session:full-article]">#FFFFFFFF</property>
+									<property name="background-color" if="![session:full-article]">#000000D8</property>
+									<property name="height" if="[session:full-article]">100%</property>
+									<property name="bottom-margin" if="[session:full-article]">0</property>
+									<property name="bottom-margin" if="![session:full-article]"
+										device="iPad">50</property>
+									<property name="enable-horizontal-scroll">NO</property>
+									<widgets>
+										<RFVerticalLayoutWidget id="MoreContent">
+											<property name="layout-type">absolute</property>
+											<property name="width">100%</property>
+											<property name="background-color">#FFFFFF11</property>
+											<property name="height">36</property>
+											<widgets>
+												<RFTextWidget id="ReadMoreLabel">
+													<property name="layout-type">absolute</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="top-margin">6</property>
+													<property name="left-margin">45</property>
+													<property name="font">HelveticaNeue:17</property>
+													<property name="text" if="[session:full-article]">see</property>
+													<property name="text" if="![session:full-article]">read</property>
+													<property name="color" if="[session:full-article]">#868686FF</property>
+													<property name="color" if="![session:full-article]">#FFFFFF55</property>
+												</RFTextWidget>
+												<RFImageWidget id="ReadMoreButton">
+													<property name="layout-type">absolute</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="image" if="[session:full-article]">http://cdn.redfoundry.com/AppFoundryMediaFulls/f22KNuDDzXLbH3qaOtGRg.png</property>
+													<property name="image" if="![session:full-article]">http://cdn.redfoundry.com/AppFoundryMediaFulls/KLHh3LAI65jqERqyMQcDNA.png</property>
+													<property name="background-color" if="[session:full-article]">#7A994DFF</property>
+													<property name="background-color" if="![session:full-article]">#C1272DFF</property>
+												</RFImageWidget>
+											</widgets>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="full-article">[eval:("![session:full-article]")]</property>
+													</values>
+												</set>
+												<modify on="touch">
+													<property name="widget-id">ReadMoreButton</property>
+													<values>
+														<property name="image" if="[session:full-article]">http://cdn.redfoundry.com/AppFoundryMediaFulls/f22KNuDDzXLbH3qaOtGRg.png</property>
+														<property name="image" if="![session:full-article]">http://cdn.redfoundry.com/AppFoundryMediaFulls/KLHh3LAI65jqERqyMQcDNA.png</property>
+														<property name="background-color" if="[session:full-article]">#7A994DFF</property>
+														<property name="background-color" if="![session:full-article]">#C1272DFF</property>
+													</values>
+												</modify>
+												<modify on="touch">
+													<property name="widget-id">ReadMoreLabel</property>
+													<values>
+														<property name="text" if="[session:full-article]">see</property>
+														<property name="text" if="![session:full-article]">read</property>
+														<property name="color" if="[session:full-article]">#868686FF</property>
+														<property name="color" if="![session:full-article]">#FFFFFF55</property>
+													</values>
+												</modify>
+												<modify on="touch">
+													<property name="widget-id">ContentTitle</property>
+													<property name="duration">0.25</property>
+													<values>
+														<property name="max-lines" if="[session:full-article]">0</property>
+														<property name="max-lines" if="![session:full-article]">2</property>
+													</values>
+												</modify>
+												<modify on="touch">
+													<property name="widget-id">ContentText</property>
+													<property name="duration">0.25</property>
+													<values>
+														<property name="max-lines" if="[session:full-article]">0</property>
+														<property name="max-lines" if="![session:full-article]">4</property>
+														<property name="color" if="[session:full-article]">#555555FF</property>
+														<property name="color" if="![session:full-article]">#DDDDDDFF</property>
+													</values>
+												</modify>
+												<modify on="touch">
+													<property name="widget-id">Overlay</property>
+													<property name="duration">0.25</property>
+													<values>
+														<property name="background-color" if="[session:full-article]">#FFFFFFFF</property>
+														<property name="background-color" if="![session:full-article]">#000000D8</property>
+														<property name="height" if="[session:full-article]">100%</property>
+														<property name="height" if="![session:full-article]">[null]</property>
+														<property name="bottom-margin" if="[session:full-article]">0</property>
+														<property name="bottom-margin" if="![session:full-article]"
+															device="iPad">50</property>
+													</values>
+												</modify>
+											</actions>
+										</RFVerticalLayoutWidget>
+										<RFTextWidget id="ContentTitle">
+											<property name="text">[data:row("title")-&gt;clean_html-&gt;to_upper]</property>
+											<property name="max-lines" if="[session:full-article]">0</property>
+											<property name="max-lines" if="![session:full-article]">2</property>
+											<property name="font">HelveticaNeue:30</property>
+											<property name="font" device="iPad">HelveticaNeue:50</property>
+											<property name="color">#AE9F8CFF</property>
+											<property name="bottom-margin">5</property>
+										</RFTextWidget>
+										<RFTextWidget>
+											<property name="text">[data:FeedData("rss/channel/title")-&gt;clean_html-&gt;to_upper]
+												- [data:row("pubDate")-&gt;longdate]</property>
+											<property name="max-lines">1</property>
+											<property name="font">interval-light.otf:15</property>
+											<property name="font" device="iPad">interval-light.otf:17</property>
+											<property name="color">#AAAAAAFF</property>
+											<property name="bottom-margin" device="iPad">30</property>
+										</RFTextWidget>
+										<RFRepeaterWidget id="ContentImages" device="iPad">
+											<property name="id">ContentImages[data:row-index()]</property>
+											<property name="width">100%</property>
+											<property name="height">75</property>
+											<property name="height" device="iPad">100</property>
+											<property name="orientation">horizontal</property>
+											<property name="row-data-path">//img</property>
+											<property name="item-width">80</property>
+											<property name="item-height">75</property>
+											<property name="item-width" device="iPad">105</property>
+											<property name="item-height" device="iPad">100</property>
+											<widgets>
+												<RFImageWidget>
+													<property name="width">75</property>
+													<property name="height">75</property>
+													<property name="width" device="iPad">100</property>
+													<property name="height" device="iPad">100</property>
+													<property name="image">[data:row("@src")]</property>
+													<property name="ignore-under-size">10000</property>
+													<actions>
+														<modify on="touch">
+															<property name="widget-id">ContentBGImage[session:currentPageIndex]</property>
+															<values>
+																<property name="image">[data:row("@src")]</property>
+															</values>
+														</modify>
+														<modify on="touch">
+															<property name="widget-id">ContentBGImage[session:currentPageIndex]</property>
+															<property name="duration">15</property>
+															<values>
+																<property name="top-position">[eval:("Math.floor(Math.random()
+																	* -21)")]%</property>
+																<property name="left-position">[eval:("Math.floor(Math.random()
+																	* -21)")]%</property>
+																<property name="width">[eval:("Math.floor(Math.random()
+																	* 21) + 120")]%</property>
+																<property name="height">[eval:("Math.floor(Math.random()
+																	* 21) + 120")]%</property>
+															</values>
+														</modify>
+													</actions>
+												</RFImageWidget>
+											</widgets>
+										</RFRepeaterWidget>
+										<RFTextWidget id="ContentText">
+											<property name="text">[data:row("description")-&gt;clean_html]</property>
+											<property name="text"
+												if="'[data:row('content:encoded')]' != ''">[data:row("content:encoded")-&gt;clean_html]</property>
+											<property name="font">interval-light.otf:15</property>
+											<property name="top-margin" device="iPad">30</property>
+											<property name="max-lines" if="[session:full-article]">0</property>
+											<property name="max-lines" if="![session:full-article]">4</property>
+											<property name="color" if="[session:full-article]">#555555FF</property>
+											<property name="color" if="![session:full-article]">#DDDDDDFF</property>
+										</RFTextWidget>
+									</widgets>
+								</RFVerticalLayoutWidget>
+							</widgets>
+						</RFVerticalLayoutWidget>
+					</widgets>
+				</RFRepeaterWidget>
+			</widgets>
+		</view>
+	</views>
+</rfapp>

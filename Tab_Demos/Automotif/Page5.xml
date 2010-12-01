@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<widgets>
+				<RFImageWidget id="BGWidget">
+					<property name="image">resources/page5-bg.jpg</property>
+					<property name="width">1465</property>
+					<property name="height">1124</property>
+					<property name="layout-type">float</property>
+					<actions>
+						<modify on="load">
+							<property name="widget-id">BGWidget</property>
+							<values>
+								<property name="width">1465</property>
+								<property name="height">1124</property>
+							</values>
+						</modify>
+						<modify on="load">
+							<property name="widget-id">BGWidget</property>
+							<property name="duration">10.0</property>
+							<values>
+								<property name="width">1365</property>
+								<property name="height">1024</property>
+							</values>
+						</modify>
+					</actions>
+				</RFImageWidget>
+				<RFMovieWidget>
+					<property name="movie-location">http://www.youtube.com/watch?v=Ch9yRM7zBsI</property>
+					<property name="width">480</property>
+					<property name="height">320</property>
+					<property name="layout-type">float</property>
+					<property name="background-color">#000000</property>
+				</RFMovieWidget>
+				<RFTextLabel id="TextLabel">
+					<property name="text">SCUDERIA</property>
+					<property name="font">Helvetica-Bold:50</property>
+					<property name="layout-type">float</property>
+					<property name="vertical-alignment">bottom</property>
+					<actions>
+						<modify on="load">
+							<property name="widget-id">TextLabel</property>
+							<values>
+								<property name="alpha">0</property>
+							</values>
+						</modify>
+						<modify on="load">
+							<property name="widget-id">TextLabel</property>
+							<property name="duration">1.0</property>
+							<property name="delay">10.0</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFTextLabel>
+			</widgets>
+		</view>
+	</views>
+</rfapp>
