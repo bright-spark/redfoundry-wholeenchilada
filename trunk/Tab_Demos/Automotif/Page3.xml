@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<widgets>
+				<RFImageWidget id="BGWidget">
+					<property name="image">resources/page3-bg.jpg</property>
+					<property name="layout-type">float</property>
+					<actions>
+						<set_session_variable on="load">
+							<property name="DiscussionThreadID">pg3</property>
+						</set_session_variable>
+					</actions>
+				</RFImageWidget>
+			</widgets>
+		</view>
+	</views>
+</rfapp>

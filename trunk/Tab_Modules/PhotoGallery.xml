@@ -7,7 +7,7 @@
 			<property name="background-color">#000000</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
-			<property name="top-padding">65</property>
+			<property name="top-padding">60</property>
 			<property name="top-padding" device="iPad">90</property>
 			<property name="top-padding" orientation="landscape">65</property>
 			<property name="top-padding" orientation="landscape" device="iPad">90</property>
@@ -23,7 +23,7 @@
 				<RFLayoutWidget id="rfTitleBar">
 					<property name="width">100%</property>
 					<property name="layout-flow">horizontal</property>
-					<property name="height">65</property>
+					<property name="height">60</property>
 					<property name="height" device="iPad">90</property>
 					<property name="background-color">#000000A0</property>
 					<property name="layout-type">float</property>
@@ -75,7 +75,7 @@
 						<RFLayoutWidget>
 							<actions>
 								<navigate on="touch">
-									<property name="to">Tab_Feature_PhotoGallery_Photo.xml</property>
+									<property name="to">PhotoGallery_Photo.xml</property>
 									<values>
 										<property name="thumbnail">[eval:("'[data:row("media:content/@url")]'.replace(/_s.jpg/i, '_z.jpg').replace(/_m.jpg/i, '_z.jpg')")]</property>
 										<property name="photo">[data:row("media:content/@url")]</property>

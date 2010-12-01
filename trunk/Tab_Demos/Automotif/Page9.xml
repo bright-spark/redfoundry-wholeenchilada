@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<widgets>
+				<RFImageWidget id="BGWidget">
+					<property name="image">resources/page9-bg.jpg</property>
+					<property name="layout-type">float</property>
+					<actions>
+						<modify on="load">
+							<property name="widget-id">BGWidget</property>
+							<values>
+								<property name="left-position">0</property>
+								<property name="width">1765</property>
+								<property name="height">1524</property>
+							</values>
+						</modify>
+						<modify on="load">
+							<property name="widget-id">BGWidget</property>
+							<property name="duration">20.0</property>
+							<values>
+								<property name="left-position">0</property>
+								<property name="width">1365</property>
+								<property name="height">1024</property>
+							</values>
+						</modify>
+					</actions>
+				</RFImageWidget>
+			</widgets>
+		</view>
+	</views>
+</rfapp>

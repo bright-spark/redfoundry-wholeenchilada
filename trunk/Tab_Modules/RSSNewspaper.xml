@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RSS Newspaper</property>
+			<property name="background-color">#000000</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+			<property name="top-padding" orientation="landscape">65</property>
+			<property name="top-padding" orientation="landscape" device="iPad">90</property>
+			<datasources>
+				<RFXMLDataProvider id="RSSData">
+					<property name="data-location">http://feeds.feedburner.com/fastcompany/headlines</property>
+					<property name="allow-cache">NO</property>
+				</RFXMLDataProvider>
+			</datasources>
+			<actions>
+				<set on="first-appeared">
+					<values>
+						<property name="contentdescription_face">[eval:("var fa='TimesNewRomanPSMT:17.0'; var a=fa.indexOf(':'); var ff=fa.slice(0,a); ff")]</property>
+						<property name="contentdescription_size">[eval:("var fa='TimesNewRomanPSMT:17.0'; var a=fa.indexOf(':'); var fs=fa.slice(a + 1, fa.length); fs")]</property>
+					</values>
+				</set>
+			</actions>
+			<widgets>
+				<!-- START Custom Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">20</property>
+					<widgets>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RSS Newspaper</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">middle</property>
+						</RFImageWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Custom Title Bar -->
+
+				<!-- ContentHeader Start -->
+				<RFLayoutWidget id="ContentHeader">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">40</property>
+					<property name="height" device="iPad">50</property>
+					<property name="background-color">#f5f5f5</property>
+					<property name="top-position">60</property>
+					<property name="top-position" device="iPad">90</property>
+					<property name="layout-type">float</property>
+					<property name="padding">0</property>
+					<property name="visible">YES</property>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="padding">0</property>
+							<property name="height">100%</property>
+							<widgets>
+								<RFLayoutWidget>
+									<property name="height">100%</property>
+									<property name="width">100%</property>
+									<property name="horizontal-alignment">center</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="vertical-alignment">bottom</property>
+									<property name="padding">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">interval.otf:20.0</property>
+											<property name="font" device="iPad">interval.otf:20.0</property>
+											<property name="color">#000000</property>
+											<property name="text"><![CDATA[Header Title]]></property>
+											<property name="padding">0</property>
+											<property name="horizontal-alignment">center</property>
+											<property name="vertical-alignment">middle</property>
+										</RFTextWidget>
+										<RFImageWidget>
+											<property name="visible">YES</property>
+											<property name="image">resources/rssnewspaper_textsmaller.png</property>
+											<property name="height">18</property>
+											<property name="width">18</property>
+											<property name="height" device="iPad">24</property>
+											<property name="width" device="iPad">24</property>
+											<property name="layout-type">absolute</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="right-margin">36</property>
+											<property name="right-margin" device="iPad">52</property>
+											<property name="animate-touch">YES</property>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="contentdescription_size">[eval:("parseInt('[session:contentdescription_size]') - 1")]</property>
+													</values>
+												</set>
+												<modify on="touch">
+													<property name="widget-id">ContentDescription</property>
+													<values>
+														<property name="font">[session:contentdescription_face]:[session:contentdescription_size]</property>
+													</values>
+												</modify>
+											</actions>
+										</RFImageWidget>
+										<RFImageWidget>
+											<property name="visible">YES</property>
+											<property name="image">resources/rssnewspaper_textlarger.png</property>
+											<property name="height">18</property>
+											<property name="width">18</property>
+											<property name="height" device="iPad">24</property>
+											<property name="width" device="iPad">24</property>
+											<property name="layout-type">absolute</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="right-margin">10</property>
+											<property name="right-margin" device="iPad">20</property>
+											<property name="animate-touch">YES</property>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="contentdescription_size">[eval:("parseInt('[session:contentdescription_size]') + 1")]</property>
+													</values>
+												</set>
+												<modify on="touch">
+													<property name="widget-id">ContentDescription</property>
+													<values>
+														<property name="font">[session:contentdescription_face]:[session:contentdescription_size]</property>
+													</values>
+												</modify>
+											</actions>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<RFLayoutWidget>
+									<property name="width">98%</property>
+									<property name="vertical-alignment">bottom</property>
+									<property name="layout-type">absolute</property>
+									<property name="height">2</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+									<property name="horizontal-alignment">center</property>
+									<widgets>
+										<RFHorizontalRuleWidget>
+											<property name="color">#cbcbcb</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="padding">0</property>
+											<property name="margin">0</property>
+										</RFHorizontalRuleWidget>
+										<RFHorizontalRuleWidget>
+											<property name="color">#FFFFFF</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="padding">0</property>
+											<property name="margin">0</property>
+										</RFHorizontalRuleWidget>
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- ContentHeader End -->
+				
+				<!-- ContentMain Start -->
+				<RFLayoutWidget id="ContentMain">
+					<property name="padding">0</property>
+					<property name="top-padding">40</property>
+					<property name="top-padding" device="iPad">50</property>
+					<property name="top-padding" if="'YES' == 'NO'">0</property>
+					<property name="background-color">#f5f5f5</property>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="padding">0</property>
+							<widgets>
+								<RFRepeaterWidget id="ContentRepeater">
+									<property name="row-data-id">RSSData</property>
+									<property name="row-data-path">//item</property>
+									<property name="orientation">horizontal</property>
+									<property name="enable-paging">YES</property>
+									<property name="item-width">100%</property>
+									<property name="item-height">100%</property>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="separator-color">#CCCCCC</property>
+									<property name="padding">0</property>
+									<actions>
+										<modify on="page-changed">
+											<property name="widget-id">FooterPaging</property>
+											<values>
+												<property name="text">Article [eval:('[data:row-index()] + 1')]</property>
+											</values>
+										</modify>
+										<set on="page-changed">
+											<values>
+												<property name="threadID">[data:row("title")]</property>
+												<property name="sharing-link">[data:row("link")]</property>
+												<property name="sharing-text">[data:row("title")]</property>
+											</values>
+										</set>
+									</actions>
+									<widgets>
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="padding">0</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="font">interval.otf:20.0</property>
+													<property name="font" device="iPad">interval.otf:26.0</property>
+													<property name="color">#000000</property>
+													<property name="text">[data:row("title")]</property>
+													<property name="padding">0</property>
+													<property name="top-padding">15</property>
+													<property name="top-padding" device="iPad">20</property>
+													<property name="left-padding">10</property>
+													<property name="right-padding">10</property>
+													<property name="left-padding" device="iPad">20</property>
+													<property name="right-padding" device="iPad">20</property>
+												</RFTextWidget>
+												<RFTextWidget>
+													<property name="font">interval-light.otf:15.0</property>
+													<property name="font" device="iPad">interval-light.otf:15.0</property>
+													<property name="color">#555555</property>
+													<property name="text">[data:row("pubDate")-&gt;mediumdatetime]</property>
+													<property name="padding">0</property>
+													<property name="left-padding">10</property>
+													<property name="left-padding" device="iPad">20</property>
+												</RFTextWidget>
+												<RFLayoutWidget>
+													<property name="width">100%</property>
+													<property name="padding">0</property>
+													<property name="layout-flow">horizontal</property>
+													<widgets>
+														<RFImageWidget>
+															<property name="visible">NO</property>
+															<property name="visible"
+																if="'[data:row(&quot;description&quot;)-&gt;extract_image]' != ''">YES</property>
+															<property name="visible"
+																if="'[data:row(&quot;description&quot;)-&gt;extract_image]'==''">NO</property>
+															<property name="visible"
+																if="'[eval:('[data:row-index()]%2')]'!='0'">NO</property>
+															<property name="width">100</property>
+															<property name="width" device="iPad">240</property>
+															<property name="image">[data:row("description")-&gt;extract_image]</property>
+															<property name="border-style">plain</property>
+															<property name="padding">0</property>
+															<property name="left-padding">10</property>
+															<property name="left-padding" device="iPad">20</property>
+															<property name="top-padding">10</property>
+														</RFImageWidget>
+														<RFLayoutWidget>
+															<property name="padding">0</property>
+															<widgets>
+																<RFTextWidget id="ContentDescription">
+																	<property name="font">TimesNewRomanPSMT:17.0</property>
+																	<property name="color">#000000</property>
+																	<property name="text">[data:row("description")-&gt;clean_html]&gt;</property>
+																	<property name="padding">0</property>
+																	<property name="left-padding">10</property>
+																	<property name="left-padding" device="iPad">20</property>
+																	<property name="top-padding">10</property>
+																	<property name="right-padding">10</property>
+																	<property name="right-padding" device="iPad">20</property>
+																	<property name="bottom-padding">40</property>
+																	<property name="bottom-padding" device="iPad">60</property>
+																</RFTextWidget>
+																<RFTextWidget id="readMore">
+																	<actions>
+																		<navigate on="touch">
+																			<property name="to">[data:row("link")]</property>
+																			<property name="navigation-type">url</property>
+																		</navigate>
+																	</actions>
+																	<property name="visible"
+																		if="'[data:row(&quot;link&quot;)]'==''">NO</property>
+																	<property name="text"><![CDATA[Read more...]]></property>
+																	<property name="font">interval-light.otf:17.0</property>
+																	<property name="font" device="iPad">interval-light.otf:17.0</property>
+																	<property name="color">#2470d8</property>
+																	<property name="top-padding">0</property>
+																	<property name="bottom-padding">60</property>
+																	<property name="bottom-padding" device="iPad">80</property>
+																	<property name="left-padding">10</property>
+																	<property name="left-padding" device="iPad">20</property>
+																	<property name="horizontal-alignment">left</property>
+																	<property name="animate-touch">YES</property>
+																</RFTextWidget>
+															</widgets>
+														</RFLayoutWidget>
+														<RFImageWidget>
+															<property name="visible">NO</property>
+															<property name="visible"
+																if="'[data:row(&quot;description&quot;)-&gt;extract_image]' != ''">YES</property>
+															<property name="visible"
+																if="'[data:row(&quot;description&quot;)-&gt;extract_image]'==''">NO</property>
+															<property name="visible"
+																if="'[eval:('[data:row-index()]%2')]'=='0'">NO</property>
+															<property name="width">100</property>
+															<property name="width" device="iPad">240</property>
+															<property name="image">[data:row("description")-&gt;extract_image]</property>
+															<property name="border-style">plain</property>
+															<property name="padding">0</property>
+															<property name="right-padding">20</property>
+														</RFImageWidget>
+													</widgets>
+												</RFLayoutWidget>
+											</widgets>
+										</RFLayoutWidget>
+									</widgets>
+								</RFRepeaterWidget>
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- ContentMain End -->
+				<!-- ContentFooter Start -->
+				<RFLayoutWidget id="ContentFooter">
+					<property name="layout-flow">horizontal</property>
+					<property name="width">100%</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="background-color">#f5f5f5</property>
+					<property name="vertical-alignment">bottom</property>
+					<property name="layout-type">absolute</property>
+					<property name="height">40</property>
+					<property name="height" device="iPad">50</property>
+					<property name="visible">YES</property>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="width">98%</property>
+							<property name="vertical-alignment">top</property>
+							<property name="layout-type">absolute</property>
+							<property name="height">2</property>
+							<property name="padding">0</property>
+							<property name="margin">0</property>
+							<property name="horizontal-alignment">center</property>
+							<widgets>
+								<RFHorizontalRuleWidget>
+									<property name="color">#cbcbcb</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#FFFFFF</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+							</widgets>
+						</RFLayoutWidget>
+						<RFLayoutWidget>
+							<property name="height">100%</property>
+							<property name="width">100%</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-flow">horizontal</property>
+							<property name="vertical-alignment">bottom</property>
+							<property name="padding">0</property>
+							<widgets>
+								<RFTextWidget id="FooterLeft">
+									<property name="font">interval.otf:14.0</property>
+									<property name="font" device="iPad">interval.otf:16.0</property>
+									<property name="color">#999999</property>
+									<property name="text"><![CDATA[Footer Text]]></property>
+									<property name="padding">0</property>
+									<property name="left-padding">10</property>
+									<property name="left-padding" device="iPad">20</property>
+									<property name="horizontal-alignment">left</property>
+									<property name="vertical-alignment">middle</property>
+								</RFTextWidget>
+								<RFTextWidget id="FooterPaging">
+									<property name="font">interval.otf:14.0</property>
+									<property name="font" device="iPad">interval.otf:16.0</property>
+									<property name="color">#999999</property>
+									<property name="text"><![CDATA[Article 1]]></property>
+									<property name="padding">0</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="right-margin">10</property>
+									<property name="right-margin" device="iPad">20</property>
+									<property name="animate-touch">YES</property>
+								</RFTextWidget>
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- ContentFooter End -->
+			</widgets>
+		</view>
+	</views>
+</rfapp>
