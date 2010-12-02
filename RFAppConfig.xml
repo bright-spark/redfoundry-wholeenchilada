@@ -24,22 +24,21 @@
 					<property name="data">
 						  <![CDATA[
 				          <items>
-				            <item><name>RFTextWidget</name><submit_to>Tab_Widgets_RFTextWidget.xml</submit_to></item>
-				            <item><name>RFButtonWidget</name><submit_to>Tab_Widgets_RFButtonWidget.xml</submit_to></item>
-				            <item><name>RFCheckboxWidget</name><submit_to>Tab_Widgets_RFCheckboxWidget.xml</submit_to></item>
-				            <item><name>RFChunkTableWidget</name><submit_to>Tab_Widgets_RFChunkTableWidget.xml</submit_to></item>
-				            <item><name>RFEmailWidget</name><submit_to>Tab_Widgets_RFEmailWidget.xml</submit_to></item>
-				            <item><name>RFHorizontalRuleWidget</name><submit_to>Tab_Widgets_RFHorizontalRuleWidget.xml</submit_to></item>
-				            <item><name>RFHtmlWidget</name><submit_to>Tab_Widgets_RFHtmlWidget.xml</submit_to></item>
-				            <item><name>RFImageWidget</name><submit_to>Tab_Widgets_RFImageWidget.xml</submit_to></item>
-				            <item><name>RFMapWidget</name><submit_to>Tab_Widgets_RFMapWidget.xml</submit_to></item>
-				            <item><name>RFMovieWidget</name><submit_to>Tab_Widgets_RFMovieWidget.xml</submit_to></item>
-				            <item><name>RFPagedViewWidget</name><submit_to>Tab_Widgets_RFPagedViewWidget.xml</submit_to></item>
-				            <item><name>RFRepeaterWidget</name><submit_to>Tab_Widgets_RFRepeaterWidget.xml</submit_to></item>
-				            <item><name>RFSelectorWidget</name><submit_to>Tab_Widgets_RFSelectorWidget.xml</submit_to></item>
-				            <item><name>RFSoundWidget</name><submit_to>Tab_Widgets_RFSoundWidget.xml</submit_to></item>
-				            <item><name>RFTextInputWidget</name><submit_to>Tab_Widgets_RFTextInputWidget.xml</submit_to></item>
-				            <item><name>RFTimerWidget</name><submit_to>Tab_Widgets_RFTimerWidget.xml</submit_to></item>
+				            <item><name>RFTextWidget</name><submit_to>/Tab_Widgets/RFTextWidget.xml</submit_to></item>
+				            <item><name>RFButtonWidget</name><submit_to>/Tab_Widgets/RFButtonWidget.xml</submit_to></item>
+				            <item><name>RFImageWidget</name><submit_to>/Tab_Widgets/RFImageWidget.xml</submit_to></item>
+				            <item><name>RFCheckboxWidget</name><submit_to>/Tab_Widgets/RFCheckboxWidget.xml</submit_to></item>
+				            <item><name>RFRepeaterWidget</name><submit_to>/Tab_Widgets/RFRepeaterWidget.xml</submit_to></item>
+				            <item><name>RFEmailWidget</name><submit_to>/Tab_Widgets/RFEmailWidget.xml</submit_to></item>
+				            <item><name>RFHorizontalRuleWidget</name><submit_to>/Tab_Widgets/RFHorizontalRuleWidget.xml</submit_to></item>
+				            <item><name>RFHtmlWidget</name><submit_to>/Tab_Widgets/RFHtmlWidget.xml</submit_to></item>
+				            <item><name>RFMapWidget</name><submit_to>/Tab_Widgets/RFMapWidget.xml</submit_to></item>
+				            <item><name>RFMovieWidget</name><submit_to>/Tab_Widgets/RFMovieWidget.xml</submit_to></item>
+				            <item><name>RFPagedViewWidget</name><submit_to>/Tab_Widgets/RFPagedViewWidget.xml</submit_to></item>
+				            <item><name>RFSelectorWidget</name><submit_to>/Tab_Widgets/RFSelectorWidget.xml</submit_to></item>
+				            <item><name>RFSoundWidget</name><submit_to>/Tab_Widgets/RFSoundWidget.xml</submit_to></item>
+				            <item><name>RFTextInputWidget</name><submit_to>/Tab_Widgets/RFTextInputWidget.xml</submit_to></item>
+				            <item><name>RFTimerWidget</name><submit_to>/Tab_Widgets/RFTimerWidget.xml</submit_to></item>
 				          </items>
 				          ]]>
 			        </property>
@@ -124,7 +123,7 @@
 											<property name="vertical-alignment">middle</property>
 										</RFTextWidget>
 										<RFImageWidget>
-											<property name="image">resources/chev_east.png</property>
+											<property name="image">/resources/chev_east.png</property>
 											<property name="height">14</property>
 											<property name="width">19</property>
 											<property name="horizontal-alignment">right</property>
@@ -163,9 +162,14 @@
 						  <![CDATA[
 				          <items>
 				            <item>
+				              <name>List View</name>
+				              <submit_to>Tab_Modules/ListView.xml</submit_to>
+				              <description>A typical list view you would see on a mobile device with filter functionality.</description>
+				            </item>
+				            <item>
 				              <name>Photo Gallery</name>
 				              <submit_to>Tab_Modules/PhotoGallery.xml</submit_to>
-				              <description>A simple grid based photo gallery directly integrated into Flickr.</description>
+				              <description>A simple grid based photo gallery directly integrated into flickr.</description>
 				            </item>
 				            <item>
 				              <name>RSS Newspaper</name>
@@ -269,7 +273,7 @@
 												<RFTextWidget>
 													<property name="font">HelveticaNeue-Bold:20.0</property>
 													<property name="color">#FFFFFF</property>
-													<property name="text">[eval:("if ('[data:row("ipadonly")]' == 'YES') { '(iPad) ' } else { '' }")][data:row("name")]</property>
+													<property name="text">[data:row("name")]</property>
 													<property name="max-lines">1</property>
 													<property name="padding">0</property>
 													<property name="vertical-alignment">middle</property>
@@ -327,7 +331,7 @@
 				          <items>
 				            <item>
 				              <name>Automotif</name>
-				              <app_location>Tab_Demos/Automotif/RFAppConfig.xml</app_location>
+				              <app_location>/Tab_Demos/Automotif/RFAppConfig.xml</app_location>
 				              <description>A multi-media coffee table book with page animations.</description>
 				              <ipadonly>YES</ipadonly>
 				            </item>

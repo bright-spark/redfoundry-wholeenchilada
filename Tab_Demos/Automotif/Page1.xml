@@ -19,20 +19,20 @@
 			</actions>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page1-bg.jpg</property>
+					<property name="image">/resources/page1-bg.jpg</property>
 					<property name="width">1365</property>
 					<property name="height">1024</property>
 					<property name="layout-type">float</property>
 				</RFImageWidget>
 				<RFImageWidget>
-					<property name="image">resources/issue-title.png</property>
+					<property name="image">/resources/issue-title.png</property>
 					<property name="layout-type">float</property>
 					<property name="vertical-alignment">bottom</property>
 					<property name="width">770</property>
 					<property name="height">177</property>
 				</RFImageWidget>
 				<RFImageWidget id="Edition">
-					<property name="image">resources/edition.png</property>
+					<property name="image">/resources/edition.png</property>
 					<property name="layout-type">float</property>
 					<property name="vertical-alignment">top</property>
 					<property name="width">23</property>

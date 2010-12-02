@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RFCheckboxWidget</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RFCheckboxWidget</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+				
+				<RFLayoutWidget>
+					<property name="padding">20</property>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<widgets>
+					
+						<!-- The is a default RFCheckboxWidget using just the default properties -->
+						<RFCheckboxWidget>
+							<property name="text">This is a RFCheckboxWidget</property>
+						</RFCheckboxWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<!-- This will show you how to toggle multiple RFCheckboxWidget -->
+						<RFCheckboxWidget id="ck1">
+							<property name="text">Toggle RFCheckboxWidget 1</property>
+							<property name="font">interval.otf:18.0</property>
+							<property name="selected">YES</property>
+							<actions>
+								<modify on="touch">
+									<property name="widget-id">ck2</property>
+									<values>
+										<property name="selected">NO</property>
+									</values>
+								</modify>
+							</actions>
+						</RFCheckboxWidget>
+						
+						<RFCheckboxWidget id="ck2">
+							<property name="text">Toggle RFCheckboxWidget 2</property>
+							<property name="font">interval.otf:18.0</property>
+							<actions>
+								<modify on="touch">
+									<property name="widget-id">ck1</property>
+									<values>
+										<property name="selected">NO</property>
+									</values>
+								</modify>
+							</actions>
+						</RFCheckboxWidget>
+						
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<!-- RFCheckboxWidget can use the base RFWidget properties to be styled -->
+						<RFCheckboxWidget>
+							<property name="text">Styled RFCheckboxWidget</property>
+							<property name="color">#333333</property>
+							<property name="font">TimesNewRomanPSMT:22.0</property>
+						</RFCheckboxWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<!-- This RFButtonWidget uses a navigate action to go back when selected -->
+						<RFCheckboxWidget>
+							<property name="text">Select to go back</property>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+						</RFCheckboxWidget>
+						
+						
+					</widgets>
+				
+				</RFLayoutWidget>
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
