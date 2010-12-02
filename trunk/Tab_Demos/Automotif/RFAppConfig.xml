@@ -91,14 +91,14 @@
 					<property name="height">50</property>
 					<property name="alpha">0.25</property>
 					<actions>
-						<set_session_variable on="touch">
+						<set on="touch">
 							<property name="menu_state">[evaluate:"
 								if('[session:menu_state]' == '0')
 								1;
 								else
 								0;
 								"]</property>
-						</set_session_variable>
+						</set>
 						<modify on="touch" id="MainMenu" duration="1.0">
 							<property name="alpha">[evaluate:"
 							if('[session:menu_state]' == '1')

@@ -27,16 +27,8 @@
 					<property name="height" device="iPad">90</property>
 					<property name="background-color">#000000A0</property>
 					<property name="layout-type">float</property>
-					<property name="left-padding">20</property>
+					<property name="left-padding">10</property>
 					<widgets>
-						<RFTextWidget>
-							<property name="font">interval-light.otf:36.0</property>
-							<property name="font" device="iPad">interval-light.otf:72.0</property>
-							<property name="text">Photo Gallery</property>
-							<property name="vertical-alignment">middle</property>
-							<property name="color">#FFFFFF</property>
-							<property name="max-lines">1</property>
-						</RFTextWidget>
 						<RFImageWidget>
 							<actions>
 								<navigate on="touch">
@@ -49,9 +41,18 @@
 							<property name="width">32</property>
 							<property name="height" device="iPad">64</property>
 							<property name="width" device="iPad">64</property>
-							<property name="horizontal-alignment">right</property>
+							<property name="horizontal-alignment">left</property>
 							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
 						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Photo Gallery</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
 					</widgets>
 				</RFLayoutWidget>
 				<!-- END Title Bar -->

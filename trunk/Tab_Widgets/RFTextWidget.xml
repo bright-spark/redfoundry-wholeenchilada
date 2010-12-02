@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RFTextWidget</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RFTextWidget</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+				
+				<RFLayoutWidget>
+					<property name="padding">20</property>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<widgets>
+					
+						<!-- The is a default RFTextWidget using just the default properties -->
+						<RFTextWidget>
+							<property name="text">This is a RFTextWidget</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- On this RFTextWidget we set some basic properties such as font and color -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:25.0</property>
+							<property name="text">A Bigger RFTextWidget</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- On this RFTextWidget we changed the color to #000000FF -->
+						<RFTextWidget>
+							<property name="font">TimesNewRomanPSMT:18.0</property>
+							<property name="text">RFTextWidget color is #000000FF</property>
+							<property name="color">#000000FF</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- You can define the justification of the text within the parent's container -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:20.0</property>
+							<property name="text">This RFTextWidget with justification</property>
+							<property name="color">#FFFFFF</property>
+							<property name="justification">right</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- RFTextWidgets like most RFWidgets can define actions -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:25.0</property>
+							<property name="text">Click me</property>
+							<property name="color">#FFFFFF</property>
+							<actions>
+								<alert on="touch">
+									<property name="message">RFTextWidget has actions!</property>
+								</alert>
+							</actions>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- You can define the justification of the text within the parent's container -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:16.0</property>
+							<property name="text">This RFTextWidget defines the max number of lines. The maximum number of lines to be displayed when the height of the widget isn't defined. If this is not defined, the height of this widget will automatically adjust to contain all of the text within it.</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">4</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- You can define the justification of the text within the parent's container -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:20.0</property>
+							<property name="text">RFTextWidget with shadow</property>
+							<property name="color">#FFFFFF</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#111111</property>
+							<property name="shadow-offset-right">2.0</property>
+							<property name="shadow-offset-down">2.0</property>
+							<property name="shadow-blur">0.5</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- A RFTextWidget can contain any unicode character so long as the encoding is set in your XML header <?xml version="1.0" encoding="UTF-8"?> -->
+						<RFTextWidget>
+							<property name="font">Helvetica:18.0</property>
+							<property name="text">Unicode: 島根県安来市の養鶏場で鳥インフルエンザへの感染が疑われる鶏が見つかったことを受け、前日に続き１日も行われた鶏の殺処分。同養鶏場で飼育する約２万３３００羽すべてを処分するだけに、県内の養鶏農家の損失補償や心のケアなども急務となっている。同県養鶏協会の竹下正幸会長は、来県</property>
+							<property name="color">#000000FF</property>
+						</RFTextWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						<!-- You can define the justification of the text within the parent's container -->
+						<RFTextWidget>
+							<property name="font">interval-light.otf:16.0</property>
+							<property name="text">I have a border around me.</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">4</property>
+							<property name="border-width">2.0</property>
+							<property name="border-color">#fff000</property>
+							<property name="border-radius">6.0</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">interval-light.otf:16.0</property>
+							<property name="text">I have a border around me with padding.</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">4</property>
+							<property name="border-width">2.0</property>
+							<property name="border-color">#fff000</property>
+							<property name="border-radius">6.0</property>
+							<property name="padding">10</property>
+						</RFTextWidget>
+						
+						
+						
+					</widgets>
+				
+				</RFLayoutWidget>
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

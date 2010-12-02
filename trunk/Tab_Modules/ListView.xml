@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">List View</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+			<datasources>
+				<RFXMLDataProvider id="Data">
+					<property name="data-location">http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/sf=143441/limit=10/xml</property>
+					<property name="allow-cache">YES</property>
+					<property name="method">GET</property>
+				</RFXMLDataProvider>
+			</datasources>
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">List View</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+				<RFLayoutWidget id="outerWrapper">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<widgets>
+						<RFLayoutWidget id="wrapper">
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-flow">vertical</property>
+							<property name="layout-type">absolute</property>
+							<property name="background-color">#FFFFFF</property>
+							<widgets>
+								<RFHorizontalRuleWidget>
+									<property name="color">#8999a5</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+									<property name="visible">YES</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#FFFFFF</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+									<property name="padding">0</property>
+									<property name="bottom-padding">5</property>
+									<property name="visible">YES</property>
+								</RFHorizontalRuleWidget>
+								
+								<!-- START SEARCH BAR -->
+								<RFLayoutWidget id="searchBar">
+									<property name="layout-flow">horizontal</property>
+									<property name="left-padding">8</property>
+									<property name="right-padding">10</property>
+									<property name="bottom-padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="width">100%</property>
+									<property name="height">54</property>
+									<property name="height" device="iPad">60</property>
+									<property name="background-color">#dde2e5</property>
+									<property name="visible">YES</property>
+									<widgets>
+										<RFTextInputWidget id="search">
+											<property name="width">240</property>
+											<property name="width" orientation="landscape">400</property>
+											<property name="width" device="iPad">675</property>
+											<property name="width" device="iPad" orientation="landscape">900</property>
+											<property name="height">36</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="style">plain</property>
+											<property name="placeholder-text">Filter by name</property>
+											<property name="font">Helvetica:13.0</property>
+										</RFTextInputWidget>
+										<RFButtonWidget id="goButton">
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">List</property>
+													<values>
+														<property name="row-data-path">//*[local-name()='entry'][*[local-name()='title'][contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),translate('[form:search]', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'))]]</property>
+													</values>
+												</modify>
+											</actions>
+											<property name="text">Go</property>
+											<property name="width">60</property>
+											<property name="height">36</property>
+											<property name="color">#FFFFFF</property>
+											<property name="background-color">#666d74</property>
+											<property name="style">glossy</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="right-margin">8</property>
+											<property name="top-margin">15</property>
+											<property name="bottom-padding">0</property>
+											<property name="bottom-margin">0</property>
+											<property name="visible">YES</property>
+											<property name="layout-type">absolute</property>
+											<property name="font">Helvetica-Bold:14.0</property>
+										</RFButtonWidget>
+										<RFImageWidget id="clearButton">
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">search</property>
+													<values>
+														<property name="text" />
+													</values>
+												</modify>
+												<modify on="touch">
+													<property name="widget-id">List</property>
+													<values>
+														<property name="row-data-path">//*[local-name()='entry']</property>
+													</values>
+												</modify>
+											</actions>
+											<property name="image">/resources/icon_clear_39x39.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="left-position">220</property>
+											<property name="left-position" orientation="landscape">380</property>
+											<property name="left-position" device="iPad">650</property>
+											<property name="left-position" orientation="landscape" device="iPad">875</property>
+											<property name="height">18</property>
+											<property name="width">18</property>
+											<property name="alpha">.9</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END SEARCH BAR -->
+								
+								<RFHorizontalRuleWidget>
+					              <property name="color">#8999a5</property>
+					              <property name="width">100%</property>
+					              <property name="height">1</property>
+					              <property name="padding">0</property>
+					              <property name="margin">0</property>
+					            </RFHorizontalRuleWidget>
+								
+								<!-- START LIST VIEW -->
+								<RFRepeaterWidget id="List">
+									<actions>
+										<!-- Here we can navigate the values defined below to any RFML view (for the purpose of this example we are leaving navigation in your hands! -->
+										<navigate on="touch">
+											<property name="to">TODO</property>
+											<values>
+												<property name="name">[data:row("im:name")]</property>
+												<property name="description">[data:row("*[local-name()='content'][@type='html']")->clean_html]</property>
+												<property name="image">[data:row("im:image/@height='75'")]</property>
+											</values>
+										</navigate>
+									</actions>
+									<property name="item-height">80</property>
+									<property name="height">100%</property>
+									<property name="height" orientation="landscape">100%</property>
+									<property name="width">100%</property>
+									<property name="row-data-id">Data</property>
+									<property name="row-data-path">//*[local-name()='entry']</property>
+									<property name="separator-color">#e0e0e0</property>
+									<property name="fade-rows">NO</property>
+									<property name="animate-new-rows">NO</property>
+									<property name="highlight-row-on-touch">YES</property>
+									<widgets>
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#FFFFFF</property>
+											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#F7F7F7</property>
+											<widgets>
+												<RFImageWidget>
+													<property name="image">[data:row("im:image[@height='100']")]</property>
+													<property name="width">50</property>
+													<property name="height">50</property>
+													<property name="border-style">rounded</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="left-margin">10</property>
+												</RFImageWidget>
+												<RFLayoutWidget>
+													<property name="layout-flow">vertical</property>
+													<property name="padding">15</property>
+													<property name="vertical-alignment">middle</property>
+													<widgets>
+														<RFLayoutWidget>
+															<property name="layout-flow">horizontal</property>
+															<property name="width">100%</property>
+															<property name="padding">0</property>
+															<widgets>
+																<RFTextWidget>
+																	<property name="font">interval.otf:19.0</property>
+																	<property name="color">#000000</property>
+																	<property name="text">[data:row("im:name")]</property>
+																	<property name="max-lines">1</property>
+																	<property name="padding">0</property>
+																</RFTextWidget>
+																<RFTextWidget>
+																	<property name="font">interval-light.otf:13.0</property>
+																	<property name="color">#2470d8</property>
+																	<property name="text">[data:row("im:price")]</property>
+																	<property name="left-margin">40</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="horizontal-alignment">right</property>
+																	<property name="justification">right</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+															</widgets>
+														</RFLayoutWidget>
+														<RFTextWidget>
+															<property name="font">interval-light.otf:16.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("*[local-name()='summary']")]</property>
+															<property name="max-lines">2</property>
+														</RFTextWidget>
+													</widgets>
+												</RFLayoutWidget>
+												<RFImageWidget>
+													<property name="image">/resources/chev_east.png</property>
+													<property name="width">10</property>
+													<property name="height">13</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="right-margin">10</property>
+												</RFImageWidget>
+											</widgets>
+										</RFLayoutWidget>
+									</widgets>
+								</RFRepeaterWidget>
+								<!-- START LIST VIEW -->
+								
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
