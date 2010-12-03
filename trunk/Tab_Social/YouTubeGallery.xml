@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">YouTube Gallery</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+
+				<!-- START YouTube RSS Feed -->
+				<RFXMLDataProvider id="videos">
+					<property name="data-location">http://gdata.youtube.com/feeds/api/standardfeeds/US/most_popular?time=today&amp;max-results=10</property>
+					<property name="allow-cache">YES</property>
+				</RFXMLDataProvider>
+				<!-- END YouTube RSS Feed -->
+
+			</datasources>
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">YouTube</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+				<!-- START List of YouTube Videos -->
+				<RFRepeaterWidget id="videoList">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="item-height">90</property>
+					<property name="orientation">vertical</property>
+					<property name="row-data-id">videos</property>
+					<property name="row-data-path">//*[local-name()='entry']</property>
+					<property name="separator-color">#999999</property>
+					<property name="fade-rows">NO</property>
+					<property name="animate-new-rows">NO</property>
+					<property name="background-color">#ffffff</property>
+					<property name="highlight-row-on-touch">YES</property>
+					<actions>
+						<navigate on="touch">
+							<property name="to">/Tab_Social/YouTubeGallery_Details.xml</property>
+							<values>
+								<property name="playerurl">[data:row("media:group/media:player/@url")]</property>
+								<property name="title">[data:row("*[local-name()='title']")]</property>
+								<property name="description">[data:row("media:group/media:description")]</property>
+								<property name="author">[data:row("*[local-name()='author']/*[local-name()='name']")]</property>
+								<property name="views">[data:row("yt:statistics/@viewCount")]</property>
+								<property name="favorites">[data:row("yt:statistics/@favoriteCount")]</property>
+								<property name="rating">[data:row("gd:rating/@average")]</property>
+								<property name="duration">[data:row("media:group/yt:duration/@seconds")]</property>
+								<property name="recorded">[data:row("yt:recorded")]</property>
+							</values>
+						</navigate>
+					</actions>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="layout-flow">horizontal</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="height">90</property>
+							<property name="bottom-margin">0</property>
+							<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#ffffff</property>
+							<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#f7f7f7</property>
+							<property name="padding">0</property>
+							<widgets>
+								<RFImageWidget>
+									<property name="image">[data:row("media:group/media:thumbnail/@url")]</property>
+									<property name="width">120</property>
+									<property name="height">90</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="margin">0</property>
+									<property name="padding">0</property>
+								</RFImageWidget>
+
+								<RFLayoutWidget>
+									<property name="layout-flow">vertical</property>
+									<property name="padding">10</property>
+									<property name="vertical-alignment">top</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">interval.otf:16.0</property>
+											<property name="color">#000000</property>
+											<property name="text">[data:row("*[local-name()='title']")]</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+										<RFTextWidget>
+											<property name="font">interval-light.otf:14.0</property>
+											<property name="color">#777777</property>
+											<property name="text">[eval:("var n='[data:row("yt:statistics/@viewCount")]'; var rgx = /(\d+)(\d{3})/;  while (rgx.test(n)) {n = n.replace(rgx, '$1' + ',' + '$2');} n")] views</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+										<RFTextWidget>
+											<property name="font">interval.otf:14.0</property>
+											<property name="color">#222222</property>
+											<property name="text">[data:row("*[local-name()='author']/*[local-name()='name']")]</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<RFImageWidget>
+									<property name="image">/resources/bluearrow_58.png</property>
+									<property name="width">29</property>
+									<property name="height">29</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="right-margin">5</property>
+									<property name="layout-type">absolute</property>
+								</RFImageWidget>
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFRepeaterWidget>
+				<!-- End List of YouTube Videos -->
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

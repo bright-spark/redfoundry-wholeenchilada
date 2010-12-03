@@ -3,7 +3,7 @@
 	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<views>
 		<view>
-			<property name="title">Interactive Map</property>
+			<property name="title">Map View</property>
 			<property name="background-color">#000000</property>
 			<property name="background-image">/resources/view-bg.jpg</property>
 			<property name="padding">0</property>
@@ -46,7 +46,7 @@
 						<RFTextWidget>
 							<property name="font">interval-light.otf:36.0</property>
 							<property name="font" device="iPad">interval-light.otf:72.0</property>
-							<property name="text">Interactive Map</property>
+							<property name="text">Map View</property>
 							<property name="vertical-alignment">middle</property>
 							<property name="color">#FFFFFF</property>
 							<property name="max-lines">1</property>

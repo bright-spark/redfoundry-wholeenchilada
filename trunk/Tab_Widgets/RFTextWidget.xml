@@ -4,8 +4,7 @@
 	<views>
 		<view>
 			<property name="title">RFTextWidget</property>
-			<property name="background-color">#000000</property>
-			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="background-fixed">YES</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="top-padding">60</property>

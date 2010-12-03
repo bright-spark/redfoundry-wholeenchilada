@@ -9,9 +9,10 @@
 
 		<!-- Tab 1 View Start -->
 		<view id="tabWidgets">
-			<property name="icon">resources/tabicon_widgets.png</property>
+			<property name="icon">/resources/tabicon_widgets.png</property>
 			<property name="title">Widgets</property>
-			<property name="background-image">resources/view-bg.jpg</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="background-fixed">YES</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="padding">0</property>
 			<property name="top-padding">60</property>
@@ -28,17 +29,16 @@
 				            <item><name>RFButtonWidget</name><submit_to>/Tab_Widgets/RFButtonWidget.xml</submit_to></item>
 				            <item><name>RFImageWidget</name><submit_to>/Tab_Widgets/RFImageWidget.xml</submit_to></item>
 				            <item><name>RFCheckboxWidget</name><submit_to>/Tab_Widgets/RFCheckboxWidget.xml</submit_to></item>
+				            <item><name>RFTextInputWidget</name><submit_to>/Tab_Widgets/RFTextInputWidget.xml</submit_to></item>
 				            <item><name>RFRepeaterWidget</name><submit_to>/Tab_Widgets/RFRepeaterWidget.xml</submit_to></item>
-				            <item><name>RFEmailWidget</name><submit_to>/Tab_Widgets/RFEmailWidget.xml</submit_to></item>
-				            <item><name>RFHorizontalRuleWidget</name><submit_to>/Tab_Widgets/RFHorizontalRuleWidget.xml</submit_to></item>
 				            <item><name>RFHtmlWidget</name><submit_to>/Tab_Widgets/RFHtmlWidget.xml</submit_to></item>
 				            <item><name>RFMapWidget</name><submit_to>/Tab_Widgets/RFMapWidget.xml</submit_to></item>
 				            <item><name>RFMovieWidget</name><submit_to>/Tab_Widgets/RFMovieWidget.xml</submit_to></item>
 				            <item><name>RFPagedViewWidget</name><submit_to>/Tab_Widgets/RFPagedViewWidget.xml</submit_to></item>
 				            <item><name>RFSelectorWidget</name><submit_to>/Tab_Widgets/RFSelectorWidget.xml</submit_to></item>
 				            <item><name>RFSoundWidget</name><submit_to>/Tab_Widgets/RFSoundWidget.xml</submit_to></item>
-				            <item><name>RFTextInputWidget</name><submit_to>/Tab_Widgets/RFTextInputWidget.xml</submit_to></item>
 				            <item><name>RFTimerWidget</name><submit_to>/Tab_Widgets/RFTimerWidget.xml</submit_to></item>
+				            <item><name>RFEmailWidget</name><submit_to>/Tab_Widgets/RFEmailWidget.xml</submit_to></item>
 				          </items>
 				          ]]>
 			        </property>
@@ -172,6 +172,21 @@
 				              <description>A simple grid based photo gallery directly integrated into flickr.</description>
 				            </item>
 				            <item>
+				              <name>Video Gallery</name>
+				              <submit_to>Tab_Modules/VideoGallery.xml</submit_to>
+				              <description>Display a list of videos and view the full mobile video.</description>
+				            </item>
+				            <item>
+				              <name>Music Gallery</name>
+				              <submit_to>Tab_Modules/MusicGallery.xml</submit_to>
+				              <description>A standard audio or music gallery.</description>
+				            </item>
+				            <item>
+				              <name>RSS List View</name>
+				              <submit_to>Tab_Modules/RSSListView.xml</submit_to>
+				              <description>A simple 3 row list, offering a summary snippet of each article, as well as a thumbnail image.</description>
+				            </item>
+				            <item>
 				              <name>RSS Newspaper</name>
 				              <submit_to>Tab_Modules/RSSNewspaper.xml</submit_to>
 				              <description>View RSS feeds in a newspaper style where you can swipe from page to page.</description>
@@ -187,9 +202,9 @@
 				              <description>Live streaming of an online radio station with real-time meta data.</description>
 				            </item>
 				            <item>
-				              <name>Interactive Map</name>
-				              <submit_to>Tab_Modules/InteractiveMap.xml</submit_to>
-				              <description>A full-screen interative map. See how one view can work on both the iPhone and iPad.</description>
+				              <name>Map View</name>
+				              <submit_to>Tab_Modules/MapView.xml</submit_to>
+				              <description>A full-screen interactive map. See how one view can work on both the iPhone and iPad.</description>
 				            </item>
 				          </items>
 				          ]]>
@@ -233,7 +248,7 @@
 				</RFTextWidget>
 				
 				<!-- Start menu UI -->
-				<RFLayoutWidget id="menuwidget">
+				<RFLayoutWidget id="menumodules">
 					<property name="height">100%</property>
 					<property name="layout-flow">horizontal</property>
 					<property name="bottom-margin">0</property>
@@ -459,9 +474,13 @@
 
 		<!-- Tab 4 View Start -->
 		<view id="">
-			<property name="icon">resources/tabicon_social.png</property>
+			<property name="icon">/resources/tabicon_social.png</property>
 			<property name="title">Social</property>
-			<property name="background-image">resources/view-bg.jpg</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="padding">0</property>
+			<property name="top-padding">60</property>
+	        <property name="top-padding" device="iPad">90</property>
 			<datasources>
 
 				<!-- Tab Social menu data Start -->
@@ -472,28 +491,28 @@
 				          <items>
 				            <item>
 				              <name>Twitter Timeline</name>
-				              <submit_to>Tab_Social_TwitterTimeline.xml</submit_to>
-				              <image>resources/twitter_32.png</image>
+				              <submit_to>/Tab_Social/TwitterTimeline.xml</submit_to>
+				              <image>/resources/twitter_64.png</image>
 				            </item>
 				            <item>
 				              <name>Twitter Status Update</name>
-				              <submit_to>Tab_Social_TwitterUpdate.xml</submit_to>
-				              <image>resources/twitter_32.png</image>
+				              <submit_to>/Tab_Social/TwitterUpdate.xml</submit_to>
+				              <image>/resources/twitter_64.png</image>
 				            </item>
 				            <item>
 				              <name>Facebook Post</name>
-				              <submit_to>Tab_Social_FacebookPost.xml</submit_to>
-				              <image>resources/facebook_32.png</image>
+				              <submit_to>/Tab_Social/FacebookPost.xml</submit_to>
+				              <image>/resources/facebook_64.png</image>
 				            </item>
 				            <item>
 				              <name>YouTube Gallery</name>
-				              <submit_to>Tab_Social_YouTubeGallery.xml</submit_to>
-				              <image>resources/youtube_32.png</image>
+				              <submit_to>/Tab_Social/YouTubeGallery.xml</submit_to>
+				              <image>/resources/youtube_64.png</image>
 				            </item>
 				            <item>
 				              <name>Yelp</name>
-				              <submit_to>Tab_Social_Yelp.xml</submit_to>
-				              <image>resources/yelp_32.png</image>
+				              <submit_to>/Tab_Social/Yelp.xml</submit_to>
+				              <image>/resources/yelp_64.png</image>
 				            </item>
 				          </items>
 				          ]]>
@@ -503,9 +522,105 @@
 
 			</datasources>
 			<widgets>
+				
+				<!-- START Custom Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Social Media</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Custom Title Bar -->
+				
+				<RFTextWidget>
+					<property name="text">RFML has built in integration to many of the most popular social networks including twitter and facebook. Additionally leveraging RFML's base functionality you can integrate into most social media services.</property>
+					<property name="font">interval.otf:18.0</property>
+					<property name="padding">10</property>
+					<property name="top-position">60</property>
+					<property name="top-position" device="iPad">110</property>
+					<property name="layout-type">float</property>
+				</RFTextWidget>
+				
+				<!-- Start menu UI -->
+				<RFLayoutWidget id="menusocial">
+					<property name="height">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="bottom-margin">0</property>
+					<property name="padding">0</property>
+					<property name="top-padding">140</property>
+					<property name="top-padding" device="iPad">190</property>
+					<widgets>
+						<RFRepeaterWidget id="menu">
+							<property name="row-data-id">tabSocial_data_menu</property>
+							<property name="row-data-path">items/item</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="item-height">57</property>
+							<property name="separator-color">#e0e0e033</property>
+							<property name="padding">0</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="animate-new-rows">YES</property>
+							<property name="fade-rows">YES</property>
+							<widgets>
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#00000054</property>
+									<property name="padding">0</property>
+									<property name="height">100%</property>
+									<actions>
+										<navigate on="touch">
+											<property name="to">[data:row("submit_to")]</property>
+										</navigate>
+									</actions>
+									<widgets>
+										<RFImageWidget>
+											<property name="image">[data:row("image")]</property>
+											<property name="width">32</property>
+											<property name="height">32</property>
+											<property name="border-style">rounded</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="left-margin">10</property>
+											<property name="right-margin">10</property>
+										</RFImageWidget>
+										<RFTextWidget>
+											<property name="font">HelveticaNeue-Bold:20.0</property>
+											<property name="color">#FFFFFF</property>
+											<property name="text">[data:row("name")]</property>
+											<property name="max-lines">1</property>
+											<property name="padding">0</property>
+											<property name="vertical-alignment">middle</property>
+										</RFTextWidget>
+										<RFImageWidget>
+											<property name="image">resources/chev_east.png</property>
+											<property name="height">14</property>
+											<property name="width">19</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="right-padding">10</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFRepeaterWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- End menu UI -->
+			
 			</widgets>
-
-
 		</view>
 		<!-- Tab 4 View End -->
 
@@ -513,9 +628,13 @@
 
 		<!-- Tab 5 View Start -->
 		<view id="tabMore">
-			<property name="icon">resources/tabicon_more.png</property>
+			<property name="icon">/resources/tabicon_more.png</property>
 			<property name="title">More</property>
-			<property name="background-image">resources/view-bg.jpg</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="padding">0</property>
+			<property name="top-padding">60</property>
+	        <property name="top-padding" device="iPad">90</property>
 			<datasources>
 
 				<!-- Tab More menu data Start -->
@@ -524,14 +643,9 @@
 					<property name="data">
 						  <![CDATA[
 				          <items>
-				            <item>
-				              <name>RSS List</name>
-				              <submit_to>Tab_More_RSSList.xml</submit_to>
-				            </item>
-				            <item>
-				              <name>RSS Boxes</name>
-				              <submit_to>Tab_More_RSSBoxes.xml.xml</submit_to>
-				            </item>
+				            <item><name>Shortcodes</name><submit_to>Tab_More/Shortcodes.xml</submit_to></item>
+				            <item><name>Eval Scripting</name><submit_to>Tab_More/Evals.xml</submit_to></item>
+				            <item><name>If-Then Properties</name><submit_to>Tab_More/Ifs.xml</submit_to></item>
 				          </items>
 				          ]]>
 			        </property>
@@ -540,6 +654,84 @@
 
 			</datasources>
 			<widgets>
+			
+				<!-- START Custom Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">More</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Custom Title Bar -->
+			
+				<!-- Start menu UI -->
+				<RFLayoutWidget id="menumore">
+					<property name="height">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="bottom-margin">0</property>
+					<property name="padding">0</property>
+					<widgets>
+						<RFRepeaterWidget id="menu">
+							<property name="row-data-id">tabMore_data_menu</property>
+							<property name="row-data-path">items/item</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="item-height">57</property>
+							<property name="separator-color">#e0e0e033</property>
+							<property name="padding">0</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="animate-new-rows">YES</property>
+							<property name="fade-rows">YES</property>
+							<widgets>
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#00000054</property>
+									<property name="padding">0</property>
+									<property name="height">57</property>
+									<actions>
+										<navigate on="touch">
+											<property name="to">[data:row("submit_to")]</property>
+										</navigate>
+									</actions>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">HelveticaNeue-Bold:20.0</property>
+											<property name="color">#FFFFFF</property>
+											<property name="text">[data:row("name")]</property>
+											<property name="left-padding">20</property>
+											<property name="max-lines">1</property>
+											<property name="padding">0</property>
+											<property name="vertical-alignment">middle</property>
+										</RFTextWidget>
+										<RFImageWidget>
+											<property name="image">/resources/chev_east.png</property>
+											<property name="height">14</property>
+											<property name="width">19</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="right-padding">10</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFRepeaterWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- End menu UI -->
 			</widgets>
 		</view>
 		<!-- Tab 5 View End -->

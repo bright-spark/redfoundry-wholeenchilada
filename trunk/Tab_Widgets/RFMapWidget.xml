@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RFMapWidget</property>
+			<property name="background-fixed">YES</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<!-- These set actions will be used to keep track of states on the page -->
+			<actions>
+				<set on="first-appeared">
+					<values>
+						<property name="is-show-user-location">NO</property>
+					</values>
+				</set>
+			</actions>
+
+			<!-- This data is used by the RFMapWidget -->
+			<datasources>
+				<RFXMLDataProvider id="mapData">
+					<property name="allow-cache">YES</property>
+					<property name="data">
+						  <![CDATA[
+				          <items>
+				            <item>
+				            	<title>Casa del Jonez</title>
+				            	<subtitle>The ultimate destination for fun and sun.</subtitle>
+				            	<latitude>47.7035291</latitude>
+				            	<longitude>-122.222010</longitude>
+				            </item>
+				            <item>
+				            	<title>Statue of Liberty</title>
+				            	<subtitle>New York, NY 11231	</subtitle>
+				            	<latitude>40.689783</latitude>
+				            	<longitude>-74.045362</longitude>
+				            </item>
+				          </items>
+				          ]]>
+			        </property>
+				</RFXMLDataProvider>
+			</datasources>
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RFMapWidget</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<!-- START Map -->
+				<RFMapWidget id="myMap">
+					<property name="width">100%</property>
+					<property name="height">60%</property>
+					<property name="map-type">standard</property>
+					<property name="row-data-id">mapData</property>
+					<property name="row-data-path">//item</property>
+					<property name="item-title">[data:row("title")]</property>
+					<property name="item-subtitle">[data:row("subtitle")]</property>
+					<property name="item-latitude">[data:row("latitude")]</property>
+					<property name="item-longitude">[data:row("longitude")]</property>
+					<property name="show-user-location">NO</property>
+					<property name="zoom-to-fit">YES</property>
+					<actions>
+						<alert on="touch">
+							<property name="message">You touched [data:row("title")]</property>
+						</alert>
+					</actions>
+				</RFMapWidget>
+				<!-- END Map -->
+
+
+				<RFLayoutWidget>
+					<property name="padding">10</property>
+					<property name="width">100%</property>
+					<widgets>
+
+						<!-- START Buttons and functions to perform on the map -->
+						<RFLayoutWidget>
+							<property name="padding">0</property>
+							<property name="width">100%</property>
+							<widgets>
+
+								<RFButtonWidget id="showUserLocation">
+									<property name="text">Show User Location</property>
+									<property name="width">100%</property>
+									<actions>
+										<set on="touch">
+											<values>
+												<property name="is-show-user-location">[eval:("if ('[session:is-show-user-location]' == 'YES') { 'NO' } else { 'YES' }")]</property>
+											</values>
+										</set>
+										<modify on="touch">
+											<property name="widget-id">showUserLocation</property>
+											<values>
+												<property name="text">[eval:("if ('[session:is-show-user-location]' == 'YES') { 'Hide User Location' } else { 'Show User Location' }")]</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">myMap</property>
+											<values>
+												<property name="show-user-location">[eval:("if ('[session:is-show-user-location]' == 'YES') { 'YES' } else { 'NO' }")]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFButtonWidget>
+
+
+								<!-- START map-type buttons -->
+								<RFLayoutWidget>
+									<property name="layout-flow">horizontal</property>
+									<widgets>
+
+										<RFButtonWidget>
+											<property name="text">standard</property>
+											<property name="width">100</property>
+											<property name="right-padding">10</property>
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">myMap</property>
+													<values>
+														<property name="map-type">standard</property>
+													</values>
+												</modify>
+											</actions>
+										</RFButtonWidget>
+										
+										<RFButtonWidget>
+											<property name="text">satellite</property>
+											<property name="width">100</property>
+											<property name="right-padding">10</property>
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">myMap</property>
+													<values>
+														<property name="map-type">satellite</property>
+													</values>
+												</modify>
+											</actions>
+										</RFButtonWidget>
+										
+										<RFButtonWidget>
+											<property name="text">hybrid</property>
+											<property name="width">100</property>
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">myMap</property>
+													<values>
+														<property name="map-type">satellite</property>
+													</values>
+												</modify>
+											</actions>
+										</RFButtonWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END map-type buttons -->
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Buttons and functions to perform on the map -->
+
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

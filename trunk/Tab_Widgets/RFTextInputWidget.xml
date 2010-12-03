@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RFTextInputWidget</property>
+			<property name="background-fixed">YES</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RFTextInputWidget</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<RFLayoutWidget>
+					<property name="padding">20</property>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<widgets>
+
+						<!-- The is a default RFTextInputWidget using just the default properties -->
+						<RFTextInputWidget>
+							<property name="text">This is a RFTextInputWidget</property>
+						</RFTextInputWidget>
+
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+
+
+						<!-- RFTextInputWidget with the style property defined -->
+						<RFTextInputWidget>
+							<property name="text">Plain Style</property>
+							<property name="style">plain</property>
+							<property name="width">250</property>
+							<property name="height">36</property>
+						</RFTextInputWidget>
+
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+
+
+						<!-- RFTextInputWidget with the style property defined -->
+						<RFTextInputWidget>
+							<property name="text"></property>
+							<property name="style">plain</property>
+							<property name="placeholder-text">I am just placeholder text</property>
+							<property name="width">250</property>
+							<property name="height">36</property>
+						</RFTextInputWidget>
+
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+
+
+						<!-- RFTextInputWidget and RFButtonWidget to create a search box -->
+						<RFLayoutWidget>
+							<property name="layout-flow">horizontal</property>
+							<property name="left-padding">8</property>
+							<property name="right-padding">10</property>
+							<property name="bottom-padding">0</property>
+							<property name="bottom-margin">10</property>
+							<property name="width">100%</property>
+							<property name="height">54</property>
+							<property name="background-color">#dde2e5</property>
+							<property name="visible">YES</property>
+							<widgets>
+								<RFTextInputWidget id="mySearchTextInput">
+									<property name="width">200</property>
+									<property name="height">36</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="style">plain</property>
+									<property name="placeholder-text">Type and press go</property>
+									<property name="font">Helvetica:13.0</property>
+								</RFTextInputWidget>
+								<RFButtonWidget id="goButton">
+									<actions>
+										<alert on="touch">
+											<property name="message">The input in the RFTextInputWidget is: [form:mySearchTextInput]</property>
+										</alert>
+									</actions>
+									<property name="text">Go</property>
+									<property name="width">60</property>
+									<property name="height">36</property>
+									<property name="color">#FFFFFF</property>
+									<property name="background-color">#666d74</property>
+									<property name="style">glossy</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="right-margin">8</property>
+									<property name="top-margin">15</property>
+									<property name="bottom-padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="visible">YES</property>
+									<property name="layout-type">absolute</property>
+									<property name="font">Helvetica-Bold:14.0</property>
+								</RFButtonWidget>
+								<RFImageWidget id="clearButton">
+									<actions>
+										<modify on="touch">
+											<property name="widget-id">search</property>
+											<values>
+												<property name="text" />
+											</values>
+										</modify>
+									</actions>
+									<property name="image">/resources/icon_clear_39x39.png</property>
+									<property name="layout-type">absolute</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="left-position">180</property>
+									<property name="height">18</property>
+									<property name="width">18</property>
+									<property name="alpha">.9</property>
+								</RFImageWidget>
+							</widgets>
+						</RFLayoutWidget>
+
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<!-- RFTextInputWidget using protected field for passwords -->
+						<RFTextInputWidget>
+							<property name="text">RFTextInputWidget</property>
+							<property name="width">260</property>
+							<property name="height">40</property>
+							<property name="protected">YES</property>
+						</RFTextInputWidget>
+
+
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
