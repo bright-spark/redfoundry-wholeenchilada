@@ -4,8 +4,7 @@
 	<views>
 		<view>
 			<property name="title">RFButtonWidget</property>
-			<property name="background-color">#000000</property>
-			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="background-fixed">YES</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="top-padding">60</property>
@@ -99,22 +98,6 @@
 						</RFHorizontalRuleWidget>
 						
 						
-						<!-- RFButtonWidget with the square style property and background-color defined -->
-						<RFButtonWidget>
-							<property name="text">RFButtonWidget</property>
-							<property name="color">#333333</property>
-							<property name="style">square</property>
-							<property name="width">200</property>
-							<property name="background-color">#DDDDDD</property>
-						</RFButtonWidget>
-						
-						<RFHorizontalRuleWidget>
-							<property name="color">#cbcbcb</property>
-							<property name="width">100%</property>
-							<property name="height">1</property>
-						</RFHorizontalRuleWidget>
-						
-						
 						<!-- RFButtonWidget with actions -->
 						<RFButtonWidget>
 							<property name="text">Click Me!</property>
@@ -135,11 +118,29 @@
 							<property name="height">1</property>
 						</RFHorizontalRuleWidget>
 						
+						
+						<!-- RFButtonWidget with the square style property and background-color defined -->
+						<RFButtonWidget>
+							<property name="text">RFButtonWidget</property>
+							<property name="color">#333333</property>
+							<property name="style">square</property>
+							<property name="width">200</property>
+							<property name="background-color">#DDDDDD</property>
+						</RFButtonWidget>
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
 						<!-- RFButtonWidget with the glossy-back style property defined -->
 						<RFButtonWidget>
 							<property name="text"> Back</property>
+							<property name="font">Helvetica:14.0</property>
 							<property name="style">glossy-back</property>
 							<property name="width">80</property>
+							<property name="height">38</property>
 							<actions>
 								<navigate on="touch">
 									<property name="navigation-stack-type">pop</property>
@@ -158,9 +159,28 @@
 						<!-- A RFButtonWidget can contain any unicode character so long as the encoding is set in your XML header <?xml version="1.0" encoding="UTF-8"?> -->
 						<RFButtonWidget>
 							<property name="text">島根県安来市の養</property>
-							<property name="font">Helvetica:18.0</property>
+							<property name="font">Helvetica:14.0</property>
 							<property name="style">glossy</property>
 							<property name="width">200</property>
+							<property name="height">32</property>
+						</RFButtonWidget>
+						
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<!-- RFButtonWidget with sizing -->
+						<RFButtonWidget>
+							<property name="text">Big Button</property>
+							<property name="font">Helvetica:22.0</property>
+							<property name="style">glossy</property>
+							<property name="width">250</property>
+							<property name="height">100</property>
+							<property name="background-color">#333333</property>
 						</RFButtonWidget>
 						
 						
