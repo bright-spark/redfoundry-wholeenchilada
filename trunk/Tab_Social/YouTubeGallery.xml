@@ -12,7 +12,9 @@
 
 			<datasources>
 
-				<!-- START YouTube RSS Feed -->
+				<!-- START YouTube RSS Feed
+					We are using the YouTube DATA API (http://code.google.com/apis/youtube/2.0/reference.html)
+				 -->
 				<RFXMLDataProvider id="videos">
 					<property name="data-location">http://gdata.youtube.com/feeds/api/standardfeeds/US/most_popular?time=today&amp;max-results=10</property>
 					<property name="allow-cache">YES</property>
@@ -20,7 +22,6 @@
 				<!-- END YouTube RSS Feed -->
 
 			</datasources>
-
 			<widgets>
 
 				<!-- START Title Bar -->
@@ -77,6 +78,8 @@
 					<property name="background-color">#ffffff</property>
 					<property name="highlight-row-on-touch">YES</property>
 					<actions>
+						<!-- The navigate action will push  the user to the YouTubeGallery_Details.xml view passing with it the properties defined in the values node
+							You can then access these values with the [form:valuename] shortcode such as [form:playerurl] -->
 						<navigate on="touch">
 							<property name="to">/Tab_Social/YouTubeGallery_Details.xml</property>
 							<values>
@@ -93,6 +96,8 @@
 						</navigate>
 					</actions>
 					<widgets>
+						
+						<!-- START layout of a row -->
 						<RFLayoutWidget>
 							<property name="layout-flow">horizontal</property>
 							<property name="width">100%</property>
@@ -103,6 +108,8 @@
 							<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#f7f7f7</property>
 							<property name="padding">0</property>
 							<widgets>
+								
+								<!-- The thumbnail image of the YouTube video -->
 								<RFImageWidget>
 									<property name="image">[data:row("media:group/media:thumbnail/@url")]</property>
 									<property name="width">120</property>
@@ -112,23 +119,27 @@
 									<property name="padding">0</property>
 								</RFImageWidget>
 
+								<!-- START layout of the title, view count and author, this view has a vertical layout flow -->
 								<RFLayoutWidget>
 									<property name="layout-flow">vertical</property>
 									<property name="padding">10</property>
 									<property name="vertical-alignment">top</property>
 									<widgets>
+										<!-- Title (we use the XPath local-name function because this XML has a default namespace defined -->
 										<RFTextWidget>
 											<property name="font">interval.otf:16.0</property>
 											<property name="color">#000000</property>
 											<property name="text">[data:row("*[local-name()='title']")]</property>
 											<property name="max-lines">1</property>
 										</RFTextWidget>
+										<!-- Views count (we use [eval] to format the row value from this 10000000 to 10,000,000 -->
 										<RFTextWidget>
 											<property name="font">interval-light.otf:14.0</property>
 											<property name="color">#777777</property>
 											<property name="text">[eval:("var n='[data:row("yt:statistics/@viewCount")]'; var rgx = /(\d+)(\d{3})/;  while (rgx.test(n)) {n = n.replace(rgx, '$1' + ',' + '$2');} n")] views</property>
 											<property name="max-lines">1</property>
 										</RFTextWidget>
+										<!-- Author -->
 										<RFTextWidget>
 											<property name="font">interval.otf:14.0</property>
 											<property name="color">#222222</property>
@@ -137,6 +148,9 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
+								<!-- END layout of the title, view count and author -->
+								
+								<!-- The blue arrow button on the right of the list row -->
 								<RFImageWidget>
 									<property name="image">/resources/bluearrow_58.png</property>
 									<property name="width">29</property>
@@ -146,11 +160,13 @@
 									<property name="right-margin">5</property>
 									<property name="layout-type">absolute</property>
 								</RFImageWidget>
+								
 							</widgets>
 						</RFLayoutWidget>
+						<!-- END layout of a row -->
 					</widgets>
 				</RFRepeaterWidget>
-				<!-- End List of YouTube Videos -->
+				<!-- END of YouTube Videos -->
 
 			</widgets>
 		</view>
