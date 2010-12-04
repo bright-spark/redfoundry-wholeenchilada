@@ -8,7 +8,7 @@
 	<views>
 
 		<!-- Tab 1 View Start -->
-		<view id="tabWidgets">
+		<view>
 			<property name="icon">/resources/tabicon_widgets.png</property>
 			<property name="title">Widgets</property>
 			<property name="background-image">/resources/view-bg.jpg</property>
@@ -145,7 +145,7 @@
 
 
 		<!-- Tab 2 View Start -->
-		<view id="tabModules">
+		<view>
 			<property name="icon">resources/tabicon_modules.png</property>
 			<property name="title">Modules</property>
 			<property name="background-image">resources/view-bg.jpg</property>
@@ -165,6 +165,11 @@
 				              <name>List View</name>
 				              <submit_to>Tab_Modules/ListView.xml</submit_to>
 				              <description>A typical list view you would see on a mobile device with filter functionality.</description>
+				            </item>
+				            <item>
+				              <name>iPad Split View</name>
+				              <submit_to>Tab_Modules/SplitView.xml</submit_to>
+				              <description>This is an iPad style split view, which is essentially a master-detail interface. The left side of the screen displays a list of selectable items where the right-side displays the details of the item selected. </description>
 				            </item>
 				            <item>
 				              <name>Photo Gallery</name>
@@ -345,10 +350,14 @@
 						  <![CDATA[
 				          <items>
 				            <item>
-				              <name>Automotif</name>
+				              <name>Local Search</name>
+				              <app_location>/Tab_Demos/LocalSearch/RFAppConfig.xml</app_location>
+				              <description>A local search app with social media integration like Yelp or Trip Advisor.</description>
+				            </item>
+				            <item>
+				              <name>Automotif (iPad only)</name>
 				              <app_location>/Tab_Demos/Automotif/RFAppConfig.xml</app_location>
 				              <description>A multi-media coffee table book with page animations.</description>
-				              <ipadonly>YES</ipadonly>
 				            </item>
 				          </items>
 				          ]]>
@@ -433,7 +442,7 @@
 												<RFTextWidget>
 													<property name="font">HelveticaNeue-Bold:20.0</property>
 													<property name="color">#FFFFFF</property>
-													<property name="text">[eval:("if ('[data:row("ipadonly")]' == 'YES') { '(iPad) ' } else { '' }")][data:row("name")]</property>
+													<property name="text">[data:row("name")]</property>
 													<property name="max-lines">1</property>
 													<property name="padding">0</property>
 													<property name="vertical-alignment">middle</property>
@@ -473,9 +482,9 @@
 
 
 		<!-- Tab 4 View Start -->
-		<view id="">
+		<view>
 			<property name="icon">/resources/tabicon_social.png</property>
-			<property name="title">Social</property>
+			<property name="title">Social APIs</property>
 			<property name="background-image">/resources/view-bg.jpg</property>
 			<property name="title-bar-visible">NO</property>
 			<property name="padding">0</property>
@@ -536,7 +545,7 @@
 						<RFTextWidget>
 							<property name="font">interval-light.otf:36.0</property>
 							<property name="font" device="iPad">interval-light.otf:72.0</property>
-							<property name="text">Social Media</property>
+							<property name="text">Social APIs</property>
 							<property name="vertical-alignment">middle</property>
 							<property name="color">#FFFFFF</property>
 							<property name="max-lines">1</property>
@@ -546,7 +555,7 @@
 				<!-- END Custom Title Bar -->
 				
 				<RFTextWidget>
-					<property name="text">RFML has built in integration to many of the most popular social networks including twitter and facebook. Additionally leveraging RFML's base functionality you can integrate into most social media services.</property>
+					<property name="text">RFML has built in integration to many of the most popular social APIs including twitter and facebook. Additionally leveraging RFML's base functionality you can integrate into most social network services.</property>
 					<property name="font">interval.otf:18.0</property>
 					<property name="padding">10</property>
 					<property name="top-position">60</property>
@@ -627,7 +636,7 @@
 
 
 		<!-- Tab 5 View Start -->
-		<view id="tabMore">
+		<view>
 			<property name="icon">/resources/tabicon_more.png</property>
 			<property name="title">More</property>
 			<property name="background-image">/resources/view-bg.jpg</property>

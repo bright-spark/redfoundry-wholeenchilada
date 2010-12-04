@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+<rfapp id="APPCODE" appkey="APPKEY"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<property name="enable-debug-console">YES</property>
+	<property name="use-standard-tab-bar">YES</property>
+	<property name="enable-location-services">YES</property>
 	<views>
 		<view>
 			<widgets>
+				
 			</widgets>
 		</view>
 	</views>

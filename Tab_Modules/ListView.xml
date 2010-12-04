@@ -59,10 +59,13 @@
 				</RFLayoutWidget>
 				<!-- END Title Bar -->
 
+				<!-- START The outer layout of the view, this will include both the top search bar and the list itself -->
 				<RFLayoutWidget id="outerWrapper">
 					<property name="width">100%</property>
 					<property name="height">100%</property>
 					<widgets>
+						
+						<!-- This layout defines a vertical flow so we can stack the top RFHorizontalRuleWidget, the search bar and the lits together -->
 						<RFLayoutWidget id="wrapper">
 							<property name="width">100%</property>
 							<property name="height">100%</property>
@@ -70,6 +73,7 @@
 							<property name="layout-type">absolute</property>
 							<property name="background-color">#FFFFFF</property>
 							<widgets>
+								
 								<RFHorizontalRuleWidget>
 									<property name="color">#8999a5</property>
 									<property name="width">100%</property>
@@ -102,6 +106,8 @@
 									<property name="background-color">#dde2e5</property>
 									<property name="visible">YES</property>
 									<widgets>
+										
+										<!-- The text input box for filtering the list by name -->
 										<RFTextInputWidget id="search">
 											<property name="width">240</property>
 											<property name="width" orientation="landscape">400</property>
@@ -113,6 +119,12 @@
 											<property name="placeholder-text">Filter by name</property>
 											<property name="font">Helvetica:13.0</property>
 										</RFTextInputWidget>
+										
+										<!-- This is the right 'Go' button that will submit the filter value from the text input box
+											What we are actually doing here is filtering the XPath query to only extract items that contain the value of the text input box.
+											To get the value we use the form shortcode such as [form:search], where search is the name of the RFTextInputWidget.
+											When the row-data-path property is modified the datasource will reload mapping the modified row-data-path.
+										 -->
 										<RFButtonWidget id="goButton">
 											<actions>
 												<modify on="touch">
@@ -138,6 +150,8 @@
 											<property name="layout-type">absolute</property>
 											<property name="font">Helvetica-Bold:14.0</property>
 										</RFButtonWidget>
+										
+										<!-- This is the image/button in the RFTextInputWidget that will clear the filter and reset it to the original XPath -->
 										<RFImageWidget id="clearButton">
 											<actions>
 												<modify on="touch">
@@ -200,6 +214,8 @@
 									<property name="animate-new-rows">NO</property>
 									<property name="highlight-row-on-touch">YES</property>
 									<widgets>
+										
+										<!-- START row layout -->
 										<RFLayoutWidget>
 											<property name="width">100%</property>
 											<property name="height">100%</property>
@@ -207,6 +223,8 @@
 											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#FFFFFF</property>
 											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#F7F7F7</property>
 											<widgets>
+												
+												<!-- The left aligned image -->
 												<RFImageWidget>
 													<property name="image">[data:row("im:image[@height='100']")]</property>
 													<property name="width">50</property>
@@ -215,6 +233,7 @@
 													<property name="vertical-alignment">middle</property>
 													<property name="left-margin">10</property>
 												</RFImageWidget>
+												
 												<RFLayoutWidget>
 													<property name="layout-flow">vertical</property>
 													<property name="padding">15</property>
@@ -252,6 +271,8 @@
 														</RFTextWidget>
 													</widgets>
 												</RFLayoutWidget>
+												
+												<!-- This is the right gray arrow -->
 												<RFImageWidget>
 													<property name="image">/resources/chev_east.png</property>
 													<property name="width">10</property>
@@ -262,6 +283,8 @@
 												</RFImageWidget>
 											</widgets>
 										</RFLayoutWidget>
+										<!-- END row layout -->
+										
 									</widgets>
 								</RFRepeaterWidget>
 								<!-- START LIST VIEW -->
@@ -270,7 +293,8 @@
 						</RFLayoutWidget>
 					</widgets>
 				</RFLayoutWidget>
-
+				<!-- END The outer layout of the view -->
+				
 			</widgets>
 		</view>
 	</views>

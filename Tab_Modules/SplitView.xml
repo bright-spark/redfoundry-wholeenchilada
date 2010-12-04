@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+
+	<!-- PLEASE NOTE, THIS VIEW IS DESIGNED TO ONLY RUN ON THE iPAD IN LANDSCAPE 
+		ORIENTATION -->
+
+	<views>
+		<view>
+			<property name="title">iPad Split View</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+
+			<datasources>
+				<RFXMLDataProvider id="myData">
+					<property name="data-location">http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/toppaidapplications/sf=143441/limit=10/xml</property>
+					<property name="allow-cache">YES</property>
+					<property name="method">GET</property>
+				</RFXMLDataProvider>
+			</datasources>
+
+			<widgets>
+
+				<!-- START layout wrapper -->
+				<RFLayoutWidget>
+					<property name="height">100%</property>
+					<property name="width">100%</property>
+					<property name="background-color">#ffffff</property>
+					<property name="layout-flow">horizontal</property>
+					<widgets>
+
+						<!-- START left side MASTER layout -->
+						<RFLayoutWidget id="MASTER">
+							<property name="height">100%</property>
+							<property name="width">320</property>
+							<property name="top-padding">45</property>
+							<widgets>
+
+								<!-- START MASTER header -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">45</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#000000</property>
+									<property name="layout-type">float</property>
+									<widgets>
+										<RFImageWidget>
+											<property name="image">/resources/header_ipad_black.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="top-position">0</property>
+											<property name="left-position">0</property>
+											<property name="width">100%</property>
+											<property name="height">45</property>
+											<property name="alpha">.92</property>
+											<property name="allow-stretch">YES</property>
+										</RFImageWidget>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:22.0</property>
+											<property name="text">Master</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">center</property>
+											<property name="layout-type">absolute</property>
+											<property name="color">#FFFFFF</property>
+											<property name="max-lines">1</property>
+											<property name="left-padding">10</property>
+											<property name="right-padding">10</property>
+											<property name="include-in-parent-autosize">NO</property>
+											<property name="enable-shadow">YES</property>
+											<property name="shadow-color">#000000</property>
+											<property name="shadow-offset-right">0.0</property>
+											<property name="shadow-offset-down">-1.2</property>
+											<property name="shadow-blur">0.1</property>
+										</RFTextWidget>
+										<RFButtonWidget>
+											<actions>
+												<navigate on="touch">
+													<property name="navigation-stack-type">pop</property>
+												</navigate>
+											</actions>
+											<property name="text"> Back</property>
+											<property name="width">60</property>
+											<property name="height">30</property>
+											<property name="style">glossy-back</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="background-color">#333333</property>
+											<property name="font">Helvetica-Bold:14.0</property>
+											<property name="color">#FFFFFF</property>
+											<property name="left-margin">10</property>
+											<property name="alpha">.85</property>
+										</RFButtonWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END MASTER header -->
+
+								<!-- START MASTER list -->
+								<RFRepeaterWidget id="master_list">
+									<actions>
+										<function on="touch">
+											<property name="widget-id">details_content</property>
+											<property name="function-name">goto-row</property>
+											<values>
+												<property name="row-index">[data:row-index()]</property>
+											</values>
+										</function>
+									</actions>
+									<property name="height">100%</property>
+									<property name="width">320</property>
+									<property name="row-data-id">myData</property>
+									<property name="row-data-path">//*[local-name()='entry']</property>
+									<property name="item-height">80</property>
+									<property name="separator-color">#e0e0e0</property>
+									<property name="padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="highlight-row-on-touch">YES</property>
+									<property name="selected-row-index">0</property>
+									<property name="keep-row-highlighted">YES</property>
+									<property name="fade-rows">NO</property>
+									<property name="animate-new-rows">NO</property>
+									<widgets>
+
+										<!-- START list row -->
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="background-color"
+												if="'[eval:('[data:row-index()]%2')]'=='0'">#FFFFFF</property>
+											<property name="background-color"
+												if="'[eval:('[data:row-index()]%2')]'!='0'">#F7F7F7</property>
+											<widgets>
+
+												<!-- The left aligned image -->
+												<RFImageWidget>
+													<property name="image">[data:row("im:image[@height='100']")]</property>
+													<property name="width">50</property>
+													<property name="height">50</property>
+													<property name="border-style">rounded</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="left-margin">20</property>
+												</RFImageWidget>
+
+												<RFLayoutWidget>
+													<property name="layout-flow">vertical</property>
+													<property name="padding">10</property>
+													<property name="vertical-alignment">middle</property>
+													<widgets>
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:18.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("im:name")]</property>
+															<property name="max-lines">1</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:13.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("im:artist")]</property>
+															<property name="max-lines">1</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:13.0</property>
+															<property name="color">#555555</property>
+															<property name="text">[data:row("im:price")]</property>
+														</RFTextWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+
+												<!-- This is the right gray arrow -->
+												<RFImageWidget>
+													<property name="image">/resources/chev_east.png</property>
+													<property name="width">10</property>
+													<property name="height">13</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="right-margin">10</property>
+												</RFImageWidget>
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END list row -->
+
+									</widgets>
+								</RFRepeaterWidget>
+								<!-- END MASTER list -->
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END left side MASTER layout -->
+
+
+						<!-- START vertical separator -->
+						<RFWidget>
+							<property name="width">1</property>
+							<property name="height">100%</property>
+							<property name="background-color">#000000</property>
+							<property name="bottom-margin">0</property>
+						</RFWidget>
+						<!-- END vertical separator -->
+
+
+						<!-- START right side DETAILS layout -->
+						<RFLayoutWidget id="DETAILS">
+							<property name="height">100%</property>
+							<property name="fill-remaining-width">YES</property>
+							<property name="top-padding">45</property>
+							<widgets>
+
+								<!-- START DETAILS header -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">45</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#000000</property>
+									<property name="layout-type">float</property>
+									<widgets>
+										<RFImageWidget>
+											<property name="image">/resources/header_ipad_black.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="top-position">0</property>
+											<property name="left-position">0</property>
+											<property name="width">100%</property>
+											<property name="height">45</property>
+											<property name="alpha">.92</property>
+											<property name="allow-stretch">YES</property>
+										</RFImageWidget>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:22.0</property>
+											<property name="text">Details</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">center</property>
+											<property name="layout-type">absolute</property>
+											<property name="color">#FFFFFF</property>
+											<property name="max-lines">1</property>
+											<property name="left-padding">10</property>
+											<property name="right-padding">10</property>
+											<property name="include-in-parent-autosize">NO</property>
+											<property name="enable-shadow">YES</property>
+											<property name="shadow-color">#000000</property>
+											<property name="shadow-offset-right">0.0</property>
+											<property name="shadow-offset-down">-1.2</property>
+											<property name="shadow-blur">0.1</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END DETAILS header -->
+
+								<!-- START DETAILS inner content -->
+								<RFRepeaterWidget id="details_content">
+									<property name="width">100%</property>
+									<property name="fill-remaining-height">YES</property>
+									<property name="row-data-id">myData</property>
+									<property name="row-data-path">//*[local-name()='entry']</property>
+									<property name="orientation">horizontal</property>
+									<property name="enable-paging">YES</property>
+									<property name="item-width">100%</property>
+									<property name="item-height">100%</property>
+									<property name="width">100%</property>
+									<property name="height">85%</property>
+									<property name="separator-color">[settingid=2006]</property>
+									<property name="padding">0</property>
+									<property name="footer-padding">80</property>
+									<property name="fade-rows">NO</property>
+									<property name="animate-new-rows">NO</property>
+									<property name="background-color">#e3e3e3</property>
+									<widgets>
+
+										<!-- This RFLayoutWidget will generate 2 columns -->
+										<RFLayoutWidget>
+											<property name="layout-flow">horizontal</property>
+											<property name="width">100%</property>
+											<widgets>
+
+												<!-- START left side of content -->
+												<RFLayoutWidget>
+													<property name="width">240</property>
+													<property name="height">100%</property>
+													<property name="padding">20</property>
+													<widgets>
+
+														<RFImageWidget id="details_image">
+															<property name="image">[eval:("'[data:row("im:image[@height='100']")]'.replace('100x100-75.jpg','175x175-75.jpg')")]</property>
+															<property name="width">200</property>
+															<property name="height">200</property>
+															<property name="border-style">rounded</property>
+															<property name="horizontal-alignment">center</property>
+														</RFImageWidget>
+														
+														<RFButtonWidget>
+															<property name="text">[data:row("im:price")]</property>
+															<property name="style">glossy</property>
+															<property name="width">120</property>
+															<property name="height">32</property>
+															<property name="background-color">#777777</property>
+															<property name="color">#ffffff</property>
+															<property name="font">Helvetica-Bold:18.0</property>
+															<property name="horizontal-alignment">center</property>
+														</RFButtonWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica:14.00</property>
+															<property name="text">Category: [data:row("*[local-name()='category']/@term")]</property>
+															<property name="color">#000000</property>
+															<property name="top-margin">20</property>
+														</RFTextWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica:14.00</property>
+															<property name="text">Released: [data:row("im:releaseDate/@label")]</property>
+															<property name="color">#000000</property>
+														</RFTextWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica:14.00</property>
+															<property name="text">Seller: [data:row("im:artist")]</property>
+															<property name="color">#000000</property>
+														</RFTextWidget>
+
+
+													</widgets>
+												</RFLayoutWidget>
+												<!-- END left side of content -->
+
+												<!-- START right side of content -->
+												<RFLayoutWidget>
+													<property name="fill-remaining-width">YES</property>
+													<property name="height">100%</property>
+													<property name="padding">20</property>
+													<property name="left-padding">0</property>
+													<property name="right-padding">10</property>
+													<widgets>
+
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:20.0</property>
+															<property name="text">[data:row("im:artist")]</property>
+															<property name="color">#000000</property>
+															<property name="enable-shadow">YES</property>
+															<property name="shadow-color">#ffffff</property>
+															<property name="shadow-offset-right">0.0</property>
+															<property name="shadow-offset-down">1.0</property>
+															<property name="shadow-blur">0.1</property>
+														</RFTextWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:30.0</property>
+															<property name="text">[data:row("im:name")]</property>
+															<property name="color">#000000</property>
+															<property name="enable-shadow">YES</property>
+															<property name="shadow-color">#ffffff</property>
+															<property name="shadow-offset-right">0.0</property>
+															<property name="shadow-offset-down">1.0</property>
+															<property name="shadow-blur">0.1</property>
+														</RFTextWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:18.00</property>
+															<property name="text">Description</property>
+															<property name="color">#555555</property>
+														</RFTextWidget>
+														
+														<RFTextWidget>
+															<property name="font">Helvetica:16.00</property>
+															<property name="text">[data:row("*[local-name()='summary']")]</property>
+															<property name="color">#222222</property>
+														</RFTextWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+												<!-- END right side of content -->
+
+
+
+											</widgets>
+										</RFLayoutWidget>
+
+									</widgets>
+								</RFRepeaterWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- START DETAILS inner content -->
+
+						<!-- END right side DETAILS layout -->
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END layout wrapper -->
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
