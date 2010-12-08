@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">List View</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+
+				<!-- Google Directions API - http://code.google.com/apis/maps/documentation/directions/ 
+					The Google Directions API is a service that calculates directions between 
+					locations using an HTTP request. Directions may specify origins, destinations 
+					and waypoints either as text strings (e.g. "Chicago, IL" or "Darwin, NT, 
+					Australia") or as latitude/longitude coordinates. The Directions API can 
+					return multi-part directions using a series of waypoints. -->
+				<RFXMLDataProvider id="googleData">
+					<property name="data-location"></property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<property name="auto-load">NO</property>
+					<actions>
+						<modify on="load-started">
+							<property name="widget-id">Loading</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+						<modify on="load-finished">
+							<property name="widget-id">Loading</property>
+							<property name="delay">0.5</property>
+							<property name="duration">0.5</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">directionsHeader</property>
+							<property name="delay">0.5</property>
+							<property name="duration">1.0</property>
+							<values>
+								<property name="top-position">-105</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">directionsListContainer</property>
+							<property name="delay">0.5</property>
+							<property name="duration">1.0</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+						<alert on="failed">
+							<property name="message">Failed to calculate directions!</property>
+						</alert>
+					</actions>
+				</RFXMLDataProvider>
+
+
+				<!-- Google reverse geocode API - http://code.google.com/apis/maps/documentation/geocoding/#ReverseGeocoding 
+					The term geocoding generally refers to translating a human-readable address 
+					into a location on a map. The process of doing the converse, translating 
+					a location on the map into a human-readable address, is known as reverse 
+					geocoding. The Geocoding API supports reverse geocoding directly using the 
+					latlng parameter. For example, the following query contains the latitude/longitude 
+					value for a location in Brooklyn: http://maps.googleapis.com/maps/api/geocode/xml?latlng=40.714224,-73.961452&sensor=true -->
+				<RFXMLDataProvider id="reverseGeoCode">
+					<property name="data-location">http://maps.googleapis.com/maps/api/geocode/xml?latlng=[app:user-lat],[app:user-lon]&amp;sensor=true</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">startLocation</property>
+							<values>
+								<property name="text">[data:reverseGeoCode("//formatted_address")]</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+
+
+			</datasources>
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Google Geo</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<!-- START loading dialog -->
+				<RFTextWidget id="Loading">
+					<property name="height">80</property>
+					<property name="width">200</property>
+					<property name="background-color">#000000A0</property>
+					<property name="font">Helvetica:18.0</property>
+					<property name="layout-type">float</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<property name="text">Calculating...</property>
+					<property name="border-width">1.0</property>
+					<property name="border-color">#000000A0</property>
+					<property name="border-radius">10.0</property>
+					<property name="justification">center</property>
+					<property name="alpha">0.0</property>
+				</RFTextWidget>
+				<!-- END loading dialog -->
+
+
+				<RFMapWidget>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="padding">0</property>
+					<property name="margin">0</property>
+					<property name="show-user-location">YES</property>
+					<property name="row-data-id">googleData</property>
+					<property name="row-data-path">//step</property>
+					<property name="item-latitude">[data:row("end_location/lat")]</property>
+					<property name="item-longitude">[data:row("end_location/lng")]</property>
+					<property name="item-title">Step [data:row-index()]. [data:row("distance/text")], [data:row("duration/text")]</property>
+					<property name="item-subtitle">[data:row("html_instructions")-&gt;clean_html]</property>
+					<property name="zoom-to-fit">YES</property>
+					<property name="map-type">standard</property>
+				</RFMapWidget>
+
+
+				<RFLayoutWidget id="directionsHeader">
+					<property name="width">100%</property>
+					<property name="height">105</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="top-position">60</property>
+					<property name="top-position" device="iPad">90</property>
+					<property name="padding">10</property>
+					<widgets>
+
+						<RFLayoutWidget id="directionsHeader">
+							<property name="width">100%</property>
+							<property name="layout-flow">vertical</property>
+							<widgets>
+								<RFTextInputWidget id="startLocation">
+									<property name="width">235</property>
+									<property name="width" orientation="landscape">395</property>
+									<property name="width" device="iPad">680</property>
+									<property name="width" device="iPad" orientation="landscape">940</property>
+									<property name="height">36</property>
+									<property name="style">plain</property>
+									<property name="placeholder-text">Start Address:</property>
+									<property name="required">YES</property>
+									<property name="validation-error-message">A start address is required.</property>
+									<property name="font">Helvetica:15.0</property>
+									<property name="auto-grow-size">NO</property>
+								</RFTextInputWidget>
+
+								<RFTextInputWidget id="endLocation">
+									<property name="width">235</property>
+									<property name="width" orientation="landscape">395</property>
+									<property name="width" device="iPad">680</property>
+									<property name="width" device="iPad" orientation="landscape">940</property>
+									<property name="height">36</property>
+									<property name="style">plain</property>
+									<property name="placeholder-text">End Address:</property>
+									<property name="required">YES</property>
+									<property name="text">1608 S. Ashland Ave Chicago, IL 60608</property>
+									<property name="validation-error-message">An end address is required.</property>
+									<property name="font">Helvetica:15.0</property>
+									<property name="auto-grow-size">NO</property>
+								</RFTextInputWidget>
+							</widgets>
+						</RFLayoutWidget>
+
+						<RFButtonWidget id="goButton">
+							<actions>
+								<modify on="touch">
+									<property name="datasource-id">googleData</property>
+									<values>
+										<property name="data-location">http://maps.googleapis.com/maps/api/directions/xml?origin=[form:startLocation-&gt;urlencode]&amp;destination=[form:endLocation-&gt;urlencode]&amp;sensor=false</property>
+									</values>
+								</modify>
+							</actions>
+							<property name="text">Go</property>
+							<property name="width">60</property>
+							<property name="height">36</property>
+							<property name="color">#FFFFFF</property>
+							<property name="background-color">#666d74</property>
+							<property name="style">glossy</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">8</property>
+							<property name="top-margin">15</property>
+							<property name="bottom-padding">0</property>
+							<property name="bottom-margin">0</property>
+							<property name="visible">YES</property>
+							<property name="layout-type">absolute</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+						</RFButtonWidget>
+
+					</widgets>
+				</RFLayoutWidget>
+
+
+				<!-- START audio list -->
+				<RFLayoutWidget id="directionsListContainer">
+					<property name="width">100%</property>
+					<property name="height">40%</property>
+					<property name="vertical-alignment">bottom</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="padding">10</property>
+					<property name="alpha">0.0</property>
+					<widgets>
+
+										<RFTextWidget>
+											<property name="font">interval-light.otf:16.0</property>
+											<property name="text">[eval:(" escape('[form:startLocation]') ")]</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="color">#FFFFFF</property>
+											<property name="max-lines">1</property>
+											<property name="right-padding">10</property>
+										</RFTextWidget>
+
+						<RFRepeaterWidget id="directionsList">
+							<property name="height">100%</property>
+							<property name="width">100%</property>
+							<property name="item-height">80</property>
+							<property name="row-data-id">googleData</property>
+							<property name="row-data-path">DirectionsResponse/route/leg/step</property>
+							<property name="separator-color">#646464CC</property>
+							<property name="fade-rows">NO</property>
+							<property name="highlight-row-on-touch">NO</property>
+							<property name="keep-row-highlighted">NO</property>
+							<widgets>
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#000000c4</property>
+									<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#222222c4</property>
+									<widgets>
+										
+										<RFTextWidget>
+											<property name="font">interval-light.otf:16.0</property>
+											<property name="text">Foursquare</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="color">#FFFFFF</property>
+											<property name="max-lines">1</property>
+											<property name="right-padding">10</property>
+										</RFTextWidget>
+										
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFRepeaterWidget>
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

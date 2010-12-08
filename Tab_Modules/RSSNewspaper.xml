@@ -10,12 +10,14 @@
 			<property name="title-bar-visible">NO</property>
 			<property name="top-padding">60</property>
 			<property name="top-padding" device="iPad">90</property>
+			
 			<datasources>
 				<RFXMLDataProvider id="RSSData">
 					<property name="data-location">http://feeds.feedburner.com/fastcompany/headlines</property>
 					<property name="allow-cache">NO</property>
 				</RFXMLDataProvider>
 			</datasources>
+			
 			<actions>
 				<set on="first-appeared">
 					<values>
@@ -24,6 +26,7 @@
 					</values>
 				</set>
 			</actions>
+			
 			<widgets>
 				<!-- START Title Bar -->
 				<RFLayoutWidget id="rfTitleBar">

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">RSS List View</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="background-fixed">YES</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+				<RFXMLDataProvider id="RSSData">
+					<property name="data-location">http://feeds.feedburner.com/fastcompany/headlines</property>
+					<property name="allow-cache">YES</property>
+				</RFXMLDataProvider>
+			</datasources>
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">RSS List View</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<RFLayoutWidget id="outerWrapper">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="background-color">#ffffff</property>
+					<widgets>
+
+						<!-- START list section -->
+						<RFRepeaterWidget id="List">
+							<actions>
+								<!-- Navigate to the details page for the given item -->
+								<navigate on="touch">
+									<property name="to">/Tab_Modules/RSSListView_Details.xml</property>
+									<values>
+										<property name="title">[data:row("title")]</property>
+										<property name="image">[data:row("enclosure/@url")]</property>
+										<property name="link">[data:row("link")]</property>
+										<property name="description">[data:row("description")]</property>
+										<property name="date">[data:row("pubDate")]</property>
+										<property name="author">[data:row("dc:creator")]</property>
+									</values>
+								</navigate>
+							</actions>
+							<property name="item-height">120</property>
+							<property name="height">100%</property>
+							<property name="width">100%</property>
+							<property name="row-data-id">RSSData</property>
+							<property name="row-data-path">//item</property>
+							<property name="separator-color">#e0e0e0</property>
+							<property name="fade-rows">NO</property>
+							<property name="animate-new-rows">NO</property>
+							<property name="highlight-row-on-touch">YES</property>
+							<widgets>
+
+								<!-- START row layout -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#ffffff</property>
+									<widgets>
+
+										<RFLayoutWidget>
+											<property name="layout-flow">vertical</property>
+											<property name="padding">10</property>
+											<property name="vertical-alignment">top</property>
+											<property name="right-padding">20</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#000000</property>
+													<property name="text">[data:row("title")]</property>
+													<property name="max-lines">2</property>
+												</RFTextWidget>
+												<RFTextWidget>
+													<property name="font">Helvetica:13.0</property>
+													<property name="color">#555555</property>
+													<property name="text">[data:row("description")-&gt;clean_html]</property>
+													<property name="max-lines">3</property>
+												</RFTextWidget>
+											</widgets>
+										</RFLayoutWidget>
+
+
+										<RFImageWidget>
+											<property name="visible">NO</property>
+					                        <property name="visible" if="'[data:row(&quot;enclosure/@url&quot;)]' != ''">YES</property>
+					                        <property name="image">[data:row("enclosure/@url")]</property>
+											<property name="width">50</property>
+											<property name="height">50</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">top</property>
+											<property name="right-margin">30</property>
+											<property name="top-margin">10</property>
+										</RFImageWidget>
+
+										<RFImageWidget>
+											<property name="image">/resources/chev_east.png</property>
+											<property name="width">10</property>
+											<property name="height">13</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="right-margin">10</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END row layout -->
+
+							</widgets>
+						</RFRepeaterWidget>
+						<!-- START list section -->
+
+
+					</widgets>
+				</RFLayoutWidget>
+
+
+			</widgets>
+
+		</view>
+	</views>
+</rfapp>

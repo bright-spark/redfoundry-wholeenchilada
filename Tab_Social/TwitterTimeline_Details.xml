@@ -1,11 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<views>
 		<view>
-			
-			<!-- http://api.twitter.com/1/statuses/show/10802996661198848.xml?include_entities=true -->
-		
+			<property name="title">Twitter Timeline</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+
+				<!-- We are using the Twiiter API call GET statuses/show/:id
+				The API returns a single status, specified by the id parameter which we get from [form:id] 
+				which was passed in from the previous page. The status's author will be returned inline.
+				http://api.twitter.com/1/statuses/show/123456789101112.xml?include_entities=true 
+				-->
+
+				<RFXMLDataProvider id="twitterData">
+					<property name="data-location">http://api.twitter.com/1/statuses/show/[form:id].xml?include_entities=true</property>
+					<property name="allow-cache">NO</property>
+					
+					<!-- We are by default hidding the contents of the page until the datasource fully loads -->
+					<actions>
+						<modify on="success">
+							<property name="widget-id">outerWrapper</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+
+			</datasources>
+
+
 			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Twitter</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<RFLayoutWidget id="outerWrapper">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="top-padding">40</property>
+					<property name="background-color">#FFFFFF</property>
+					<property name="visible">NO</property>
+					<widgets>
+
+
+						<!-- START user profile -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="height">92</property>
+							<property name="layout-flow">vertical</property>
+							<property name="layout-type">float</property>
+							<property name="background-color">#e3e3e3</property>
+							<widgets>
+
+
+								<RFLayoutWidget>
+									<property name="layout-flow">horizontal</property>
+									<property name="width">100%</property>
+									<widgets>
+
+										<!-- The left aligned profile image of the user -->
+										<RFImageWidget>
+											<property name="image">[data:twitterData("//status/user/profile_image_url")]</property>
+											<property name="width">60</property>
+											<property name="height">60</property>
+											<property name="border-style">rounded</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="margin">10</property>
+										</RFImageWidget>
+
+										<RFLayoutWidget>
+											<property name="layout-flow">vertical</property>
+											<property name="padding">5</property>
+											<property name="vertical-alignment">middle</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:22.0</property>
+													<property name="color">#000000</property>
+													<property name="text">[data:twitterData("//status/user/name")]</property>
+													<property name="max-lines">1</property>
+													<property name="bottom-margin">0</property>
+												</RFTextWidget>
+												<RFTextWidget>
+													<property name="font">Helvetica:16.0</property>
+													<property name="color">#777777</property>
+													<property name="text">@[data:twitterData("//status/user/screen_name")]</property>
+												</RFTextWidget>
+											</widgets>
+										</RFLayoutWidget>
+										
+										<!-- We are adding a re-tweet function here which passes the message id to TwitterRetweet.xml -->
+										<RFImageWidget>
+											<property name="image">/resources/icon_retweet_76x58.png</property>
+											<property name="width">38</property>
+											<property name="height">29</property>
+											<property name="layout-type">float</property>
+											<property name="vertical-alignment">bottom</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="right-margin">10</property>
+											<property name="animate-touch">YES</property>
+											<actions>
+												<navigate on="touch">
+													<property name="to">/Tab_Social/TwitterRetweet.xml</property>
+													<values>
+														<property name="id">[form:id]</property>
+													</values>
+												</navigate>
+											</actions>
+										</RFImageWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#999999</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="vertical-alignment">bottom</property>
+								</RFHorizontalRuleWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END user profile -->
+
+						<RFImageWidget>
+							<property name="image">/resources/divit_999_up.png</property>
+							<property name="width">23</property>
+							<property name="height">12</property>
+							<property name="layout-type">float</property>
+							<property name="top-position">80</property>
+							<property name="left-position">32</property>
+						</RFImageWidget>
+
+
+						<!-- START Tweet -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="layout-flow">vertical</property>
+							<property name="padding">20</property>
+							<property name="top-padding">50</property>
+							<widgets>
+							
+								<!-- This is the contents of the tweet message. We parse out and turn the urls into HTML links so users can click on them -->
+								<RFHtmlWidget>
+									<property name="top-margin">20</property>
+									<property name="font">Helvetica:20.0</property>
+									<property name="color">#000000</property>
+									<property name="html-content"><![CDATA[<style type="text/css">a {color:#0000FF;}</style>[eval:("var c='[data:twitterData("//status/text")]'; c.replace(/http:([^ |<]+)/gi, '<a href="http:$1">http:$1</a> ') ")]]]></property>
+								</RFHtmlWidget>
+								
+								<!-- The date/time the tweet was create -->
+								<RFTextWidget>
+									<property name="font">Helvetica:16.0</property>
+									<property name="color">#777777</property>
+									<property name="text">[data:twitterData("//status/created_at")]</property>
+									<property name="top-padding">10</property>
+								</RFTextWidget>
+								
+								<!-- The source of the tweet. We strip out any HTML from the result -->
+								<RFTextWidget>
+									<property name="font">Helvetica:16.0</property>
+									<property name="color">#777777</property>
+									<property name="text">Source: [data:twitterData("//status/source")->clean_html]</property>
+								</RFTextWidget>
+							
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Tweet -->
+
+
+					</widgets>
+				</RFLayoutWidget>
+
 			</widgets>
 		</view>
 	</views>

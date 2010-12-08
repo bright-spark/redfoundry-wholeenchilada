@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Yahoo Local</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+
+				<RFXMLDataProvider id="yahooData">
+					<property name="data-location">http://local.yahooapis.com/LocalSearchService/V3/localSearch?appid=YahooDemo&amp;query=pizza&amp;latitude=[app:user-lat]&amp;longitude=[app:user-lon]&amp;results=10</property>
+					<property name="allow-cache">NO</property>
+				</RFXMLDataProvider>
+
+				<RFXMLDataProvider id="selectorData">
+					<property name="data">
+						  <![CDATA[
+				          <items>
+				            <item><name>Pizza</name><value>Pizza</value></item>
+				            <item><name>Deli</name><value>Deli</value></item>
+				            <item><name>Italian</name><value>Italian</value></item>
+				            <item><name>Chinese</name><value>Chinese</value></item>
+				            <item><name>Japanese</name><value>Japanese</value></item>
+				            <item><name>Mexican</name><value>Mexican</value></item>
+				            <item><name>Seafood</name><value>Seafood</value></item>
+				            <item><name>Steakhouses</name><value>Steakhouses</value></item>
+				          </items>
+				          ]]>
+			        </property>
+					<property name="allow-cache">YES</property>
+				</RFXMLDataProvider>
+
+			</datasources>
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Yahoo Local</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<!-- START The outer layout of the view, this will include both the top 
+					search bar and the list itself -->
+				<RFLayoutWidget id="outerWrapper">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<widgets>
+
+						<!-- This layout defines a vertical flow so we can stack the top RFHorizontalRuleWidget, 
+							the search bar and the lists together -->
+						<RFLayoutWidget id="wrapper">
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-flow">vertical</property>
+							<property name="layout-type">absolute</property>
+							<property name="background-color">#FFFFFF</property>
+							<widgets>
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#8999a5</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+									<property name="visible">YES</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#FFFFFF</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+									<property name="padding">0</property>
+									<property name="bottom-padding">5</property>
+									<property name="visible">YES</property>
+								</RFHorizontalRuleWidget>
+
+								<!-- START category select -->
+								<RFLayoutWidget id="selectBar">
+									<property name="left-padding">8</property>
+									<property name="top-padding">5</property>
+									<property name="right-padding">10</property>
+									<property name="bottom-padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="width">100%</property>
+									<property name="height">64</property>
+									<property name="background-color">#dde2e5</property>
+									<widgets>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:14.0</property>
+											<property name="color">#000000</property>
+											<property name="text">What are you hungry for?</property>
+											<property name="bottom-margin">4</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+
+										<RFSelectorWidget id="categorySelector">
+											<property name="row-data-id">selectorData</property>
+											<property name="row-data-path">//item</property>
+											<property name="item-text">[data:row("name")]</property>
+											<property name="item-value">[data:row("value")]</property>
+											<property name="font">Helvetica-Bold:20.0</property>
+											<property name="bottom-margin">0</property>
+											<property name="color">#000000</property>
+											<actions>
+												<modify on="item-selected">
+													<property name="datasource-id">yahooData</property>
+													<values>
+														<property name="data-location">http://local.yahooapis.com/LocalSearchService/V3/localSearch?appid=YahooDemo&amp;query=[form:categorySelector]&amp;latitude=[app:user-lat]&amp;longitude=[app:user-lon]&amp;results=10</property>
+													</values>
+												</modify>
+											</actions>
+										</RFSelectorWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END category select -->
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#8999a5</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<!-- START results list -->
+								<RFRepeaterWidget id="List">
+									<property name="item-height">180</property>
+									<property name="height">100%</property>
+									<property name="height" orientation="landscape">100%</property>
+									<property name="width">100%</property>
+									<property name="row-data-id">yahooData</property>
+									<property name="row-data-path">//Result</property>
+									<property name="separator-color">#e0e0e0</property>
+									<property name="fade-rows">NO</property>
+									<property name="animate-new-rows">NO</property>
+									<widgets>
+
+										<!-- START row layout -->
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#FFFFFF</property>
+											<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#F7F7F7</property>
+											<property name="vertical-alignment">top</property>
+											<widgets>
+
+												<RFLayoutWidget>
+													<property name="layout-flow">vertical</property>
+													<property name="padding">10</property>
+													<property name="vertical-alignment">top</property>
+													<widgets>
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:18.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("Title")]</property>
+															<property name="max-lines">1</property>
+															<property name="margin">0</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:16.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("Address")], [data:row("City")], [data:row("State")]</property>
+															<property name="max-lines">1</property>
+															<property name="margin">0</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:16.0</property>
+															<property name="color">#7b0099</property>
+															<property name="text">[data:row("Phone")]</property>
+															<property name="max-lines">1</property>
+															<actions>
+																<navigate on="touch">
+																	<property name="to">tel:[eval:("'[data:row("Phone")]'.replace(/[-|\s|\(|\)]/g, '')")]</property>
+																	<property name="navigation-type">url</property>
+																</navigate>
+															</actions>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:16.0</property>
+															<property name="color">#555555</property>
+															<property name="text">[data:row("Distance")] miles</property>
+															<property name="max-lines">1</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:14.0</property>
+															<property name="color">#000000</property>
+															<property name="text">Rating: [data:row("Rating/AverageRating")] ([data:row("Rating/TotalRatings")] ratings)</property>
+															<property name="max-lines">1</property>
+															<property name="bottom-margin">0</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="visible">YES</property>
+															<property name="visible"
+																if="'[data:row(&quot;Rating/LastReviewIntro&quot;)]'==''">NO</property>
+															<property name="font">Helvetica:12.0</property>
+															<property name="color">#555555</property>
+															<property name="text">"[data:row("Rating/LastReviewIntro")]"</property>
+															<property name="max-lines">2</property>
+														</RFTextWidget>
+													</widgets>
+												</RFLayoutWidget>
+
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END row layout -->
+
+
+										<RFImageWidget>
+											<property name="image">/resources/chev_east.png</property>
+											<property name="width">10</property>
+											<property name="height">13</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="layout-type">float</property>
+											<property name="right-margin">10</property>
+											<actions>
+												<navigate on="touch">
+													<property name="to">[data:row("Url")]</property>
+													<property name="navigation-type">url</property>
+												</navigate>
+											</actions>
+										</RFImageWidget>
+
+									</widgets>
+								</RFRepeaterWidget>
+								<!-- START results list -->
+
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END The outer layout of the view -->
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

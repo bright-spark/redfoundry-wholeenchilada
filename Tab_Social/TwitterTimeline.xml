@@ -70,7 +70,7 @@
 						<RFButtonWidget id="tweetButton">
 							<actions>
 								<navigate on="touch">
-									<property name="to">/Tab_Social/TwitterUpdate.xml</property>
+									<property name="to">/Tab_Social/TwitterTweet.xml</property>
 								</navigate>
 							</actions>
 							<property name="text">Tweet</property>
@@ -125,6 +125,24 @@
 									<property name="height">1</property>
 									<property name="vertical-alignment">bottom</property>
 								</RFHorizontalRuleWidget>
+								
+								<RFImageWidget>
+									<property name="image">/resources/icon_refresh_dark_52x48.png</property>
+									<property name="width">24</property>
+									<property name="height">26</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="right-margin">8</property>
+									<property name="animate-touch">YES</property>
+									<actions>
+										<modify on="touch">
+											<property name="datasource-id">twitterData</property>
+											<values>
+												<property name="allow-cache">NO</property>
+											</values>
+										</modify>
+									</actions>
+								</RFImageWidget>
 							</widgets>
 						</RFLayoutWidget>
 						<!-- END header -->

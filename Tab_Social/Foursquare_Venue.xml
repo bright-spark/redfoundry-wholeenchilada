@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Foursquare</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+
+			<datasources>
+
+				<!-- Foursqure Venue API documentation: http://groups.google.com/group/foursquare-api/web/api-documentation
+					Here we use the 'Venue details' - When given a venue identifier (vid), returns venue data, including mayorship, tips/to-dos and tags. 
+					If the vid given is one that has been merged into another "master" venue, the response will show data about the "master" 
+					instead of giving you an error.
+				-->
+				<RFXMLDataProvider id="foursquareVenueData">
+					<property name="data-location">https://api.foursquare.com/v1/venue</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<submit_values>
+						<property name="vid">[form:vid]</property>
+					</submit_values>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">innerLayout</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">Loading</property>
+							<property name="delay">0.5</property>
+							<property name="duration">0.5</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+
+
+				<!-- Foursquare Checkin We are using OAuth for Foursquare checkin below. 
+					In order to make this work you will need to register your app with Foursquare 
+					to obtain a consumer key and a secret key. You can do this for free at http://foursquare.com/oauth/. 
+					If you need info on using Foursquare OAuth visit http://groups.google.com/group/foursquare-api/web/oauth. 
+					Below you will need to replace MY_FOURSQUARE_CONSUMER_KEY and MY_FOURSQUARE_SECRET 
+					with your assigned values. 
+				-->
+				<RFXMLDataProvider id="foursquareCheckin">
+					<property name="auto-load">NO</property>
+					<property name="auth-method">OAUTH</property>
+					<property name="data-location">https://api.foursquare.com/v1/checkin</property>
+					<property name="method">POST</property>
+					<property name="oauth-consumer-key">MY_FOURSQUARE_CONSUMER_KEY</property>
+					<property name="oauth-consumer-secret">MY_FOURSQUARE_SECRET</property>
+					<property name="oauth-request-token-url">http://foursquare.com/oauth/request_token</property>
+					<property name="oauth-access-token-url">http://foursquare.com/oauth/access_token</property>
+					<property name="oauth-authorize-url">http://foursquare.com/oauth/authorize</property>
+					<submit_values>
+						<property name="vid">[form:vid]</property>
+						<property name="geolat">[app:user-lat]</property>
+						<property name="geolong">[app:user-lon]</property>
+						<property name="shout">[form:shout]</property>
+						<property name="private">[eval:("if ('[form:private]' == 'YES') { '1' } else { '0'}")]</property>
+					</submit_values>
+					<actions>
+						<alert on="success">
+							<property name="message">Your check-in was successful!</property>
+						</alert>
+						<alert on="failed">
+							<property name="message">The check-in failed!</property>
+						</alert>
+						<modify on="touch">
+							<property name="widget-id">checkinDialog</property>
+							<property name="duration">0.6</property>
+							<values>
+								<property name="top-position">[app:screen-height]</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+
+			</datasources>
+
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Places</property>
+							<property name="width">70</property>
+							<property name="height">32</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#555555</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.85</property>
+						</RFButtonWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Foursquare</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="left-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<!-- START The outer layout -->
+				<RFLayoutWidget id="outerLayout">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="background-color">#ffffff</property>
+					<widgets>
+
+						<!-- START loading dialog. this appears while the datasource foursquareVenueData is loading -->
+						<RFTextWidget id="Loading">
+							<property name="height">100</property>
+							<property name="width">200</property>
+							<property name="background-color">#000000A0</property>
+							<property name="font">Helvetica:18.0</property>
+							<property name="layout-type">float</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="text">Loading...</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#000000A0</property>
+							<property name="border-radius">10.0</property>
+							<property name="justification">center</property>
+							<property name="alpha">1.0</property>
+						</RFTextWidget>
+						<!-- END loading dialog -->
+
+						<!-- START the inner layout, this is hidden by default and once the datasource foursquareVenueData is
+							loading we show this layout.
+						-->
+						<RFLayoutWidget id="innerLayout">
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-flow">vertical</property>
+							<property name="layout-type">absolute</property>
+							<property name="background-color">#e9e9e9</property>
+							<property name="visible">NO</property>
+							<widgets>
+
+								<!-- START top header section -->
+								<RFLayoutWidget>
+									<property name="bottom-margin">0</property>
+									<property name="width">100%</property>
+									<property name="height">110</property>
+									<property name="background-color">#1d99bc</property>
+									<property name="include-in-parent-autosize">NO</property>
+									<widgets>
+
+										<!-- This is the top header background image -->
+										<RFImageWidget>
+											<property name="image">/resources/fourquare_place_header.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="top-position">0</property>
+											<property name="left-position">0</property>
+											<property name="width">100%</property>
+											<property name="height">110</property>
+											<property name="allow-stretch">YES</property>
+										</RFImageWidget>
+
+										<!-- START inner content area of the top header -->
+										<RFLayoutWidget>
+											<property name="height">100%</property>
+											<property name="width">100%</property>
+											<property name="include-in-parent-autosize">NO</property>
+											<property name="bottom-margin">0</property>
+											<property name="padding">10</property>
+											<widgets>
+
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:19.0</property>
+													<property name="color">#ffffff</property>
+													<property name="text">[data:foursquareVenueData("//venue/name")]</property>
+													<property name="bottom-margin">-2</property>
+													<property name="max-lines">1</property>
+												</RFTextWidget>
+
+												<RFTextWidget>
+													<property name="font">Helvetica:15.0</property>
+													<property name="color">#ffffff</property>
+													<property name="text">[data:foursquareVenueData("//venue/name")]</property>
+													<property name="max-lines">1</property>
+												</RFTextWidget>
+
+												<RFButtonWidget>
+													<property name="text">CHECK IN HERE</property>
+													<property name="style">glossy</property>
+													<property name="width">100%</property>
+													<property name="height">40</property>
+													<property name="color">#ffffff</property>
+													<property name="background-color">#b0e10e</property>
+													<property name="font">Helvetica:18.0</property>
+													<property name="border-width">2.0</property>
+													<property name="border-color">#cee249</property>
+													<property name="border-radius">6.0</property>
+													<!-- This action will show the Checkin Dialog box will will roll-up from the bottom -->
+													<actions>
+														<modify on="touch">
+															<property name="widget-id">checkinDialog</property>
+															<property name="duration">0.6</property>
+															<values>
+																<property name="top-position">0</property>
+															</values>
+														</modify>
+													</actions>
+												</RFButtonWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END inner content area of the top header -->
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END top header section -->
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#b0e10e</property>
+									<property name="width">100%</property>
+									<property name="height">10</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#aaaaaa</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#ffffff</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								<!-- START mayor section -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="visible">[eval:("if ('[data:foursquareVenueData("//venue/stats/mayor/user/firstname")]'.length == 0) { 'NO' } else { 'YES'}")]</property>
+
+									<widgets>
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">60</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="background-color">#e9e9e9</property>
+											<property name="vertical-alignment">top</property>
+											<property name="padding">10</property>
+											<property name="bottom-margin">0</property>
+											<widgets>
+
+												<RFImageWidget>
+													<property name="image">[data:foursquareVenueData("//venue/stats/mayor/user/photo")]</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="visible"
+														if="'[data:foursquareVenueData(&quot;//venue/stats/mayor/user/photo&quot;)]'==''">NO</property>
+													<property name="width">40</property>
+													<property name="height">40</property>
+													<property name="right-margin">10</property>
+													<property name="border-width">1.0</property>
+													<property name="border-color">#aaaaaa</property>
+												</RFImageWidget>
+
+												<RFLayoutWidget>
+													<property name="layout-flow">vertical</property>
+													<property name="vertical-alignment">middle</property>
+													<widgets>
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:16.0</property>
+															<property name="color">#353535</property>
+															<property name="text">[data:foursquareVenueData("//venue/stats/mayor/user/firstname")] [data:foursquareVenueData("//venue/stats/mayor/user/lastname")]</property>
+															<property name="max-lines">1</property>
+															<property name="margin">0</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:14.0</property>
+															<property name="color">#555555</property>
+															<property name="text">is the mayor.</property>
+															<property name="max-lines">1</property>
+															<property name="margin">0</property>
+														</RFTextWidget>
+													</widgets>
+												</RFLayoutWidget>
+
+												<RFImageWidget>
+													<property name="image">http://foursquare.com/img/mayorCrown.png</property>
+													<property name="width">32</property>
+													<property name="height">32</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="right-margin">10</property>
+												</RFImageWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+
+										<RFHorizontalRuleWidget>
+											<property name="color">#aaaaaa</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="padding">0</property>
+											<property name="margin">0</property>
+										</RFHorizontalRuleWidget>
+										<RFHorizontalRuleWidget>
+											<property name="color">#ffffff</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="padding">0</property>
+											<property name="margin">0</property>
+										</RFHorizontalRuleWidget>
+										
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END mayor section -->
+
+
+								<!-- START stats section -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">66</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="background-color">#e9e9e9</property>
+									<property name="vertical-alignment">top</property>
+									<property name="padding">10</property>
+									<property name="bottom-margin">0</property>
+									<widgets>
+
+										<RFLayoutWidget>
+											<property name="layout-flow">vertical</property>
+											<property name="vertical-alignment">top</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="width">45%</property>
+											<property name="height">100%</property>
+											<property name="border-width">1.0</property>
+											<property name="border-color">#aaaaaa</property>
+											<property name="layout-type">float</property>
+											<property name="left-margin">10</property>
+											<property name="border-radius">6.0</property>
+											<property name="padding">10</property>
+											<property name="background-color">#ffffff</property>
+											<widgets>
+
+												<RFTextWidget>
+													<property name="font">Helvetica:14.0</property>
+													<property name="color">#555555</property>
+													<property name="text">Here now</property>
+													<property name="horizontal-alignment">center</property>
+													<property name="max-lines">1</property>
+													<property name="margin">0</property>
+												</RFTextWidget>
+
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:22.0</property>
+													<property name="color">#000000</property>
+													<property name="text">[data:foursquareVenueData("//venue/stats/herenow")]</property>
+													<property name="horizontal-alignment">center</property>
+													<property name="max-lines">1</property>
+													<property name="margin">0</property>
+												</RFTextWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+
+
+										<RFLayoutWidget>
+											<property name="layout-flow">vertical</property>
+											<property name="vertical-alignment">top</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="width">45%</property>
+											<property name="height">100%</property>
+											<property name="border-width">1.0</property>
+											<property name="border-color">#aaaaaa</property>
+											<property name="layout-type">float</property>
+											<property name="right-margin">10</property>
+											<property name="border-radius">6.0</property>
+											<property name="padding">10</property>
+											<property name="background-color">#ffffff</property>
+											<widgets>
+
+												<RFTextWidget>
+													<property name="font">Helvetica:14.0</property>
+													<property name="color">#555555</property>
+													<property name="text">Check-ins</property>
+													<property name="horizontal-alignment">center</property>
+													<property name="max-lines">1</property>
+													<property name="margin">0</property>
+												</RFTextWidget>
+
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:22.0</property>
+													<property name="color">#000000</property>
+													<property name="text">[data:foursquareVenueData("//venue/stats/checkins")]</property>
+													<property name="horizontal-alignment">center</property>
+													<property name="max-lines">1</property>
+													<property name="margin">0</property>
+												</RFTextWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END stats section -->
+
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END the inner layout -->
+						
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END The outer layout -->
+				
+
+				<!-- START Check-in dialog - this is hidden below the view and roll-ups when needed (user clicks the CHECKIN button) -->
+				<RFLayoutWidget id="checkinDialog">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="layout-flow">vertical</property>
+					<property name="background-color">#515151</property>
+					<property name="layout-type">float</property>
+					<property name="top-position">[app:screen-height]</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<widgets>
+
+						<!-- START Check-in dialog header -->
+						<RFLayoutWidget>
+							<property name="bottom-margin">0</property>
+							<property name="width">100%</property>
+							<property name="height">45</property>
+							<property name="background-color">#0f8fb5</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<RFImageWidget>
+									<property name="image">/resources/fourquare_places_header.png</property>
+									<property name="layout-type">absolute</property>
+									<property name="top-position">0</property>
+									<property name="left-position">0</property>
+									<property name="width">100%</property>
+									<property name="height">45</property>
+									<property name="allow-stretch">YES</property>
+								</RFImageWidget>
+
+								<RFButtonWidget>
+									<property name="text">Cancel</property>
+									<property name="width">60</property>
+									<property name="height">32</property>
+									<property name="layout-type">float</property>
+									<property name="style">glossy</property>
+									<property name="horizontal-alignment">left</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="background-color">#0f8fb5</property>
+									<property name="font">Helvetica-Bold:14.0</property>
+									<property name="color">#FFFFFF</property>
+									<property name="margin">0</property>
+									<property name="left-margin">10</property>
+									<property name="alpha">.85</property>
+									<actions>
+										<modify on="touch">
+											<property name="widget-id">checkinDialog</property>
+											<property name="duration">0.6</property>
+											<values>
+												<property name="top-position">[app:screen-height]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFButtonWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Check-in dialog header -->
+
+						<!-- START Check-in dialog content area -->
+						<RFLayoutWidget>
+							<property name="bottom-margin">0</property>
+							<property name="width">100%</property>
+							<property name="padding">20</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<RFImageWidget>
+									<property name="image">/resources/fourquare_background.png</property>
+									<property name="layout-type">absolute</property>
+									<property name="top-position">0</property>
+									<property name="left-position">0</property>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="allow-stretch">YES</property>
+								</RFImageWidget>
+
+								<RFTextWidget>
+									<property name="font">Helvetica-Bold:19.0</property>
+									<property name="color">#ffffff</property>
+									<property name="text">[data:foursquareVenueData("//venue/name")]</property>
+									<property name="bottom-margin">-2</property>
+									<property name="max-lines">1</property>
+								</RFTextWidget>
+
+								<RFTextWidget>
+									<property name="font">Helvetica:15.0</property>
+									<property name="color">#ffffff</property>
+									<property name="text">[data:foursquareVenueData("//venue/name")]</property>
+									<property name="max-lines">1</property>
+								</RFTextWidget>
+
+
+								<RFTextInputWidget id="shout">
+									<property name="max-length">140</property>
+									<property name="height">140</property>
+									<property name="required">NO</property>
+									<property name="placeholder-text">Enter a message...</property>
+									<property name="style">plain</property>
+								</RFTextInputWidget>
+
+								<RFLayoutWidget>
+									<property name="background-color">#000000A0</property>
+									<property name="border-width">1.0</property>
+									<property name="border-color">#000000A0</property>
+									<property name="border-radius">10.0</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">10</property>
+									<property name="bottom-margin">15</property>
+									<widgets>
+
+										<RFCheckboxWidget id="private">
+											<property name="text">Share with friends?</property>
+											<property name="font">Helvetica:15.0</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="vertical-alignment">middle</property>
+										</RFCheckboxWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+
+								<RFButtonWidget>
+									<property name="text">CHECK IN HERE</property>
+									<property name="style">glossy</property>
+									<property name="width">100%</property>
+									<property name="height">45</property>
+									<property name="color">#ffffff</property>
+									<property name="background-color">#b0e10e</property>
+									<property name="font">Helvetica:18.0</property>
+									<property name="border-width">2.0</property>
+									<property name="border-color">#cee249</property>
+									<property name="border-radius">6.0</property>
+									<!-- This action will load the datasource foursquareCheckin which if the user is not already authenticated
+										by Foursquare will be asked to login via OAuth athentication
+									-->
+									<actions>
+										<load_datasource on="touch">
+											<property name="datasource-id">foursquareCheckin</property>
+										</load_datasource>
+									</actions>
+								</RFButtonWidget>
+
+								<!-- This is just a floating image that give the background depth -->
+								<RFImageWidget>
+									<property name="image">/resources/fourquare_background_gradient.png</property>
+									<property name="layout-type">absolute</property>
+									<property name="top-position">0</property>
+									<property name="left-position">0</property>
+									<property name="width">100%</property>
+									<property name="height">30</property>
+									<property name="allow-stretch">YES</property>
+								</RFImageWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Check-in dialog content area -->
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- START Check-in dialog -->
+
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

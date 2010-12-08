@@ -32,7 +32,11 @@
 						<!-- START left side MASTER layout -->
 						<RFLayoutWidget id="MASTER">
 							<property name="height">100%</property>
-							<property name="width">320</property>
+							<property name="width">100%</property>
+							<property name="width" orientation="landscape" device="iPad">320</property>
+							<property name="visible">YES</property>
+							<property name="visible" orientation="portrait" device="iPad">NO</property>
+							<property name="visible" orientation="landscape" device="iPad">YES</property>
 							<property name="top-padding">45</property>
 							<widgets>
 
@@ -105,7 +109,7 @@
 										</function>
 									</actions>
 									<property name="height">100%</property>
-									<property name="width">320</property>
+									<property name="width">100%</property>
 									<property name="row-data-id">myData</property>
 									<property name="row-data-path">//*[local-name()='entry']</property>
 									<property name="item-height">80</property>
@@ -194,6 +198,8 @@
 							<property name="height">100%</property>
 							<property name="background-color">#000000</property>
 							<property name="bottom-margin">0</property>
+							<property name="visible">NO</property>
+							<property name="visible" orientation="landscape" device="iPad">YES</property>
 						</RFWidget>
 						<!-- END vertical separator -->
 
@@ -201,7 +207,9 @@
 						<!-- START right side DETAILS layout -->
 						<RFLayoutWidget id="DETAILS">
 							<property name="height">100%</property>
-							<property name="fill-remaining-width">YES</property>
+							<property name="width">0%</property>
+							<property name="width" orientation="portrait" device="iPad">100%</property>
+							<property name="width" orientation="landscape" device="iPad">760</property>
 							<property name="top-padding">45</property>
 							<widgets>
 

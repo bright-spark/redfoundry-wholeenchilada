@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Twitter Tweet</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+
+				<!-- START Twitter API call Twitter uses a RESTful API that has the capability 
+					of returning XML data. Twitter uses the open authentication standard OAuth 
+					for authentication. You will need to replace the oauth-consumer-key and oauth-consumer-secret 
+					with your twitter keys. To use the Twitter API, the first thing you have 
+					to do is register a client application. Each client application you register 
+					will be provisioned a consumer key and secret. Visit http://dev.twitter.com/start 
+					to get started. 
+					Below you will need to replace MY_TWITTER_CONSUMER_KEY and MY_TWITTER_SECRET with your assigned values.
+				-->
+				<RFXMLDataProvider id="twitterAPI">
+					<property name="auto-load">NO</property>
+					<property name="auth-method">OAUTH</property>
+					<property name="data-location">http://api.twitter.com/1/statuses/update.xml</property>
+					<property name="method">POST</property>
+					<property name="oauth-consumer-key">MY_TWITTER_CONSUMER_KEY</property>
+					<property name="oauth-consumer-secret">MY_TWITTER_SECRET</property>
+					<property name="oauth-request-token-url">https://api.twitter.com/oauth/request_token</property>
+					<property name="oauth-access-token-url">https://api.twitter.com/oauth/access_token</property>
+					<property name="oauth-authorize-url">https://api.twitter.com/oauth/authorize</property>
+					<submit_values>
+						<property name="status">[form:message]</property>
+					</submit_values>
+					<actions>
+						<alert on="success">
+							<property name="message">Your tweet has been posted!</property>
+						</alert>
+						<alert on="failed">
+							<property name="message">The tweet failed to post!</property>
+						</alert>
+						<modify on="success">
+							<property name="widget-id">message</property>
+							<values>
+								<property name="text"></property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- START Twitter API call -->
+
+			</datasources>
+
+			<widgets>
+			
+				<!-- START Message section
+					We want to float the message section so that the keyboard does not move this section up when it is exposed.
+					Because we want to float it we need to add this section first so that it shows up in the lowest z-index.
+				 -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="padding">10</property>
+					<property name="top-padding">70</property>
+					<property name="layout-type">float</property>
+					<widgets>
+
+
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="layout-flow">horizontal</property>
+							<widgets>
+								<RFButtonWidget id="cancelButton">
+									<property name="font">Helvetica:16.0</property>
+									<property name="text">Cancel</property>
+									<property name="width">30%</property>
+									<property name="height">40</property>
+									<property name="color">#FFFFFF</property>
+									<property name="background-color">#666d74</property>
+									<property name="horizontal-alignment">left</property>
+									<property name="style">glossy</property>
+									<actions>
+										<navigate on="touch">
+											<property name="navigation-stack-type">pop</property>
+										</navigate>
+									</actions>
+								</RFButtonWidget>
+
+
+								<RFButtonWidget id="submitButton">
+									<property name="font">Helvetica-Bold:18.0</property>
+									<property name="text">Send Tweet</property>
+									<property name="left-padding">10</property>
+									<property name="width">70%</property>
+									<property name="height">40</property>
+									<property name="color">#FFFFFF</property>
+									<property name="background-color">#666d74</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="style">glossy</property>
+									<actions>
+										<load_datasource on="touch">
+											<property name="datasource-id">twitterAPI</property>
+										</load_datasource>
+									</actions>
+								</RFButtonWidget>
+							</widgets>
+						</RFLayoutWidget>
+
+						<RFTextInputWidget id="message">
+							<property name="max-length">140</property>
+							<property name="height">160</property>
+							<property name="required">YES</property>
+							<property name="validation-error-message">Please enter a message</property>
+							<property name="placeholder-text">Enter your message...</property>
+						</RFTextInputWidget>
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END message section -->
+				
+				
+				
+				
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Tweet</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+			</widgets>
+
+		</view>
+	</views>
+</rfapp>
