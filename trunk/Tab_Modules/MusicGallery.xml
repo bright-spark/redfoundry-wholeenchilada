@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Music Gallery</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">60</property>
+			<property name="top-padding" device="iPad">90</property>
+
+			<datasources>
+				<RFXMLDataProvider id="MusicData">
+					<property name="data-location">http://itunes.apple.com/us/rss/topsongs/limit=10/xml</property>
+					
+				</RFXMLDataProvider>
+			</datasources>
+
+			<widgets>
+
+				<!-- START Title Bar -->
+				<RFLayoutWidget id="rfTitleBar">
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="height">60</property>
+					<property name="height" device="iPad">90</property>
+					<property name="background-color">#000000A0</property>
+					<property name="layout-type">float</property>
+					<property name="left-padding">10</property>
+					<widgets>
+						<RFImageWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+							<property name="image">/resources/titlebar_backarrow.png</property>
+							<property name="height">32</property>
+							<property name="width">32</property>
+							<property name="height" device="iPad">64</property>
+							<property name="width" device="iPad">64</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="right-margin">10</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">interval-light.otf:36.0</property>
+							<property name="font" device="iPad">interval-light.otf:72.0</property>
+							<property name="text">Music Gallery</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+						</RFTextWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END Title Bar -->
+
+
+				<!-- START player area -->
+				<RFLayoutWidget>
+					<property name="top-padding">15</property>
+					<property name="top-padding" device="iPad">20</property>
+					<property name="left-padding">20</property>
+					<property name="right-padding">20</property>
+					<property name="bottom-padding">15</property>
+					<property name="bottom-padding" device="iPad">20</property>
+					<property name="margin">0</property>
+					<property name="background-color">#00000054</property>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="layout-flow">horizontal</property>
+							<property name="width">100%</property>
+							<property name="height">94</property>
+							<property name="height" device="iPad">188</property>
+							<property name="bottom-margin">20</property>
+							<widgets>
+								<RFImageWidget id="rfMusicImage">
+									<property name="width">95</property>
+									<property name="height">94</property>
+									<property name="width" device="iPad">190</property>
+									<property name="height" device="iPad">188</property>
+									<property name="allow-stretch">NO</property>
+									<property name="image">[data:MusicData("//entry[1]/im:image[2]")]</property>
+								</RFImageWidget>
+								<RFLayoutWidget>
+									<property name="layout-flow">vertical</property>
+									<property name="height">100%</property>
+									<property name="left-padding">20</property>
+									<widgets>
+										<RFTextWidget id="rfArtistName">
+											<property name="text">[data:MusicData("//entry[1]/im:artist")]</property>
+											<property name="color">#FFFFFF</property>
+											<property name="font">Helvetica-Bold:19.0</property>
+											<property name="font" device="iPad">Helvetica-Bold:35.0</property>
+											<property name="max-lines">2</property>
+											<property name="bottom-margin">0</property>
+										</RFTextWidget>
+										<RFTextWidget id="rfAlbumName">
+											<property name="text">[data:MusicData("//entry[1]/im:name")]</property>
+											<property name="color">#AAAAAA</property>
+											<property name="font">Helvetica:16.0</property>
+											<property name="font" device="iPad">Helvetica:21.0</property>
+											<property name="max-lines">2</property>
+											<property name="bottom-margin">0</property>
+										</RFTextWidget>
+										<RFTextWidget id="rfSongName">
+											<property name="text">[data:MusicData("//entry[1]/title")]</property>
+											<property name="color">#FFFFFF</property>
+											<property name="font">Helvetica:15.0</property>
+											<property name="font" device="iPad">Helvetica:21.0</property>
+											<property name="top-padding">10</property>
+											<property name="top-padding" device="iPad">20</property>
+											<property name="max-lines">2</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFLayoutWidget>
+
+						<RFLayoutWidget>
+							<property name="layout-flow">horizontal</property>
+							<property name="top-padding">0</property>
+							<property name="bottom-margin">0</property>
+							<widgets>
+								<RFImageWidget id="rfPlayButton">
+									<actions>
+										<set on="touch">
+											<values>
+												<property name="isPlaying">[eval:("![session:isPlaying]")]</property>
+											</values>
+										</set>
+										<function on="touch">
+											<property name="function-name">toggle-pause</property>
+											<property name="widget-id">rfNowPlaying</property>
+										</function>
+										<function on="touch">
+											<property name="function-name">start</property>
+											<property name="widget-id">rfTimer</property>
+										</function>
+										<modify on="touch">
+											<property name="widget-id">rfPlayButton</property>
+											<values>
+												<property name="alpha" if="[session:isPlaying]">1</property>
+												<property name="alpha" if="![session:isPlaying]">.5</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfPauseButton</property>
+											<values>
+												<property name="alpha" if="[session:isPlaying]">.5</property>
+												<property name="alpha" if="![session:isPlaying]">1</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfStopButton</property>
+											<values>
+												<property name="alpha">.5</property>
+											</values>
+										</modify>
+									</actions>
+									<property name="height">32</property>
+									<property name="height" device="iPad">48</property>
+									<property name="width">32</property>
+									<property name="width" device="iPad">48</property>
+									<property name="image">/resources/music_play_64x64.png</property>
+									<property name="alpha">.5</property>
+								</RFImageWidget>
+								
+								<RFImageWidget id="rfPauseButton">
+									<actions>
+										<set on="touch">
+											<values>
+												<property name="isPlaying">[eval:("![session:isPlaying]")]</property>
+											</values>
+										</set>
+										<function on="touch">
+											<property name="function-name">toggle-pause</property>
+											<property name="widget-id">rfNowPlaying</property>
+										</function>
+										<modify on="touch">
+											<property name="widget-id">rfPlayButton</property>
+											<values>
+												<property name="alpha" if="[session:isPlaying]">1</property>
+												<property name="alpha" if="![session:isPlaying]">.5</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfPauseButton</property>
+											<values>
+												<property name="alpha" if="[session:isPlaying]">.5</property>
+												<property name="alpha" if="![session:isPlaying]">1</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfStopButton</property>
+											<values>
+												<property name="alpha">.5</property>
+											</values>
+										</modify>
+									</actions>
+									<property name="height">32</property>
+									<property name="height" device="iPad">48</property>
+									<property name="width">32</property>
+									<property name="width" device="iPad">48</property>
+									<property name="image">/resources/music_pause_64x64.png</property>
+									<property name="left-margin">10</property>
+									<property name="alpha">.5</property>
+								</RFImageWidget>
+								
+								<RFImageWidget id="rfStopButton">
+									<actions>
+										<function on="touch">
+											<property name="function-name">stop</property>
+											<property name="widget-id">rfNowPlaying</property>
+										</function>
+										<set on="touch">
+											<values>
+												<property name="isPlaying">false</property>
+											</values>
+										</set>
+										<!-- <modify on="touch"> <property name="widget-id">rfPauseButton</property> 
+											<values> <property name="image" if="[session:isPlaying]">[app:resources-root]/64x64_pause.png</property> 
+											<property name="image" if="![session:isPlaying]">[app:resources-root]/64x64_play.png</property> 
+											</values> </modify> -->
+										<modify on="touch">
+											<property name="widget-id">rfProgessBar</property>
+											<values>
+												<property name="width">1</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfPlayButton</property>
+											<values>
+												<property name="alpha">.5</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfPauseButton</property>
+											<values>
+												<property name="alpha">.5</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">rfStopButton</property>
+											<values>
+												<property name="alpha">1.0</property>
+											</values>
+										</modify>
+									</actions>
+									<property name="height">32</property>
+									<property name="height" device="iPad">48</property>
+									<property name="width">32</property>
+									<property name="width" device="iPad">48</property>
+									<property name="image">/resources/music_stop_64x64.png</property>
+									<property name="left-margin">10</property>
+									<property name="alpha">1.0</property>
+								</RFImageWidget>
+								
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- START player area -->
+				
+				
+				<!-- START player controls -->
+				<RFSoundWidget id="rfNowPlaying">
+					<property name="sound-location">[data:MusicData("//entry[1]/link[@title='Preview']/@href")]</property>
+					<property name="loop">NO</property>
+					<property name="auto-play">NO</property>
+					<property name="margin">0</property>
+				</RFSoundWidget>
+				<RFTimerWidget id="rfTimer">
+					<actions>
+						<modify on="timer-fired">
+						</modify>
+					</actions>
+					<property name="interval-in-seconds">1</property>
+					<property name="repeat">YES</property>
+				</RFTimerWidget>
+				<!-- END player controls -->
+				
+				<RFHorizontalRuleWidget>
+					<property name="color">#FFFFFF55</property>
+					<property name="height">1</property>
+					<property name="width">100%</property>
+					<property name="bottom-margin">0</property>
+				</RFHorizontalRuleWidget>
+				
+				<!-- START audio list -->
+				<RFRepeaterWidget id="List">
+					<actions>
+						<set on="touch">
+							<values>
+								<property name="threadID">Music-[data:row("/@id")]</property>
+							</values>
+						</set>
+						<modify on="touch">
+							<property name="widget-id">rfArtistName</property>
+							<values>
+								<property name="text">[data:row("im:artist")]</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">rfAlbumName</property>
+							<values>
+								<property name="text">[data:row("im:name")]</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">rfSongName</property>
+							<values>
+								<property name="text">[data:row("title")]</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">rfNowPlaying</property>
+							<values>
+								<property name="sound-location">[data:row("link[@title='Preview']/@href")]</property>
+							</values>
+						</modify>
+						<set on="touch">
+							<values>
+								<property name="isPlaying">[eval:("![session:isPlaying]")]</property>
+							</values>
+						</set>
+						<modify on="touch">
+							<property name="widget-id">rfPlayButton</property>
+							<values>
+								<property name="alpha">1</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">rfPauseButton</property>
+							<values>
+								<property name="alpha">.5</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">rfStopButton</property>
+							<values>
+								<property name="alpha">.5</property>
+							</values>
+						</modify>
+						<function on="touch">
+							<property name="function-name">stop</property>
+							<property name="widget-id">rfNowPlaying</property>
+						</function>
+						<function on="touch">
+							<property name="function-name">play</property>
+							<property name="widget-id">rfNowPlaying</property>
+						</function>
+					</actions>
+					<property name="item-height">100</property>
+					<property name="fill-remaining-height">YES</property>
+					<property name="width">100%</property>
+					<property name="row-data-id">MusicData</property>
+					<property name="row-data-path">//entry</property>
+					<property name="separator-color">#646464CC</property>
+					<property name="fade-rows">NO</property>
+					<property name="item-height">50</property>
+					<property name="highlight-row-on-touch">YES</property>
+					<property name="keep-row-highlighted">YES</property>
+					<property name="selected-row-index">0</property>
+					<widgets>
+						<RFLayoutWidget>
+							<property name="id">rfRepeaterRow-[data:row-index()]</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-flow">horizontal</property>
+							<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#000000c4</property>
+							<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#222222c4</property>
+							<widgets>
+								<RFLayoutWidget>
+									<property name="layout-flow">horizontal</property>
+									<property name="width">100%</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="layout-type">absolute</property>
+									<property name="padding">5</property>
+									<property name="left-padding">10</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="color">#FFFFFF</property>
+											<property name="width">40</property>
+											<property name="text">[eval:("[data:row-index()]+1")]</property>
+											<property name="vertical-alignment">middle</property>
+										</RFTextWidget>
+										<RFTextWidget>
+											<property name="font">Helvetica:15.0</property>
+											<property name="color">#CCCCCC</property>
+											<property name="text">[data:row("title")]</property>
+											<property name="left-margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="justification">left</property>
+											<property name="max-lines">2</property>
+										</RFTextWidget>
+										<RFTextWidget>
+											<property name="font">Helvetica:15.0</property>
+											<property name="color">#CCCCCCFF</property>
+											<property name="text">[eval:("var ms='[data:row("link[@title='Preview']/im:duration")]'; var s=parseInt(ms)/1000; Math.floor(s/60) + ":" + s%60 ")]</property>
+											<property name="left-margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justification">left</property>
+											<property name="width">60</property>
+											<property name="left-padding">20</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+							</widgets>
+						</RFLayoutWidget>
+					</widgets>
+				</RFRepeaterWidget>
+				<!-- END audio list -->
+				
+			</widgets>
+		</view>
+	</views>
+</rfapp>
