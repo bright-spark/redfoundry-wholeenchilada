@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Date and Time</property>
+			<property name="background-color">#ffffff</property>
+			<property name="background-image">/resources/background_iphone.png</property>
+			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+			<property name="top-padding" orientation="landscape">32</property>
+			<property name="top-padding" orientation="landscape" device="iPad">44</property>
+		
+			<widgets>
+			
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="height" orientation="landscape">32</property>
+					<property name="height" orientation="landscape" device="iPad">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#7b90ad</property>
+					<property name="background-color" device="iPad">#000000</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/header_iphone_blue.png</property>
+							<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+							<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+							<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Date and Time</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#496b9b</property>
+							<property name="background-color" device="iPad">#333333</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+				
+				
+				
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="padding">10</property>
+					<property name="top-padding">20</property>
+					<widgets>
+
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<widgets>
+
+
+								<!-- START current time -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Time</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget id="currentTime">
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								
+								<RFTimerWidget id="timerTime">
+									<property name="interval-in-seconds">1.0</property>
+									<property name="repeat">YES</property>
+									<actions>
+										<modify on="timer-fired">
+											<property name="widget-id">currentTime</property>
+											<values>
+												<property name="text">[eval:("new Date().toUTCString()")]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFTimerWidget>
+								
+								<!-- END current time -->
+
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<!-- START shortdate -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Short Date</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")-&gt;shortdate]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END shortdate -->
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START shorttime -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Short Time</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")-&gt;shorttime]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END shorttime -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START mediumdate -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Medium Date</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")-&gt;mediumdate]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END mediumdate -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START longdate -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Long Date</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")-&gt;longdate]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END longdate -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START mediumdatetime -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Medium Date Time</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().toUTCString()")-&gt;mediumdatetime]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END mediumdatetime -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START milliseconds -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Milliseconds</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget id="currentMilliseconds">
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[eval:("new Date().getTime()")]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								
+								<RFTimerWidget id="timerMilliseconds">
+									<property name="interval-in-seconds">1.0</property>
+									<property name="repeat">YES</property>
+									<actions>
+										<modify on="timer-fired">
+											<property name="widget-id">currentMilliseconds</property>
+											<values>
+												<property name="text">[eval:("new Date().getTime()")]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFTimerWidget>
+								<!-- END milliseconds -->
+								
+
+							</widgets>
+						</RFLayoutWidget>
+
+					</widgets>
+				</RFLayoutWidget>
+				
+			
+			</widgets>
+		</view>
+	</views>
+</rfapp>

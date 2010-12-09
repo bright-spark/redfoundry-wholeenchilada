@@ -161,7 +161,7 @@
 						<!-- A RFTextWidget can contain any unicode character so long as the encoding is set in your XML header <?xml version="1.0" encoding="UTF-8"?> -->
 						<RFTextWidget>
 							<property name="font">Helvetica:18.0</property>
-							<property name="text">Unicode: 島根県安来市の養鶏場で鳥インフルエンザへの感染が疑われる鶏が見つかったことを受け、前日に続き１日も行われた鶏の殺処分。同養鶏場で飼育する約２万３３００羽すべてを処分するだけに、県内の養鶏農家の損失補償や心のケアなども急務となっている。同県養鶏協会の竹下正幸会長は、来県</property>
+							<property name="text">島根県安来市の養鶏場で鳥インフルエンザへの感染</property>
 							<property name="color">#000000FF</property>
 						</RFTextWidget>
 						
@@ -193,6 +193,383 @@
 							<property name="padding">10</property>
 						</RFTextWidget>
 						
+						<!-- System Fonts 
+						AmericanTypewriter
+						AmericanTypewriter-Bold
+						AppleGothic
+						ArialMT
+						Arial-BoldMT
+						Arial-BoldItalicMT
+						Arial-ItalicMT
+						ArialRoundedMTBold
+						Courier
+						Courier-BoldOblique
+						Courier-Oblique
+						Courier-Bold
+						CourierNewPS-BoldMT
+						CourierNewPS-ItalicMT
+						CourierNewPS-BoldItalicMT
+						CourierNewPSMT
+						DBLCDTempBlack
+						Georgia-Bold
+						Georgia
+						Georgia-BoldItalic
+						Georgia-Italic
+						Helvetica-Oblique
+						Helvetica-BoldOblique
+						Helvetica
+						Helvetica-Bold
+						HelveticaNeue
+						HelveticaNeue-Bold
+						HiraKakuProN-W6
+						MarkerFelt-Thin
+						STHeitiTC-Light
+						STHeitiTC-Medium
+						STHeitiSC-Medium
+						STHeitiSC-Light
+						STHeitiK-Medium
+						STHeitiK-Light
+						STHeitiJ-Medium
+						STHeitiJ-Light
+						TimesNewRomanPSMT
+						TimesNewRomanPS-BoldMT
+						TimesNewRomanPS-BoldItalicMT
+						TimesNewRomanPS-ItalicMT
+						TrebuchetMS-Italic
+						TrebuchetMS
+						Trebuchet-BoldItalic
+						TrebuchetMS-Bold
+						Verdana-Bold
+						Verdana-BoldItalic
+						Verdana
+						Verdana-Italic
+						Zapfino
+						-->
+						
+						<RFHorizontalRuleWidget>
+							<property name="color">#cbcbcb</property>
+							<property name="width">100%</property>
+							<property name="height">1</property>
+						</RFHorizontalRuleWidget>
+						
+						
+						<RFTextWidget>
+							<property name="font">AmericanTypewriter:20.0</property>
+							<property name="text">AmericanTypewriter</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">AmericanTypewriter-Bold:20.0</property>
+							<property name="text">AmericanTypewriter-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">AppleGothic:20.0</property>
+							<property name="text">AppleGothic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">ArialMT:20.0</property>
+							<property name="text">ArialMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Arial-BoldMT:20.0</property>
+							<property name="text">Arial-BoldMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Arial-BoldItalicMT:20.0</property>
+							<property name="text">Arial-BoldItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Arial-ItalicMT:20.0</property>
+							<property name="text">Arial-ItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">ArialRoundedMTBold:20.0</property>
+							<property name="text">ArialRoundedMTBold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Courier:20.0</property>
+							<property name="text">Courier</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Courier-BoldOblique:20.0</property>
+							<property name="text">Courier-BoldOblique</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Courier-Oblique:20.0</property>
+							<property name="text">Courier-Oblique</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Courier-Bold:20.0</property>
+							<property name="text">Courier-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">CourierNewPS-BoldMT:20.0</property>
+							<property name="text">CourierNewPS-BoldMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">CourierNewPS-ItalicMT:20.0</property>
+							<property name="text">CourierNewPS-ItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">CourierNewPS-BoldItalicMT:20.0</property>
+							<property name="text">CourierNewPS-BoldItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">CourierNewPSMT:20.0</property>
+							<property name="text">CourierNewPSMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">DBLCDTempBlack:20.0</property>
+							<property name="text">DBLCDTempBlack</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Georgia-Bold:20.0</property>
+							<property name="text">Georgia-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Georgia:20.0</property>
+							<property name="text">Georgia</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Georgia-BoldItalic:20.0</property>
+							<property name="text">Georgia-BoldItalic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Georgia-Italic:20.0</property>
+							<property name="text">Georgia-Italic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Helvetica-Oblique:20.0</property>
+							<property name="text">Helvetica-Oblique</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Helvetica-BoldOblique:20.0</property>
+							<property name="text">Helvetica-BoldOblique</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Helvetica:20.0</property>
+							<property name="text">Helvetica</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Helvetica-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">HelveticaNeue:20.0</property>
+							<property name="text">HelveticaNeue</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">HelveticaNeue-Bold:20.0</property>
+							<property name="text">HelveticaNeue-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">HiraKakuProN-W6:20.0</property>
+							<property name="text">HiraKakuProN-W6</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">interval-light.otf:20.0</property>
+							<property name="text">interval-light.otf</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">interval-ultra-light.otf:20.0</property>
+							<property name="text">interval-ultra-light.otf</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">interval.otf</property>
+							<property name="text">interval.otf</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">MarkerFelt-Thin:20.0</property>
+							<property name="text">MarkerFelt-Thin</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiTC-Light:20.0</property>
+							<property name="text">STHeitiTC-Light</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiTC-Medium:20.0</property>
+							<property name="text">STHeitiTC-Medium</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiSC-Medium:20.0</property>
+							<property name="text">STHeitiSC-Medium</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiSC-Light:20.0</property>
+							<property name="text">STHeitiSC-Light</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiK-Medium:20.0</property>
+							<property name="text">STHeitiK-Medium</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiK-Light:20.0</property>
+							<property name="text">STHeitiK-Light</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiJ-Medium:20.0</property>
+							<property name="text">STHeitiJ-Medium</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">STHeitiJ-Light:20.0</property>
+							<property name="text">STHeitiJ-Light</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TimesNewRomanPSMT:20.0</property>
+							<property name="text">TimesNewRomanPSMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TimesNewRomanPS-BoldMT:20.0</property>
+							<property name="text">TimesNewRomanPS-BoldMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TimesNewRomanPS-BoldItalicMT:20.0</property>
+							<property name="text">TimesNewRomanPS-BoldItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TimesNewRomanPS-ItalicMT:20.0</property>
+							<property name="text">TimesNewRomanPS-ItalicMT</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TrebuchetMS-Italic:20.0</property>
+							<property name="text">TrebuchetMS-Italic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TrebuchetMS:20.0</property>
+							<property name="text">TrebuchetMS</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Trebuchet-BoldItalic:20.0</property>
+							<property name="text">Trebuchet-BoldItalic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">TrebuchetMS-Bold:20.0</property>
+							<property name="text">TrebuchetMS-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Verdana-Bold:20.0</property>
+							<property name="text">Verdana-Bold</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Verdana-BoldItalic:20.0</property>
+							<property name="text">Verdana-BoldItalic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Verdana:20.0</property>
+							<property name="text">Verdana</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Verdana-Italic:20.0</property>
+							<property name="text">Verdana-Italic</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="font">Zapfino:20.0</property>
+							<property name="text">Zapfino</property>
+							<property name="color">#FFFFFF</property>
+						</RFTextWidget>
 						
 						
 					</widgets>
