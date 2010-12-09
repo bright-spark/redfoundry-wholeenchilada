@@ -72,7 +72,7 @@
 											<property name="enable-shadow">YES</property>
 											<property name="shadow-color">#000000</property>
 											<property name="shadow-offset-right">0.0</property>
-											<property name="shadow-offset-down">-1.2</property>
+											<property name="shadow-offset-down">-1.0</property>
 											<property name="shadow-blur">0.1</property>
 										</RFTextWidget>
 										<RFButtonWidget>
@@ -245,7 +245,7 @@
 											<property name="enable-shadow">YES</property>
 											<property name="shadow-color">#000000</property>
 											<property name="shadow-offset-right">0.0</property>
-											<property name="shadow-offset-down">-1.2</property>
+											<property name="shadow-offset-down">-1.0</property>
 											<property name="shadow-blur">0.1</property>
 										</RFTextWidget>
 									</widgets>

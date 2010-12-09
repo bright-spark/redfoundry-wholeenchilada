@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Device Location</property>
+			<property name="background-color">#ffffff</property>
+			<property name="background-image">/resources/background_iphone.png</property>
+			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+			<property name="top-padding" orientation="landscape">32</property>
+			<property name="top-padding" orientation="landscape" device="iPad">44</property>
+
+			<datasources>
+			
+				<!-- Google reverse geocode API - http://code.google.com/apis/maps/documentation/geocoding/#ReverseGeocoding 
+					The term geocoding generally refers to translating a human-readable address 
+					into a location on a map. The process of doing the converse, translating 
+					a location on the map into a human-readable address, is known as reverse 
+					geocoding. The Geocoding API supports reverse geocoding directly using the 
+					latlng parameter. For example, the following query contains the latitude/longitude 
+					value for a location in Brooklyn: http://maps.googleapis.com/maps/api/geocode/xml?latlng=40.714224,-73.961452&sensor=true
+				-->
+				<RFXMLDataProvider id="reverseGeoCode">
+					<property name="data-location">http://maps.googleapis.com/maps/api/geocode/xml?latlng=[app:user-lat],[app:user-lon]&amp;sensor=true</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">reverse-geocode</property>
+							<values>
+								<property name="text">[data:reverseGeoCode("//formatted_address")]</property>
+								<property name="font">Helvetica:14.0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				
+				
+				<!-- Google Elevation API - http://code.google.com/apis/maps/documentation/elevation/
+					The Google Elevation API provides you a simple interface to query locations on the earth for elevation data. 
+					Additionally, you may request sampled elevation data along paths, allowing you to calculate elevation changes along routes.
+					The following example requests the elevation for Denver, Colorado, the "Mile High City":
+					http://maps.googleapis.com/maps/api/elevation/xml?locations=39.7391536,-104.9847034&sensor=true
+				-->
+				<RFXMLDataProvider id="elevationData">
+					<property name="data-location">http://maps.googleapis.com/maps/api/elevation/xml?locations=[app:user-lat],[app:user-lon]&amp;sensor=true</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">elevation</property>
+							<values>
+								<property name="text">[data:elevationData("//elevation")] m</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				
+				
+				<!-- We are using this RFXMLDataProvider for the RFMapWidget -->
+				<RFXMLDataProvider id="locationData">
+					<property name="data"><![CDATA[ <location><latitude>[app:user-lat]</latitude><longitude>[app:user-lon]</longitude></location> ]]></property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+				</RFXMLDataProvider>
+			
+			</datasources>
+
+			<widgets>
+
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="height" orientation="landscape">32</property>
+					<property name="height" orientation="landscape" device="iPad">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#7b90ad</property>
+					<property name="background-color" device="iPad">#000000</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/header_iphone_blue.png</property>
+							<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+							<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+							<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Device Location</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#496b9b</property>
+							<property name="background-color" device="iPad">#333333</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+
+
+
+
+
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="padding">10</property>
+					<property name="top-padding">20</property>
+					<widgets>
+
+						<!-- START inner contents -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<widgets>
+								
+								<!-- START [app:user-lat] shortcode
+									Gets device latitude by using the core location services of the device.
+								-->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Latitude</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:user-lat]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:user-lat] shortcode -->
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START [app:user-lon] shortcode
+									Gets device longitude by using the core location services of the device.
+								-->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Longitude</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:user-lon]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+											<property name="max-lines">1</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- START [app:user-lon] shortcode -->
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START reverse geocode display, loaded by the reverseGeoCode RFXMLDataProvider above -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Location</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget id="reverse-geocode">
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">Acquiring...</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END reverse geocode display -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START elevation display, loaded by the elevationData RFXMLDataProvider above -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Elevation</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget id="elevation">
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">Acquiring...</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END elevation display -->
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END inner contents -->
+						
+						<RFMapWidget>
+							<property name="width">100%</property>
+							<property name="fill-remaining-height">YES</property>
+							<property name="padding">0</property>
+							<property name="margin">0</property>
+							<property name="show-user-location">YES</property>
+							<property name="row-data-id">locationData</property>
+							<property name="row-data-path">//location</property>
+							<property name="item-latitude">[data:row("latitude")]</property>
+							<property name="item-longitude">[data:row("longitude")]</property>
+							<property name="item-title">[app:device-model]</property>
+							<property name="zoom-to-fit">YES</property>
+							<property name="map-type">hybrid</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+						</RFMapWidget>
+						
+						
+
+					</widgets>
+				</RFLayoutWidget>
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

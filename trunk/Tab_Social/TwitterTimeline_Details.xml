@@ -101,6 +101,7 @@
 								<RFLayoutWidget>
 									<property name="layout-flow">horizontal</property>
 									<property name="width">100%</property>
+									<property name="height">100%</property>
 									<widgets>
 
 										<!-- The left aligned profile image of the user -->
@@ -142,6 +143,7 @@
 											<property name="vertical-alignment">bottom</property>
 											<property name="horizontal-alignment">right</property>
 											<property name="right-margin">10</property>
+											<property name="bottom-margin">10</property>
 											<property name="animate-touch">YES</property>
 											<actions>
 												<navigate on="touch">
@@ -160,6 +162,7 @@
 									<property name="color">#999999</property>
 									<property name="width">100%</property>
 									<property name="height">1</property>
+									<property name="layout-type">float</property>
 									<property name="vertical-alignment">bottom</property>
 								</RFHorizontalRuleWidget>
 
@@ -197,7 +200,7 @@
 								<RFTextWidget>
 									<property name="font">Helvetica:16.0</property>
 									<property name="color">#777777</property>
-									<property name="text">[data:twitterData("//status/created_at")]</property>
+									<property name="text">[eval:("new Date('[data:twitterData("//status/created_at")]').toUTCString()")-&gt;mediumdatetime]</property>
 									<property name="top-padding">10</property>
 								</RFTextWidget>
 								

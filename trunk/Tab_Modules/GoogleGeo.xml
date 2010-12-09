@@ -217,7 +217,7 @@
 								<modify on="touch">
 									<property name="datasource-id">googleData</property>
 									<values>
-										<property name="data-location">http://maps.googleapis.com/maps/api/directions/xml?origin=[form:startLocation-&gt;urlencode]&amp;destination=[form:endLocation-&gt;urlencode]&amp;sensor=false</property>
+										<property name="data-location">http://maps.googleapis.com/maps/api/directions/xml?origin=[form:startLocation]&amp;destination=[form:endLocation]&amp;sensor=false</property>
 									</values>
 								</modify>
 							</actions>
@@ -249,23 +249,23 @@
 					<property name="vertical-alignment">bottom</property>
 					<property name="background-color">#000000A0</property>
 					<property name="layout-type">float</property>
-					<property name="padding">10</property>
+					<property name="padding">0</property>
 					<property name="alpha">0.0</property>
 					<widgets>
-
-										<RFTextWidget>
-											<property name="font">interval-light.otf:16.0</property>
-											<property name="text">[eval:(" escape('[form:startLocation]') ")]</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="color">#FFFFFF</property>
-											<property name="max-lines">1</property>
-											<property name="right-padding">10</property>
-										</RFTextWidget>
-
+						
+						<RFTextWidget>
+							<property name="font">Helvetica:16.0</property>
+							<property name="text">[data:googleData("DirectionsResponse/route/leg[1]/distance/text")], [data:googleData("DirectionsResponse/route/leg[1]/duration/text")]</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="padding">10</property>
+							<property name="margin">0</property>
+						</RFTextWidget>
+						
 						<RFRepeaterWidget id="directionsList">
 							<property name="height">100%</property>
-							<property name="width">100%</property>
-							<property name="item-height">80</property>
+							<property name="fill-remaining-height">YES</property>
+							<property name="item-height">90</property>
 							<property name="row-data-id">googleData</property>
 							<property name="row-data-path">DirectionsResponse/route/leg/step</property>
 							<property name="separator-color">#646464CC</property>
@@ -276,18 +276,35 @@
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="height">100%</property>
-									<property name="layout-flow">horizontal</property>
-									<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#000000c4</property>
+									<property name="background-color" if="'[eval:('[data:row-index()]%2')]'=='0'">#111111c4</property>
 									<property name="background-color" if="'[eval:('[data:row-index()]%2')]'!='0'">#222222c4</property>
+									<property name="padding">10</property>
+									<property name="margin">0</property>
+									<property name="include-in-parent-autosize">NO</property>
 									<widgets>
 										
 										<RFTextWidget>
-											<property name="font">interval-light.otf:16.0</property>
-											<property name="text">Foursquare</property>
-											<property name="vertical-alignment">middle</property>
+											<property name="font">Helvetica-Bold:14.0</property>
+											<property name="text">Step [eval:("parseInt('[data:row-index()]') + 1")]</property>
 											<property name="color">#FFFFFF</property>
 											<property name="max-lines">1</property>
-											<property name="right-padding">10</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+										
+										<RFTextWidget>
+											<property name="font">Helvetica:14.0</property>
+											<property name="text">Distance: [data:row("distance/text")] - Duration: [data:row("duration/text")]</property>
+											<property name="color">#FFFFFF</property>
+											<property name="max-lines">2</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+										
+										<RFTextWidget>
+											<property name="font">Helvetica:14.0</property>
+											<property name="text">[data:row("html_instructions")-&gt;clean_html]</property>
+											<property name="color">#999999</property>
+											<property name="max-lines">2</property>
+											<property name="margin">0</property>
 										</RFTextWidget>
 										
 									</widgets>

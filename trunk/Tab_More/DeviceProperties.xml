@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Device Properties</property>
+			<property name="background-color">#ffffff</property>
+			<property name="background-image">/resources/background_iphone.png</property>
+			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+			<property name="top-padding" orientation="landscape">32</property>
+			<property name="top-padding" orientation="landscape" device="iPad">44</property>
+
+			<widgets>
+
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="height" orientation="landscape">32</property>
+					<property name="height" orientation="landscape" device="iPad">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#7b90ad</property>
+					<property name="background-color" device="iPad">#000000</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/header_iphone_blue.png</property>
+							<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+							<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+							<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Device Properties</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#496b9b</property>
+							<property name="background-color" device="iPad">#333333</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+
+
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="padding">10</property>
+					<property name="top-padding">20</property>
+					<widgets>
+
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<widgets>
+
+
+								<!-- START [app:device-model] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Model</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:device-model]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:device-model] Shortcode -->
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START [app:device-id] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Device ID</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget id="deviceid">
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:device-id]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+											<property name="max-lines">1</property>
+											<actions>
+												<modify on="touch">
+													<property name="widget-id">deviceid</property>
+													<values>
+														<property name="max-lines">5</property>
+													</values>
+												</modify>
+											</actions>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:device-id] Shortcode -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START [app:user-language] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Language</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:user-language]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:device-id] Shortcode -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+								
+								<!-- START [app:user-timezone-offset] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Timezone Offset</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:user-timezone-offset]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:user-timezone-offset] Shortcode -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<!-- START [app:screen-width] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Screen Width</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:screen-width]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:screen-width] Shortcode -->
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Screen Height</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:screen-height]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								
+								
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<!-- START [app:app-version] Shortcode -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">App Version</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[app:app-version]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END [app:app-version] Shortcode -->
+								
+
+							</widgets>
+						</RFLayoutWidget>
+
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
