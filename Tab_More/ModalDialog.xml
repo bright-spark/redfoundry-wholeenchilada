@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Modal Dialog</property>
+			<property name="background-color">#ffffff</property>
+			<property name="background-image">/resources/background_iphone.png</property>
+			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+			<property name="top-padding" orientation="landscape">32</property>
+			<property name="top-padding" orientation="landscape" device="iPad">44</property>
+
+			<widgets>
+
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="height" orientation="landscape">32</property>
+					<property name="height" orientation="landscape" device="iPad">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#7b90ad</property>
+					<property name="background-color" device="iPad">#000000</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/header_iphone_blue.png</property>
+							<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+							<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+							<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Modal Dialog</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#496b9b</property>
+							<property name="background-color" device="iPad">#333333</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+
+
+				<!-- START button to show the modal -->
+				<RFButtonWidget>
+					<property name="text">Show Modal</property>
+					<property name="style">glossy</property>
+					<property name="width">200</property>
+					<property name="font">Helvetica-Bold:20.0</property>
+					<property name="background-color">#f3c922</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="layout-type">absolute</property>
+					<actions>
+						<modify on="touch">
+							<property name="widget-id">modalCoverup</property>
+							<property name="duration">0.3</property>
+							<values>
+								<property name="alpha">0.65</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">modalDialog</property>
+							<property name="duration">0.6</property>
+							<values>
+								<property name="top-position">0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFButtonWidget>
+				<!-- END button to show the modal -->
+
+
+
+				<!-- START modal cover-up -->
+				<RFLayoutWidget id="modalCoverup">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="background-color">#000000</property>
+					<property name="alpha">0.0</property>
+					<property name="layout-type">float</property>
+					<widgets>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END modal cover-up -->
+
+
+
+				<!-- START modal view section - this is actually a RFLayoutWidget that 
+					is hidden below the device screen until needed -->
+				<RFLayoutWidget id="modalDialog">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="background-color">#ffffff</property>
+					<property name="layout-type">float</property>
+					<property name="top-position">[app:screen-height]</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<widgets>
+
+						<!-- START modal dialog title bar -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="height">44</property>
+							<property name="height" orientation="landscape">32</property>
+							<property name="height" orientation="landscape" device="iPad">44</property>
+							<property name="layout-flow">horizontal</property>
+							<property name="background-color">#7b90ad</property>
+							<property name="background-color" device="iPad">#000000</property>
+							<property name="layout-type">float</property>
+							<widgets>
+								<RFImageWidget>
+									<property name="image">/resources/header_iphone_blue.png</property>
+									<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+									<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+									<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+									<property name="layout-type">absolute</property>
+									<property name="top-position">0</property>
+									<property name="left-position">0</property>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="alpha">.98</property>
+									<property name="allow-stretch">YES</property>
+								</RFImageWidget>
+								<RFButtonWidget>
+									<actions>
+										<modify on="touch">
+											<property name="widget-id">modalDialog</property>
+											<property name="duration">0.5</property>
+											<values>
+												<property name="top-position">[app:screen-height]</property>
+											</values>
+										</modify>
+										<modify on="touch">
+											<property name="widget-id">modalCoverup</property>
+											<property name="duration">0.2</property>
+											<values>
+												<property name="alpha">0.0</property>
+											</values>
+										</modify>
+									</actions>
+									<property name="text">Cancel</property>
+									<property name="width">60</property>
+									<property name="height">30</property>
+									<property name="style">glossy</property>
+									<property name="horizontal-alignment">left</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="background-color">#496b9b</property>
+									<property name="background-color" device="iPad">#333333</property>
+									<property name="font">Helvetica-Bold:14.0</property>
+									<property name="color">#FFFFFF</property>
+									<property name="left-margin">10</property>
+									<property name="alpha">.90</property>
+								</RFButtonWidget>
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END modal dialog title bar -->
+
+						<RFTextWidget>
+							<property name="font">Helvetica:16.0</property>
+							<property name="text">You have opened a modal dialog. Click the Cancel button above to close the dialog.</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#000000</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+							<property name="padding">20</property>
+							<property name="justification">center</property>
+						</RFTextWidget>
+						
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END modal view section -->
+
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

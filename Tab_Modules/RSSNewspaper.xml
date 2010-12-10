@@ -28,6 +28,7 @@
 			</actions>
 			
 			<widgets>
+				
 				<!-- START Title Bar -->
 				<RFLayoutWidget id="rfTitleBar">
 					<property name="width">100%</property>

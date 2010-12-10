@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+
+	<!-- PLEASE NOTE, THIS VIEW IS DESIGNED TO ONLY RUN ON THE iPAD IN LANDSCAPE 
+		ORIENTATION -->
+
+	<views>
+		<view>
+			<property name="title">Yelp Reviews</property>
+			<property name="background-color">#000000</property>
+			<property name="background-image">/resources/view-bg.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+
+			<datasources>
+				<RFXMLDataProvider id="yelpData">
+					<property name="data-location">http://www.yelp.com/syndicate/area/rss.xml?loc=Chicago,+IL</property>
+					<property name="allow-cache">YES</property>
+					<property name="method">GET</property>
+				</RFXMLDataProvider>
+			</datasources>
+
+			<widgets>
+
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#ac2316</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/yelp_header.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Yelp Reviews</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#000000</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#ac2316</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+
+
+				<!-- START layout wrapper -->
+				<RFLayoutWidget>
+					<property name="height">100%</property>
+					<property name="width">100%</property>
+					<property name="background-color">#ffffff</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<widgets>
+
+						<!-- START left side list layout -->
+						<RFLayoutWidget id="MASTER">
+							<property name="height">100%</property>
+							<property name="width">100%</property>
+							<property name="width" orientation="landscape" device="iPad">320</property>
+							<property name="visible">YES</property>
+							<property name="visible" orientation="portrait" device="iPad">NO</property>
+							<property name="visible" orientation="landscape" device="iPad">YES</property>
+							<widgets>
+
+								<!-- START list list -->
+								<RFRepeaterWidget id="yelpList">
+									<property name="height">100%</property>
+									<property name="width">100%</property>
+									<property name="row-data-id">yelpData</property>
+									<property name="row-data-path">//item</property>
+									<property name="item-height">146</property>
+									<property name="separator-color">#e0e0e0</property>
+									<property name="padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="highlight-row-on-touch">YES</property>
+									<property name="fade-rows">NO</property>
+									<property name="animate-new-rows">NO</property>
+									<property name="keep-row-highlighted" orientation="landscape" device="iPad">YES</property>
+									<widgets>
+
+										<!-- START list row -->
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="background-color"
+												if="'[eval:('[data:row-index()]%2')]'=='0'">#FFFFFF</property>
+											<property name="background-color"
+												if="'[eval:('[data:row-index()]%2')]'!='0'">#F7F7F7</property>
+											<widgets>
+
+												<RFLayoutWidget>
+													<property name="layout-flow">vertical</property>
+													<property name="padding">10</property>
+													<property name="vertical-alignment">top</property>
+													<widgets>
+														<RFTextWidget>
+															<property name="font">Helvetica-Bold:16.0</property>
+															<property name="color">#000000</property>
+															<property name="text">[data:row("title")]</property>
+															<property name="max-lines">2</property>
+															<property name="bottom-margin">5</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:14.0</property>
+															<property name="color">#000000</property>
+															<property name="text">"[data:row("description")]"</property>
+															<property name="max-lines">3</property>
+															<property name="bottom-margin">5</property>
+														</RFTextWidget>
+														<RFTextWidget>
+															<property name="font">Helvetica:14.0</property>
+															<property name="color">#555555</property>
+															<property name="text">[data:row("pubDate")-&gt;mediumdatetime]</property>
+															<property name="bottom-margin">0</property>
+														</RFTextWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+
+												<!-- This is the right gray arrow -->
+												<RFImageWidget>
+													<property name="image">/resources/chev_east.png</property>
+													<property name="width">10</property>
+													<property name="height">13</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="right-margin">10</property>
+												</RFImageWidget>
+												
+												
+												<!-- review rating stars -->
+												<RFImageWidget>
+													<property name="image">/resources/yelp_stars_[eval:("var d='[data:row("title")-&gt;javascript_escape]'; if (d.indexOf('(5/5)')&gt;0) { '5' } else if (d.indexOf('(4/5)')&gt;0) { '4' } else if (d.indexOf('(3/5)')&gt;0) { '3' } else if (d.indexOf('(2/5)')&gt;0) { '2' } else if (d.indexOf('(1/5)')&gt;0) { '1' }")].png</property>
+													<property name="width">83</property>
+													<property name="height">16</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="right-margin">10</property>
+													<property name="vertical-alignment">bottom</property>
+													<property name="bottom-margin">10</property>
+													<property name="layout-type">absolute</property>
+												</RFImageWidget>
+												
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END list row -->
+
+									</widgets>
+								</RFRepeaterWidget>
+								<!-- END list list -->
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END left side list layout -->
+
+
+						<!-- START vertical separator -->
+						<RFWidget>
+							<property name="width">1</property>
+							<property name="height">100%</property>
+							<property name="background-color">#000000</property>
+							<property name="bottom-margin">0</property>
+							<property name="visible">NO</property>
+							<property name="visible" orientation="landscape" device="iPad">YES</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFWidget>
+						<!-- END vertical separator -->
+
+
+						<!-- START right side map layout (only will be seen in iPad landscape layout -->
+						<RFLayoutWidget id="MAP">
+							<property name="height">100%</property>
+							<property name="width">0%</property>
+							<property name="width" orientation="portrait" device="iPad">100%</property>
+							<property name="width" orientation="landscape" device="iPad">704</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<!-- START map inner content -->
+								<RFMapWidget>
+									<actions>
+										<modify on="touch">
+											<property name="widget-id">yelpList</property>
+											<values>
+												<property name="selected-row-index">[data:row-index()]</property>
+											</values>
+										</modify>
+										<function on="touch">
+											<property name="widget-id">yelpList</property>
+											<property name="function-name">goto-row</property>
+											<values>
+												<property name="row-index">[data:row-index()]</property>
+											</values>
+										</function>
+									</actions>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="padding">0</property>
+									<property name="bottom-margin">0</property>
+									<property name="show-user-location">NO</property>
+									<property name="row-data-id">yelpData</property>
+									<property name="row-data-path">//item</property>
+									<property name="item-latitude">[data:row("geo:lat")]</property>
+									<property name="item-longitude">[data:row("geo:long")]</property>
+									<property name="item-title">[data:row("title")]</property>
+									<property name="item-subtitle">[eval:("'[data:row("description")-&gt;javascript_escape]'.substring(0,90)")]...</property>
+									<property name="item-icon">/resources/yelp_marker.png</property>
+									<property name="zoom-to-fit">YES</property>
+									<property name="map-type">standard</property>
+								</RFMapWidget>
+								
+								<!-- END map inner content -->
+								
+							</widgets>
+						</RFLayoutWidget>
+						<!-- START map inner content -->
+
+						<!-- END right side map layout -->
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END layout wrapper -->
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>
