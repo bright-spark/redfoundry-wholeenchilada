@@ -1,129 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rfapp id="APPCODE" appkey="APPKEY" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<property name="show-status-bar">NO</property>
 	<views>
 		<view>
+
 			<datasources>
-				<datasource type="RFXMLDataProvider" id="PagesData">
-					<property name="data">
-						<![CDATA[
+				<RFXMLDataProvider id="PagesData">
+					<property name="data"><![CDATA[
 						<pages>
-							<page>/Page1.xml</page>
-							<page>/Page2.xml</page>
-							<page>/Page3.xml</page>
-							<page>/Page4.xml</page>
-							<page>/Page5.xml</page>
-							<page>/Page6.xml</page>
-							<page>/Page7.xml</page>
-							<page>/Page8.xml</page>
-							<page>/Page9.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page1.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page2.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page3.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page4.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page5.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page6.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page8.xml</page>
+							<page>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/Page9.xml</page>
 						</pages>
-						]]>
-					</property>
+					]]></property>
 					<property name="allow-cache">NO</property>
-				</datasource>
+				</RFXMLDataProvider>
 			</datasources>
+
 			<widgets>
-				<RFSetSessionSettingWidget id="menu_state">
-					<property name="value">[eval:"
-						if('[session:menu_state]' == '')
-						0;
-						else
-						[session:menu_state];
-						"]</property>
-				</RFSetSessionSettingWidget>
+
 				<RFPagedViewWidget id="PageWidget">
 					<property name="page-data-id">PagesData</property>
 					<property name="page-data-path">pages/page</property>
+					<property name="show-page-indicator">YES</property>
 				</RFPagedViewWidget>
-				<RFVerticalLayoutWidget id="MainMenu">
-					<property name="layout-type">float</property>
-					<property name="horizontal-alignment">right</property>
-					<property name="width">200</property>
-					<property name="height">400</property>
-					<property name="background-color">#FF0000AA</property>
-					<property name="alpha">0.0</property>
-					<widgets>
-						<RFTextLabel>
-							<property name="text">+ PAGES</property>
-							<property name="font">Helvetica:15</property>
-							<property name="alignment">left</property>
-							<property name="color">#FFFFFF</property>
-							<property name="height">100</property>
-						</RFTextLabel>
-						<RFHorizontalRuleWidget>
-							<property name="color">#FFFFFF55</property>
-						</RFHorizontalRuleWidget>
-						<RFTextLabel>
-							<property name="text">+ SHARE</property>
-							<property name="font">Helvetica:15</property>
-							<property name="alignment">left</property>
-							<property name="color">#FFFFFF</property>
-							<property name="height">100</property>
-						</RFTextLabel>
-						<RFHorizontalRuleWidget>
-							<property name="color">#FFFFFF55</property>
-						</RFHorizontalRuleWidget>
-						<RFTextLabel>
-							<property name="text">+ DISCUSS</property>
-							<property name="font">Helvetica:15</property>
-							<property name="alignment">left</property>
-							<property name="color">#FFFFFF</property>
-							<property name="height">100</property>
-							<submit_to>
-								<view>Automotif_Comments.xml</view>
-								<submit_values>
-									<property name="comment-thread-id">[session:DiscussionThreadID]</property>
-								</submit_values>
-							</submit_to>
-						</RFTextLabel>
-						<RFHorizontalRuleWidget>
-							<property name="color">#FFFFFF55</property>
-						</RFHorizontalRuleWidget>
-					</widgets>
-				</RFVerticalLayoutWidget>
-				<RFImageWidget id="MenuIcon">
-					<property name="image">/resources/menu-icon.png</property>
-					<property name="layout-type">float</property>
-					<property name="horizontal-alignment">right</property>
-					<property name="width">50</property>
-					<property name="height">50</property>
-					<property name="alpha">0.25</property>
-					<actions>
-						<set on="touch">
-							<property name="menu_state">[evaluate:"
-								if('[session:menu_state]' == '0')
-								1;
-								else
-								0;
-								"]</property>
-						</set>
-						<modify on="touch" id="MainMenu" duration="1.0">
-							<property name="alpha">[evaluate:"
-							if('[session:menu_state]' == '1')
-								1.0;
-							else
-								0.0;
-							"]</property>
-						</modify>
-						<modify on="touch" id="MenuIcon">
-							<property name="image">
-							[evaluate:"
-							if('[session:menu_state]' == '1')
-								'/menu-collapse-icon.png';
-							else
-								'/menu-icon.png';
-							"]</property>
-							<property name="alpha">[evaluate:"
-							if('[session:menu_state]' == '1')
-								1.0;
-							else
-								0.25;
-							"]</property>
-						</modify>
-					</actions>
-				</RFImageWidget>
+
+
 			</widgets>
 		</view>
 	</views>

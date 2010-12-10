@@ -1,55 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
-	<view>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<actions>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<values>
+						<property name="left-position">0</property>
+					</values>
+				</modify>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<property name="duration">20.0</property>
+					<values>
+						<property name="left-position">-300</property>
+					</values>
+				</modify>
+			</actions>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page2-bg.jpg</property>
+					<property name="image">/resources/page2-bg.jpg</property>
 					<property name="width">1365</property>
 					<property name="height">1024</property>
 					<property name="layout-type">float</property>
-					<actions>
-						<set_session_variable on="load">
-							<property name="DiscussionThreadID">pg2</property>
-						</set_session_variable>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<values>
-								<property name="left-position">0</property>
-							</values>
-						</modify>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<property name="duration">20.0</property>
-							<values>
-								<property name="left-position">-300</property>
-							</values>
-						</modify>
-					</actions>
+					<property name="hide-loading-indicator">NO</property>
 				</RFImageWidget>
-				<RFVerticalLayoutWidget id="TextWidget">
+				<RFLayoutWidget id="TextWidget">
 					<property name="background-color">#00000055</property>
 					<property name="height">30%</property>
 					<property name="width">100%</property>
 					<property name="vertical-alignment">bottom</property>
 					<property name="layout-type">float</property>
 					<widgets>
-						<RFTextLabel>
+						<RFTextWidget>
 							<property name="text">LEGACY</property>
 							<property name="font">Helvetica-Bold:80</property>
 							<property name="horizontal-alignment">right</property>
 							<property name="right-padding">-15</property>
 							<property name="top-padding">-20</property>
-						</RFTextLabel>
-						<RFTextLabel>
+						</RFTextWidget>
+						<RFTextWidget>
 							<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
-								
+						
 Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.</property>
-							<property name="font">Helvetica:15</property>
+							<property name="font">Helvetica:16</property>
 							<property name="alignment">left</property>
-							<property name="color">#888888</property>
-						</RFTextLabel>
+							<property name="color">#ffffff</property>
+							<property name="padding">20</property>
+						</RFTextWidget>
 					</widgets>
-				</RFVerticalLayoutWidget>
+				</RFLayoutWidget>
 			</widgets>
 		</view>
+	</views>
 </rfapp>

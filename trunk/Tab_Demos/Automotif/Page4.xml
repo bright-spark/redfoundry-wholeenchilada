@@ -2,27 +2,44 @@
 <rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<views>
 		<view>
+			<actions>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<values>
+						<property name="left-position">0</property>
+					</values>
+				</modify>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<property name="duration">40.0</property>
+					<property name="delay">5.0</property>
+					<values>
+						<property name="left-position">-300</property>
+					</values>
+				</modify>
+				<modify on="appeared">
+					<property name="widget-id">OverWidget</property>
+					<values>
+						<property name="left-position">0</property>
+					</values>
+				</modify>
+				<modify on="appeared">
+					<property name="widget-id">OverWidget</property>
+					<property name="delay">5.0</property>
+					<property name="duration">20.0</property>
+					<values>
+						<property name="left-position">-300</property>
+					</values>
+				</modify>
+			</actions>
+		
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page4-bg.jpg</property>
+					<property name="image">/resources/page4-bg.jpg</property>
 					<property name="width">1352</property>
 					<property name="height">981</property>
 					<property name="layout-type">float</property>
-					<actions>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<values>
-								<property name="left-position">0</property>
-							</values>
-						</modify>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<property name="duration">10.0</property>
-							<values>
-								<property name="left-position">-200</property>
-							</values>
-						</modify>
-					</actions>
+					<property name="hide-loading-indicator">NO</property>
 				</RFImageWidget>
 				<RFTextLabel>
 					<property name="text">PASSION</property>
@@ -32,26 +49,12 @@
 					<property name="left-position">500</property>
 				</RFTextLabel>
 				<RFImageWidget id="OverWidget">
-					<property name="image">resources/page4-over.png</property>
+					<property name="image">/resources/page4-over.png</property>
 					<property name="width">1352</property>
 					<property name="height">633</property>
 					<property name="layout-type">float</property>
 					<property name="top-position">385</property>
-					<actions>
-						<modify on="load">
-							<property name="widget-id">OverWidget</property>
-							<values>
-								<property name="left-position">0</property>
-							</values>
-						</modify>
-						<modify on="load">
-							<property name="widget-id">OverWidget</property>
-							<property name="duration">10.0</property>
-							<values>
-								<property name="left-position">-300</property>
-							</values>
-						</modify>
-					</actions>
+					<property name="hide-loading-indicator">NO</property>
 				</RFImageWidget>
 				<RFTextLabel>
 					<property name="text">WITH</property>
@@ -65,11 +68,11 @@
 					<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
 						
 Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.</property>
-					<property name="font">Helvetica:15</property>
+					<property name="font">Helvetica:17</property>
 					<property name="alignment">left</property>
 					<property name="color">#FFFFFF</property>
 					<property name="layout-type">float</property>
-					<property name="width">300</property>
+					<property name="width">60%</property>
 					<property name="top-position">55</property>
 					<property name="left-position">20</property>
 				</RFTextLabel>

@@ -383,12 +383,12 @@
 				          <items>
 				            <item>
 				              <name>Local Search</name>
-				              <app_location>/Tab_Demos/LocalSearch/RFAppConfig.xml</app_location>
+				              <app_location>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/LocalSearch/RFAppConfig.xml</app_location>
 				              <description>A local search app with social media integration like Yelp or Trip Advisor.</description>
 				            </item>
 				            <item>
 				              <name>Automotif (iPad only)</name>
-				              <app_location>/Tab_Demos/Automotif/RFAppConfig.xml</app_location>
+				              <app_location>http://dl.dropbox.com/u/10615176/WholeEnchilada/Tab_Demos/Automotif/RFAppConfig.xml</app_location>
 				              <description>A multi-media coffee table book with page animations.</description>
 				            </item>
 				          </items>
@@ -670,17 +670,17 @@
 						  <![CDATA[
 				          <items>
 				            <item>
-				            	<name>Get Device Properties</name>
+				            	<name>Device Properties</name>
 				            	<icon>/resources/icon_iphone_64.png</icon>
 				            	<submit_to>/Tab_More/DeviceProperties.xml</submit_to>
 				            </item>
 				            <item>
-				            	<name>Get Device Location</name>
+				            	<name>Device Location</name>
 				            	<icon>/resources/icon_compass_64.png</icon>
 				            	<submit_to>/Tab_More/LocationServices.xml</submit_to>
 				            </item>
 				            <item>
-				            	<name>Format Date and Time</name>
+				            	<name>Date and Time Formats</name>
 				            	<icon>/resources/icon_clock_64.png</icon>
 				            	<submit_to>/Tab_More/DateTime.xml</submit_to>
 				            </item>
@@ -695,7 +695,7 @@
 				            	<submit_to>/Tab_More/AnimateBackground.xml</submit_to>
 				            </item>
 				            <item>
-				            	<name>Display Local Weather</name>
+				            	<name>Local Weather</name>
 				            	<icon>/resources/icon_weather_64.png</icon>
 				            	<submit_to>/Tab_More/Weather.xml</submit_to>
 				            </item>

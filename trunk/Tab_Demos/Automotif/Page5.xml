@@ -2,42 +2,50 @@
 <rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<views>
 		<view>
+			<actions>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<values>
+						<property name="width">1465</property>
+						<property name="height">1124</property>
+					</values>
+				</modify>
+				<modify on="appeared">
+					<property name="widget-id">BGWidget</property>
+					<property name="duration">10.0</property>
+					<values>
+						<property name="width">1365</property>
+						<property name="height">1024</property>
+					</values>
+				</modify>
+			</actions>
+		
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page5-bg.jpg</property>
+					<property name="image">/resources/page5-bg.jpg</property>
 					<property name="width">1465</property>
 					<property name="height">1124</property>
 					<property name="layout-type">float</property>
-					<actions>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<values>
-								<property name="width">1465</property>
-								<property name="height">1124</property>
-							</values>
-						</modify>
-						<modify on="load">
-							<property name="widget-id">BGWidget</property>
-							<property name="duration">10.0</property>
-							<values>
-								<property name="width">1365</property>
-								<property name="height">1024</property>
-							</values>
-						</modify>
-					</actions>
+					<property name="hide-loading-indicator">NO</property>
 				</RFImageWidget>
+				
 				<RFMovieWidget>
 					<property name="movie-location">http://www.youtube.com/watch?v=Ch9yRM7zBsI</property>
 					<property name="width">480</property>
 					<property name="height">320</property>
 					<property name="layout-type">float</property>
 					<property name="background-color">#000000</property>
+					<property name="border-width">5</property>
+					<property name="border-color">#ffffff</property>
 				</RFMovieWidget>
-				<RFTextLabel id="TextLabel">
-					<property name="text">SCUDERIA</property>
-					<property name="font">Helvetica-Bold:50</property>
-					<property name="layout-type">float</property>
+				
+				
+				<RFLayoutWidget id="TextWidget">
+					<property name="background-color">#00000055</property>
+					<property name="height">50%</property>
+					<property name="width">100%</property>
 					<property name="vertical-alignment">bottom</property>
+					<property name="layout-type">float</property>
 					<actions>
 						<modify on="load">
 							<property name="widget-id">TextLabel</property>
@@ -48,13 +56,38 @@
 						<modify on="load">
 							<property name="widget-id">TextLabel</property>
 							<property name="duration">1.0</property>
-							<property name="delay">10.0</property>
+							<property name="delay">5.0</property>
 							<values>
 								<property name="alpha">1.0</property>
 							</values>
 						</modify>
 					</actions>
-				</RFTextLabel>
+					<widgets>
+					
+						<RFTextWidget>
+							<property name="text">SCUDERIA</property>
+							<property name="font">Helvetica-Bold:50</property>
+							<property name="vertical-alignment">top</property>
+						</RFTextWidget>
+						
+						<RFTextWidget>
+							<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
+								
+Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.
+		
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
+		
+Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.</property>
+							<property name="font">Helvetica:17</property>
+							<property name="alignment">left</property>
+							<property name="color">#ffffff</property>
+							<property name="padding">20</property>
+						</RFTextWidget>
+					
+					</widgets>
+				</RFLayoutWidget>
+				
+				
 			</widgets>
 		</view>
 	</views>

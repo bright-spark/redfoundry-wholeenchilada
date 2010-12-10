@@ -4,12 +4,13 @@
 		<view>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page8-bg.jpg</property>
+					<property name="image">/resources/page8-bg.jpg</property>
 					<property name="width">1365</property>
 					<property name="height">1024</property>
 					<property name="layout-type">float</property>
+					<property name="hide-loading-indicator">NO</property>
 					<actions>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<values>
 								<property name="left-position">0</property>
@@ -17,7 +18,7 @@
 								<property name="height">1024</property>
 							</values>
 						</modify>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<property name="duration">20.0</property>
 							<values>
@@ -28,19 +29,19 @@
 						</modify>
 					</actions>
 				</RFImageWidget>
-				<RFVerticalLayoutWidget id="TextWidget">
+				<RFLayoutWidget id="TextWidget">
 					<property name="background-color">#FFFFFFAA</property>
 					<property name="width">35%</property>
 					<property name="height">100%</property>
 					<property name="layout-type">float</property>
 					<property name="padding">20</property>
 					<widgets>
-						<RFTextLabel>
+						<RFTextWidget>
 							<property name="text">OPEN ROAD</property>
 							<property name="font">Helvetica:35</property>
 							<property name="color">#555555</property>
-						</RFTextLabel>
-						<RFTextLabel>
+						</RFTextWidget>
+						<RFTextWidget>
 							<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sollicitudin est vel leo condimentum imperdiet a at nulla. Nulla eleifend blandit dui, a rutrum magna euismod non. Morbi felis mauris, eleifend vel faucibus id, pharetra non elit. Sed consectetur fermentum mauris, molestie auctor dolor facilisis a. Nunc iaculis lacus id dolor faucibus malesuada. Nam quis mi a nibh convallis bibendum id et mauris. Maecenas non enim lorem, eget feugiat elit. Pellentesque non erat a magna gravida faucibus. Proin congue dolor ac mi luctus eget facilisis felis tempor. Suspendisse potenti. Quisque tincidunt leo at magna rhoncus volutpat. Proin nisi diam, eleifend a rhoncus a, venenatis ut urna. Fusce at ligula sed magna viverra sodales a sodales magna. Maecenas volutpat mollis pellentesque. Curabitur sollicitudin pulvinar libero sed sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, augue eu vestibulum mollis, ante nulla bibendum nulla, sed pharetra diam mauris nec nisi. Ut ac justo blandit tortor pulvinar facilisis nec at magna. Sed a dignissim diam.
 
 Suspendisse potenti. Etiam at augue ut augue scelerisque eleifend. Aliquam erat volutpat. Nam id augue elit. Ut fermentum ultricies rutrum. Sed vel nibh vitae odio sodales egestas ut ut ligula. Quisque sit amet nibh metus. Maecenas at sem pulvinar nulla fringilla dapibus. Duis non purus at enim tempor viverra. Curabitur at nibh mauris. Donec auctor adipiscing dignissim. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam eget orci ante, ac volutpat sapien. Donec porta pretium turpis, id placerat lectus dapibus non. Nam cursus elementum tortor placerat suscipit. Mauris id erat tortor. Morbi ac tortor eu erat faucibus pretium. Vivamus at posuere erat. Nullam adipiscing imperdiet sapien, id aliquet est faucibus sit amet. Fusce leo odio, hendrerit at consectetur sit amet, posuere vel ante.
@@ -52,9 +53,9 @@ Aliquam congue, diam ac mattis eleifend, mauris est facilisis nisl, ut lobortis 
 Pellentesque vitae dui mauris. In hac habitasse platea dictumst. Quisque non risus non ligula dapibus convallis. Vivamus congue velit ac ligula faucibus euismod. Duis pharetra, elit at eleifend dignissim, nulla metus pulvinar nisi, eget faucibus lectus sem eget justo. Duis fringilla, nibh in vehicula semper, felis felis feugiat diam, nec ornare felis nisl eget ipsum. Aliquam dignissim ultrices dictum. Ut a augue velit, id dignissim felis. Aenean vitae purus dapibus nisl porttitor vehicula et vel lorem. Etiam pharetra tempor lacinia. Sed a felis ipsum, in pellentesque tellus. Integer nulla odio, malesuada vitae volutpat ut, blandit nec sapien. Donec sagittis, mi at blandit adipiscing, leo metus varius enim, id semper lorem mi nec ipsum. Nunc id risus magna. Proin adipiscing fringilla risus, sed ornare odio dignissim in. Fusce pellentesque rutrum nulla, a auctor tellus gravida at. Curabitur risus libero, porta at commodo at, ultricies in purus.</property>
 							<property name="font">Helvetica:15</property>
 							<property name="color">#555555</property>
-						</RFTextLabel>
+						</RFTextWidget>
 					</widgets>
-				</RFVerticalLayoutWidget>
+				</RFLayoutWidget>
 			</widgets>
 		</view>
 	</views>

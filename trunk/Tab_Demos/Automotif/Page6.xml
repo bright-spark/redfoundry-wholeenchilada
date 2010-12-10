@@ -4,11 +4,12 @@
 		<view>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page6-bg.jpg</property>
+					<property name="image">/resources/page6-bg.jpg</property>
 					<property name="width">1365</property>
 					<property name="height">1024</property>
 					<property name="layout-type">float</property>
 					<property name="left-position">-300</property>
+					<property name="hide-loading-indicator">NO</property>
 					<actions>
 						<modify on="load">
 							<property name="widget-id">BGWidget</property>
@@ -27,30 +28,33 @@
 						</modify>
 					</actions>
 				</RFImageWidget>
-				<RFVerticalLayoutWidget id="TextWidget">
-					<property name="background-color">#000000</property>
-					<property name="height">65%</property>
+				<RFLayoutWidget id="TextWidget">
 					<property name="width">100%</property>
 					<property name="vertical-alignment">top</property>
 					<property name="layout-type">float</property>
+					<property name="background-color">#000000AA</property>
 					<widgets>
-						<RFTextLabel>
+						<RFTextWidget>
 							<property name="text">LAUNCH</property>
-							<property name="font">Helvetica-Bold:20</property>
-							<property name="alignment">right</property>
-							<property name="top-position">88%</property>
-							<property name="layout-type">absolute</property>
-						</RFTextLabel>
-						<RFTextLabel>
+							<property name="font">Helvetica-Bold:70</property>
+							<property name="margin">0</property>
+						</RFTextWidget>
+						<RFTextWidget>
 							<property name="text">control</property>
-							<property name="font">Helvetica-Bold:15</property>
+							<property name="font">Helvetica-Bold:45</property>
 							<property name="color">#FFFFFF55</property>
-							<property name="alignment">right</property>
-							<property name="top-position">91%</property>
-							<property name="layout-type">absolute</property>
-						</RFTextLabel>
+						</RFTextWidget>
+						<RFTextWidget>
+							<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
+						
+Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.</property>
+							<property name="font">Helvetica:17</property>
+							<property name="alignment">left</property>
+							<property name="color">#ffffff</property>
+							<property name="padding">20</property>
+						</RFTextWidget>
 					</widgets>
-				</RFVerticalLayoutWidget>
+				</RFLayoutWidget>
 			</widgets>
 		</view>
 	</views>
