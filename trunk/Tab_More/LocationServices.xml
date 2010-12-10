@@ -138,13 +138,10 @@
 
 
 
-
-
 				<RFLayoutWidget>
 					<property name="width">100%</property>
 					<property name="height">100%</property>
 					<property name="padding">10</property>
-					<property name="top-padding">20</property>
 					<widgets>
 
 						<!-- START inner contents -->

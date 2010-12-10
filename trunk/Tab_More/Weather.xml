@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<views>
 		<view>
-			<property name="title">Date and Time</property>
+			<property name="title">Local Weather</property>
 			<property name="background-color">#ffffff</property>
 			<property name="background-image">/resources/background_iphone.png</property>
 			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
@@ -11,9 +12,72 @@
 			<property name="top-padding">44</property>
 			<property name="top-padding" orientation="landscape">32</property>
 			<property name="top-padding" orientation="landscape" device="iPad">44</property>
-		
+
+			<datasources>
+
+				<!-- START Zipcode API In order to call the Weather API we need to first 
+					get the user's current Zip Code. We can do this by getting a reverse geocode 
+					location of the user's Latitude and Longitude. http://www.geonames.org/export/web-services.html#findNearbyPostalCodes -->
+				<RFXMLDataProvider id="goecodeData">
+					<property name="data-location">http://ws.geonames.org/findNearbyPostalCodes?lat=[app:user-lat]&amp;lng=[app:user-lon]</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<actions>
+						<modify on="load-started">
+							<property name="widget-id">Loading</property>
+							<values>
+								<property name="text">Finding Location...</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="datasource-id">weatherData</property>
+							<values>
+								<property name="data-location">http://weather.yahooapis.com/forecastrss?p=[data:goecodeData("//code[1]/postalcode")]</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END Zipcode API -->
+
+
+				<!-- START Weather API We need to wait until we have a zip code in order 
+					to call the weather API as the paramater requires a Zip Code For information 
+					on the Weather API see http://developer.yahoo.com/weather/ -->
+				<RFXMLDataProvider id="weatherData">
+					<property name="data-location"></property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<property name="auto-load">NO</property>
+					<actions>
+						<modify on="load-started">
+							<property name="widget-id">Loading</property>
+							<values>
+								<property name="alpha">1.0</property>
+								<property name="text">Loading Weather...</property>
+							</values>
+						</modify>
+						<modify on="load-finished">
+							<property name="widget-id">Loading</property>
+							<property name="delay">0.5</property>
+							<property name="duration">0.5</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">outerContent</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END Weather API -->
+
+			</datasources>
+
 			<widgets>
-			
+
 				<!-- START title bar -->
 				<RFLayoutWidget>
 					<property name="width">100%</property>
@@ -40,7 +104,7 @@
 						</RFImageWidget>
 						<RFTextWidget>
 							<property name="font">Helvetica-Bold:20.0</property>
-							<property name="text">Date and Time</property>
+							<property name="text">Local Weather</property>
 							<property name="vertical-alignment">middle</property>
 							<property name="horizontal-alignment">center</property>
 							<property name="layout-type">absolute</property>
@@ -78,15 +142,159 @@
 					</widgets>
 				</RFLayoutWidget>
 				<!-- END title bar -->
-				
-				
-				
-				<RFLayoutWidget>
+
+
+				<!-- START loading dialog -->
+				<RFTextWidget id="Loading">
+					<property name="height">80</property>
+					<property name="width">200</property>
+					<property name="background-color">#000000A0</property>
+					<property name="font">Helvetica:18.0</property>
+					<property name="layout-type">float</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<property name="text">Loading...</property>
+					<property name="border-width">1.0</property>
+					<property name="border-color">#000000A0</property>
+					<property name="border-radius">10.0</property>
+					<property name="justification">center</property>
+					<property name="alpha">0.0</property>
+				</RFTextWidget>
+				<!-- END loading dialog -->
+
+
+
+				<RFLayoutWidget id="outerContent">
 					<property name="width">100%</property>
 					<property name="height">100%</property>
 					<property name="padding">10</property>
+					<property name="visible">NO</property>
 					<widgets>
 
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<widgets>
+								<RFTextWidget>
+									<property name="font">Helvetica-Bold:14.0</property>
+									<property name="text">[data:weatherData("//channel/item[1]/title")]</property>
+									<property name="color">#4c566c</property>
+									<property name="margin">0</property>
+									<property name="left-padding">15</property>
+									<property name="right-padding">15</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="shadow-color">#f7f7f7</property>
+									<property name="shadow-offset-right">0.0</property>
+									<property name="shadow-offset-down">2.0</property>
+									<property name="shadow-blur">0.1</property>
+								</RFTextWidget>
+							</widgets>
+						</RFLayoutWidget>
+						
+						
+						<!-- START Top Section -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<widgets>
+							
+								<!-- START Condition -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">10</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Condition</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+										
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[data:weatherData("//channel/item[1]/yweather:condition/@text")]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+											<property name="right-padding">5</property>
+										</RFTextWidget>
+										
+										<RFImageWidget>
+											<property name="image">[data:weatherData("//channel/item[1]/description")-&gt;extract_image]</property>
+											<property name="height">32</property>
+											<property name="width">32</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="margin">0</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END Condition -->
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+								<!-- START Temp -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="layout-flow">horizontal</property>
+									<property name="padding">15</property>
+									<property name="margin">0</property>
+									<widgets>
+										<RFTextWidget>
+											<property name="font">Helvetica-Bold:16.0</property>
+											<property name="text">Temperature</property>
+											<property name="color">#000000</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">left</property>
+											<property name="margin">0</property>
+										</RFTextWidget>
+
+										<RFTextWidget>
+											<property name="font">Helvetica:16.0</property>
+											<property name="text">[data:weatherData("//channel/item[1]/yweather:condition/@temp")] °[data:weatherData("//channel/yweather:units/@temperature")]</property>
+											<property name="color">#385487</property>
+											<property name="margin">0</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="horizontal-alignment">right</property>
+											<property name="justify">right</property>
+										</RFTextWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END Temperature -->
+
+
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#ababab</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="padding">0</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+							
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Top Section -->
+
+
+						<!-- START Bottom Section -->
 						<RFLayoutWidget>
 							<property name="width">100%</property>
 							<property name="background-color">#ffffff</property>
@@ -96,7 +304,7 @@
 							<widgets>
 
 
-								<!-- START current time -->
+								<!-- START Sunrise -->
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
@@ -105,60 +313,7 @@
 									<widgets>
 										<RFTextWidget>
 											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Time</property>
-											<property name="color">#000000</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="horizontal-alignment">left</property>
-											<property name="margin">0</property>
-										</RFTextWidget>
-
-										<RFTextWidget id="currentTime">
-											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")]</property>
-											<property name="color">#385487</property>
-											<property name="margin">0</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="horizontal-alignment">right</property>
-											<property name="justify">right</property>
-										</RFTextWidget>
-									</widgets>
-								</RFLayoutWidget>
-								
-								<RFTimerWidget id="timerTime">
-									<property name="interval-in-seconds">1.0</property>
-									<property name="repeat">YES</property>
-									<actions>
-										<modify on="timer-fired">
-											<property name="widget-id">currentTime</property>
-											<values>
-												<property name="text">[eval:("new Date().toUTCString()")]</property>
-											</values>
-										</modify>
-									</actions>
-								</RFTimerWidget>
-								
-								<!-- END current time -->
-
-								
-								<RFHorizontalRuleWidget>
-									<property name="color">#ababab</property>
-									<property name="width">100%</property>
-									<property name="height">1</property>
-									<property name="padding">0</property>
-									<property name="margin">0</property>
-								</RFHorizontalRuleWidget>
-
-
-								<!-- START shortdate -->
-								<RFLayoutWidget>
-									<property name="width">100%</property>
-									<property name="layout-flow">horizontal</property>
-									<property name="padding">15</property>
-									<property name="margin">0</property>
-									<widgets>
-										<RFTextWidget>
-											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Short Date</property>
+											<property name="text">Sunrise</property>
 											<property name="color">#000000</property>
 											<property name="vertical-alignment">middle</property>
 											<property name="horizontal-alignment">left</property>
@@ -167,7 +322,7 @@
 
 										<RFTextWidget>
 											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")-&gt;shortdate]</property>
+											<property name="text">[data:weatherData("//channel/yweather:astronomy/@sunrise")]</property>
 											<property name="color">#385487</property>
 											<property name="margin">0</property>
 											<property name="vertical-alignment">middle</property>
@@ -176,7 +331,7 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
-								<!-- END shortdate -->
+								<!-- END Sunrise -->
 
 
 								<RFHorizontalRuleWidget>
@@ -187,8 +342,8 @@
 									<property name="margin">0</property>
 								</RFHorizontalRuleWidget>
 
-								
-								<!-- START shorttime -->
+
+								<!-- START Sunset -->
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
@@ -197,7 +352,7 @@
 									<widgets>
 										<RFTextWidget>
 											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Short Time</property>
+											<property name="text">Sunset</property>
 											<property name="color">#000000</property>
 											<property name="vertical-alignment">middle</property>
 											<property name="horizontal-alignment">left</property>
@@ -206,7 +361,7 @@
 
 										<RFTextWidget>
 											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")-&gt;shorttime]</property>
+											<property name="text">[data:weatherData("//channel/yweather:astronomy/@sunset")]</property>
 											<property name="color">#385487</property>
 											<property name="margin">0</property>
 											<property name="vertical-alignment">middle</property>
@@ -215,9 +370,9 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
-								<!-- END shorttime -->
-								
-								
+								<!-- END Sunset -->
+
+
 								<RFHorizontalRuleWidget>
 									<property name="color">#ababab</property>
 									<property name="width">100%</property>
@@ -226,8 +381,8 @@
 									<property name="margin">0</property>
 								</RFHorizontalRuleWidget>
 
-								
-								<!-- START mediumdate -->
+
+								<!-- START Humidity -->
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
@@ -236,7 +391,7 @@
 									<widgets>
 										<RFTextWidget>
 											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Medium Date</property>
+											<property name="text">Humidity</property>
 											<property name="color">#000000</property>
 											<property name="vertical-alignment">middle</property>
 											<property name="horizontal-alignment">left</property>
@@ -245,7 +400,7 @@
 
 										<RFTextWidget>
 											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")-&gt;mediumdate]</property>
+											<property name="text">[data:weatherData("//channel/yweather:atmosphere/@humidity")] %</property>
 											<property name="color">#385487</property>
 											<property name="margin">0</property>
 											<property name="vertical-alignment">middle</property>
@@ -254,9 +409,9 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
-								<!-- END mediumdate -->
-								
-								
+								<!-- END Humidity -->
+
+
 								<RFHorizontalRuleWidget>
 									<property name="color">#ababab</property>
 									<property name="width">100%</property>
@@ -265,8 +420,8 @@
 									<property name="margin">0</property>
 								</RFHorizontalRuleWidget>
 
-								
-								<!-- START longdate -->
+
+								<!-- START Visibility -->
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
@@ -275,7 +430,7 @@
 									<widgets>
 										<RFTextWidget>
 											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Long Date</property>
+											<property name="text">Visibility</property>
 											<property name="color">#000000</property>
 											<property name="vertical-alignment">middle</property>
 											<property name="horizontal-alignment">left</property>
@@ -284,7 +439,7 @@
 
 										<RFTextWidget>
 											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")-&gt;longdate]</property>
+											<property name="text">[data:weatherData("//channel/yweather:atmosphere/@visibility")] [data:weatherData("//channel/yweather:units/@distance")]</property>
 											<property name="color">#385487</property>
 											<property name="margin">0</property>
 											<property name="vertical-alignment">middle</property>
@@ -293,9 +448,9 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
-								<!-- END longdate -->
-								
-								
+								<!-- END Visibility -->
+
+
 								<RFHorizontalRuleWidget>
 									<property name="color">#ababab</property>
 									<property name="width">100%</property>
@@ -304,8 +459,8 @@
 									<property name="margin">0</property>
 								</RFHorizontalRuleWidget>
 
-								
-								<!-- START mediumdatetime -->
+
+								<!-- START Pressure -->
 								<RFLayoutWidget>
 									<property name="width">100%</property>
 									<property name="layout-flow">horizontal</property>
@@ -314,7 +469,7 @@
 									<widgets>
 										<RFTextWidget>
 											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Medium Date Time</property>
+											<property name="text">Pressure</property>
 											<property name="color">#000000</property>
 											<property name="vertical-alignment">middle</property>
 											<property name="horizontal-alignment">left</property>
@@ -323,7 +478,7 @@
 
 										<RFTextWidget>
 											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().toUTCString()")-&gt;mediumdatetime]</property>
+											<property name="text">[data:weatherData("//channel/yweather:atmosphere/@pressure")] [data:weatherData("//channel/yweather:units/@pressure")]</property>
 											<property name="color">#385487</property>
 											<property name="margin">0</property>
 											<property name="vertical-alignment">middle</property>
@@ -332,68 +487,16 @@
 										</RFTextWidget>
 									</widgets>
 								</RFLayoutWidget>
-								<!-- END mediumdatetime -->
-								
-								
-								<RFHorizontalRuleWidget>
-									<property name="color">#ababab</property>
-									<property name="width">100%</property>
-									<property name="height">1</property>
-									<property name="padding">0</property>
-									<property name="margin">0</property>
-								</RFHorizontalRuleWidget>
-
-								
-								<!-- START milliseconds -->
-								<RFLayoutWidget>
-									<property name="width">100%</property>
-									<property name="layout-flow">horizontal</property>
-									<property name="padding">15</property>
-									<property name="margin">0</property>
-									<widgets>
-										<RFTextWidget>
-											<property name="font">Helvetica-Bold:16.0</property>
-											<property name="text">Milliseconds</property>
-											<property name="color">#000000</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="horizontal-alignment">left</property>
-											<property name="margin">0</property>
-										</RFTextWidget>
-
-										<RFTextWidget id="currentMilliseconds">
-											<property name="font">Helvetica:16.0</property>
-											<property name="text">[eval:("new Date().getTime()")]</property>
-											<property name="color">#385487</property>
-											<property name="margin">0</property>
-											<property name="vertical-alignment">middle</property>
-											<property name="horizontal-alignment">right</property>
-											<property name="justify">right</property>
-										</RFTextWidget>
-									</widgets>
-								</RFLayoutWidget>
-								
-								<RFTimerWidget id="timerMilliseconds">
-									<property name="interval-in-seconds">1.0</property>
-									<property name="repeat">YES</property>
-									<actions>
-										<modify on="timer-fired">
-											<property name="widget-id">currentMilliseconds</property>
-											<values>
-												<property name="text">[eval:("new Date().getTime()")]</property>
-											</values>
-										</modify>
-									</actions>
-								</RFTimerWidget>
-								<!-- END milliseconds -->
-								
+								<!-- END Pressure -->
 
 							</widgets>
 						</RFLayoutWidget>
+						<!-- END Bottom Section -->
 
 					</widgets>
 				</RFLayoutWidget>
-				
-			
+
+
 			</widgets>
 		</view>
 	</views>

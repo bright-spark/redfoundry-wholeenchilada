@@ -685,19 +685,19 @@
 				            	<submit_to>/Tab_More/DateTime.xml</submit_to>
 				            </item>
 				            <item>
-				            	<name>Modal View</name>
+				            	<name>Modal Dialog</name>
 				            	<icon>/resources/icon_modal_64.png</icon>
-				            	<submit_to>/Tab_More/ModalView.xml</submit_to>
+				            	<submit_to>/Tab_More/ModalDialog.xml</submit_to>
 				            </item>
 				            <item>
-				            	<name>Animate Backgrounds</name>
+				            	<name>Animated Background</name>
 				            	<icon>/resources/icon_frame_64.png</icon>
-				            	<submit_to>/Tab_More/LocationServices.xml</submit_to>
+				            	<submit_to>/Tab_More/AnimateBackground.xml</submit_to>
 				            </item>
 				            <item>
 				            	<name>Display Local Weather</name>
 				            	<icon>/resources/icon_weather_64.png</icon>
-				            	<submit_to>/Tab_More/LocationServices.xml</submit_to>
+				            	<submit_to>/Tab_More/Weather.xml</submit_to>
 				            </item>
 				          </items>
 				          ]]>

@@ -38,6 +38,7 @@
 							<property name="visible" orientation="portrait" device="iPad">NO</property>
 							<property name="visible" orientation="landscape" device="iPad">YES</property>
 							<property name="top-padding">45</property>
+							<property name="include-in-parent-autosize">NO</property>
 							<widgets>
 
 								<!-- START MASTER header -->
@@ -200,6 +201,7 @@
 							<property name="bottom-margin">0</property>
 							<property name="visible">NO</property>
 							<property name="visible" orientation="landscape" device="iPad">YES</property>
+							<property name="include-in-parent-autosize">NO</property>
 						</RFWidget>
 						<!-- END vertical separator -->
 
@@ -209,8 +211,9 @@
 							<property name="height">100%</property>
 							<property name="width">0%</property>
 							<property name="width" orientation="portrait" device="iPad">100%</property>
-							<property name="width" orientation="landscape" device="iPad">760</property>
+							<property name="width" orientation="landscape" device="iPad">704</property>
 							<property name="top-padding">45</property>
+							<property name="include-in-parent-autosize">NO</property>
 							<widgets>
 
 								<!-- START DETAILS header -->
