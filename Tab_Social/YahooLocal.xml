@@ -7,8 +7,7 @@
 			<property name="background-image">/resources/view-bg.jpg</property>
 			<property name="padding">0</property>
 			<property name="title-bar-visible">NO</property>
-			<property name="top-padding">60</property>
-			<property name="top-padding" device="iPad">90</property>
+			<property name="top-padding">44</property>
 
 			<datasources>
 
@@ -38,45 +37,62 @@
 			</datasources>
 			<widgets>
 
-				<!-- START Title Bar -->
-				<RFLayoutWidget id="rfTitleBar">
+				<!-- START title bar -->
+				<RFLayoutWidget>
 					<property name="width">100%</property>
+					<property name="height">44</property>
 					<property name="layout-flow">horizontal</property>
-					<property name="height">60</property>
-					<property name="height" device="iPad">90</property>
-					<property name="background-color">#000000A0</property>
+					<property name="background-color">#4e2053</property>
 					<property name="layout-type">float</property>
-					<property name="left-padding">10</property>
 					<widgets>
 						<RFImageWidget>
+							<property name="image">/resources/yahoo_header.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text">Yahoo Local</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#000000</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
 							<actions>
 								<navigate on="touch">
 									<property name="navigation-stack-type">pop</property>
 								</navigate>
 							</actions>
-							<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
-							<property name="image">/resources/titlebar_backarrow.png</property>
-							<property name="height">32</property>
-							<property name="width">32</property>
-							<property name="height" device="iPad">64</property>
-							<property name="width" device="iPad">64</property>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
 							<property name="horizontal-alignment">left</property>
 							<property name="vertical-alignment">middle</property>
-							<property name="right-margin">10</property>
-						</RFImageWidget>
-						<RFTextWidget>
-							<property name="font">interval-light.otf:36.0</property>
-							<property name="font" device="iPad">interval-light.otf:72.0</property>
-							<property name="text">Yahoo Local</property>
-							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#250729</property>
+							<property name="font">Helvetica-Bold:14.0</property>
 							<property name="color">#FFFFFF</property>
-							<property name="max-lines">1</property>
-							<property name="right-padding">10</property>
-							<property name="include-in-parent-autosize">NO</property>
-						</RFTextWidget>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
 					</widgets>
 				</RFLayoutWidget>
-				<!-- END Title Bar -->
+				<!-- END title bar -->
 
 
 				<!-- START The outer layout of the view, this will include both the top 
@@ -93,27 +109,8 @@
 							<property name="height">100%</property>
 							<property name="layout-flow">vertical</property>
 							<property name="layout-type">absolute</property>
-							<property name="background-color">#FFFFFF</property>
+							<property name="background-color">#4e2053</property>
 							<widgets>
-
-								<RFHorizontalRuleWidget>
-									<property name="color">#8999a5</property>
-									<property name="width">100%</property>
-									<property name="height">1</property>
-									<property name="padding">0</property>
-									<property name="margin">0</property>
-									<property name="visible">YES</property>
-								</RFHorizontalRuleWidget>
-								<RFHorizontalRuleWidget>
-									<property name="color">#FFFFFF</property>
-									<property name="width">100%</property>
-									<property name="height">1</property>
-									<property name="padding">0</property>
-									<property name="margin">0</property>
-									<property name="padding">0</property>
-									<property name="bottom-padding">5</property>
-									<property name="visible">YES</property>
-								</RFHorizontalRuleWidget>
 
 								<!-- START category select -->
 								<RFLayoutWidget id="selectBar">
@@ -124,15 +121,19 @@
 									<property name="bottom-margin">0</property>
 									<property name="width">100%</property>
 									<property name="height">64</property>
-									<property name="background-color">#dde2e5</property>
 									<widgets>
 
 										<RFTextWidget>
 											<property name="font">Helvetica:14.0</property>
-											<property name="color">#000000</property>
+											<property name="color">#ffffff</property>
 											<property name="text">What are you hungry for?</property>
 											<property name="bottom-margin">4</property>
 											<property name="max-lines">1</property>
+											<property name="enable-shadow">YES</property>
+											<property name="shadow-color">#000000</property>
+											<property name="shadow-offset-right">0.0</property>
+											<property name="shadow-offset-down">1.0</property>
+											<property name="shadow-blur">0.1</property>
 										</RFTextWidget>
 
 										<RFSelectorWidget id="categorySelector">
@@ -142,7 +143,7 @@
 											<property name="item-value">[data:row("value")]</property>
 											<property name="font">Helvetica-Bold:20.0</property>
 											<property name="bottom-margin">0</property>
-											<property name="color">#000000</property>
+											<property name="color">#ffffff</property>
 											<actions>
 												<modify on="item-selected">
 													<property name="datasource-id">yahooData</property>
@@ -157,14 +158,6 @@
 								</RFLayoutWidget>
 								<!-- END category select -->
 
-								<RFHorizontalRuleWidget>
-									<property name="color">#8999a5</property>
-									<property name="width">100%</property>
-									<property name="height">1</property>
-									<property name="padding">0</property>
-									<property name="margin">0</property>
-								</RFHorizontalRuleWidget>
-
 
 								<!-- START results list -->
 								<RFRepeaterWidget id="List">
@@ -174,7 +167,7 @@
 									<property name="width">100%</property>
 									<property name="row-data-id">yahooData</property>
 									<property name="row-data-path">//Result</property>
-									<property name="separator-color">#e0e0e0</property>
+									<property name="separator-color">#b0b0b0</property>
 									<property name="fade-rows">NO</property>
 									<property name="animate-new-rows">NO</property>
 									<widgets>

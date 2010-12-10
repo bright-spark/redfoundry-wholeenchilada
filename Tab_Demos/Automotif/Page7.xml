@@ -4,18 +4,19 @@
 		<view>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page7-bg.jpg</property>
+					<property name="image">/resources/page7-bg.jpg</property>
 					<property name="width">1365</property>
 					<property name="height">1024</property>
 					<property name="layout-type">float</property>
+					<property name="hide-loading-indicator">NO</property>
 					<actions>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<values>
 								<property name="left-position">0</property>
 							</values>
 						</modify>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<property name="duration">10.0</property>
 							<values>

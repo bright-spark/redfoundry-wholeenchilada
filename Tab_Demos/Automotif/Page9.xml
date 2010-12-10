@@ -4,10 +4,11 @@
 		<view>
 			<widgets>
 				<RFImageWidget id="BGWidget">
-					<property name="image">resources/page9-bg.jpg</property>
+					<property name="image">/resources/page9-bg.jpg</property>
 					<property name="layout-type">float</property>
+					<property name="hide-loading-indicator">NO</property>
 					<actions>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<values>
 								<property name="left-position">0</property>
@@ -15,7 +16,7 @@
 								<property name="height">1524</property>
 							</values>
 						</modify>
-						<modify on="load">
+						<modify on="image-loaded">
 							<property name="widget-id">BGWidget</property>
 							<property name="duration">20.0</property>
 							<values>
@@ -26,6 +27,35 @@
 						</modify>
 					</actions>
 				</RFImageWidget>
+				
+				<RFLayoutWidget id="TextWidget">
+					<property name="background-color">#00000055</property>
+					<property name="height">40%</property>
+					<property name="width">100%</property>
+					<property name="vertical-alignment">top</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFTextLabel>
+							<property name="text">BEAUTY</property>
+							<property name="font">Helvetica-Bold:90</property>
+							<property name="horizontal-alignment">right</property>
+							<property name="right-padding">-10</property>
+							<property name="top-padding">-10</property>
+						</RFTextLabel>
+						<RFTextLabel>
+							<property name="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor. Suspendisse vitae est risus. Nunc eget justo nec lacus commodo vestibulum eu at sapien. Quisque vitae lectus magna.
+						
+Nulla sed erat non ipsum hendrerit tincidunt. Etiam purus lectus, posuere vel faucibus eget, vestibulum vitae lorem. Donec sapien elit, pharetra in tincidunt ac, imperdiet in metus. Cras nec felis ipsum, nec facilisis lacus. Morbi quam tellus, ultricies quis varius at, dapibus quis sapien. Proin ut neque felis.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget nibh elit. Mauris semper dui vitae lectus ultrices ut euismod justo porttitor.</property>
+							<property name="font">Helvetica:17</property>
+							<property name="alignment">left</property>
+							<property name="color">#ffffff</property>
+							<property name="padding">20</property>
+						</RFTextLabel>
+					</widgets>
+				</RFLayoutWidget>
+				
 			</widgets>
 		</view>
 	</views>
