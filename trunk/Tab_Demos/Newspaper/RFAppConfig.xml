@@ -1,0 +1,1628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp id="" appkey="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<property name="use-standard-tab-bar">YES</property>
+	<property name="enable-location-services">YES</property>
+	<property name="show-status-bar">YES</property>
+	<views>
+		<view>
+			<property name="title">iPad Newspaper</property>
+			<property name="background-color">#fafbfb</property>
+			<property name="background-image">/resources/background_portrait.png</property>
+			<property name="background-image" orientation="landscape">/resources/background_landscape.png</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+
+			<actions>
+				<navigate on="appeared">
+					<property name="to" device="iPhone">iPhone.xml</property>
+				</navigate>
+				<set on="first-appeared">
+					<values>
+						<property name="location_aquired">NO</property>
+						<property name="headlines_index">0</property>
+						<property name="article_url"></property>
+						<property name="article_title"></property>
+						<property name="article_image"></property>
+						<property name="article_date"></property>
+					</values>
+				</set>
+			</actions>
+
+			<datasources>
+
+				<!-- START location datasource -->
+				<RFXMLDataProvider id="locationData">
+					<property name="data-location">http://ws.geonames.org/findNearbyPostalCodes?lat=[app:user-lat]&amp;lng=[app:user-lon]</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<property name="hide-activity-indicator">YES</property>
+					<property name="auto-load">NO</property>
+					<actions>
+						<set on="success">
+							<values>
+								<property name="location_postalcode">[data:locationData("//code[1]/postalcode")]</property>
+								<property name="location_name">[data:locationData("//code[1]/name")]</property>
+								<property name="location_country">[data:locationData("//code[1]/countryCode")]</property>
+							</values>
+						</set>
+						<modify on="success">
+							<property name="datasource-id">weatherData</property>
+							<values>
+								<property name="data-location" if="'[session:location_postalcode]'!=''">http://weather.yahooapis.com/forecastrss?p=[session:location_postalcode]</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END location datasource -->
+
+
+				<!-- START weather datasource -->
+				<RFXMLDataProvider id="weatherData">
+					<property name="data-location"></property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<property name="hide-activity-indicator">YES</property>
+					<property name="auto-load">NO</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">txtWeatherLocation</property>
+							<values>
+								<property name="text">[data:weatherData("//channel/yweather:location/@city")], [data:weatherData("//channel/yweather:location/@region")]</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">txtWeatherTemp</property>
+							<values>
+								<property name="text">[data:weatherData("//channel/item[1]/yweather:condition/@temp")]°[data:weatherData("//channel/yweather:units/@temperature")]</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">sectionWeather</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END weather datasource -->
+
+
+				<!-- START Headlines datasource -->
+				<RFXMLDataProvider id="dataHeadlines">
+					<property name="data-location">http://rss.usatoday.mlogic3g.com/rss.jsp?key=main</property>
+					<property name="allow-cache">YES</property>
+					<property name="hide-activity-indicator">YES</property>
+					<actions>
+						<function on="success">
+							<property name="widget-id">headlinesTop</property>
+							<property name="function-name">goto-row</property>
+							<values>
+								<property name="row-index">[session:headlines_index]</property>
+							</values>
+						</function>
+						<modify on="failed">
+							<property name="widget-id">sectionHeadlines</property>
+							<values>
+								<property name="visible">NO</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END Headlines datasource -->
+
+
+				<!-- START News datasource -->
+				<RFXMLDataProvider id="dataNews">
+					<property name="data-location">http://rss.usatoday.mlogic3g.com/rss.jsp?key=main</property>
+					<property name="allow-cache">YES</property>
+					<property name="hide-activity-indicator">YES</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">txtUpdated</property>
+							<values>
+								<property name="text">Updated: [eval:("new Date().toUTCString()")-&gt;mediumdatetime]</property>
+							</values>
+						</modify>
+						<alert on="failed">
+							<property name="message">Failed to load news!</property>
+						</alert>
+						<modify on="success">
+							<property name="widget-id">mainLayout</property>
+							<property name="delay">0.5</property>
+							<property name="duration">1.0</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">Loading</property>
+							<property name="delay">0.3</property>
+							<property name="duration">0.5</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END News datasource -->
+
+
+				<!-- START News Section datasource -->
+				<RFXMLDataProvider id="dataSection">
+					<property name="data-location">http://rss.usatoday.mlogic3g.com/rss.jsp?key=tech</property>
+					<property name="allow-cache">YES</property>
+					<property name="hide-activity-indicator">YES</property>
+				</RFXMLDataProvider>
+				<!-- END News Section datasource -->
+
+
+				<!-- START Markets datasource -->
+				<RFXMLDataProvider id="dataMarkets">
+					<property name="data-location">http://www.google.com/ig/api?stock=NASDAQ&amp;stock=DJI&amp;stock=INX&amp;stock=GOOG&amp;stock=AAPL&amp;stock=CSCO&amp;stock=MSFT&amp;stock=ADBE</property>
+					<property name="allow-cache">YES</property>
+					<property name="hide-activity-indicator">YES</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">sectionMarkets</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END Markets datasource -->
+
+
+				<!-- START Sports Scores datasource -->
+				<RFXMLDataProvider id="dataSportsScores">
+					<property name="data-location">http://api.redfoundry.com/RFPipes.ashx?function=getJSONtoXML&amp;url=http%3A%2F%2Fscores.espn.go.com%2Faggregator%2Fcached%2Ftea%2Ffeed</property>
+					<property name="allow-cache">YES</property>
+					<property name="hide-activity-indicator">YES</property>
+					<actions>
+						<modify on="success">
+							<property name="widget-id">sectionSportsScores</property>
+							<values>
+								<property name="visible">YES</property>
+							</values>
+						</modify>
+					</actions>
+				</RFXMLDataProvider>
+				<!-- END Sports Scores datasource -->
+
+
+				<!-- START article datasource loader -->
+				<RFHTMLDataProvider id="dataArticle">
+					<property name="data-location">[session:article_url]</property>
+					<property name="allow-cache">NO</property>
+					<property name="method">GET</property>
+					<property name="hide-activity-indicator">YES</property>
+					<property name="auto-load">NO</property>
+					<actions>
+						<modify on="load-started">
+							<property name="widget-id">Loading</property>
+							<property name="duration">0.3</property>
+							<values>
+								<property name="alpha">1.0</property>
+							</values>
+						</modify>
+						<modify on="load-finished">
+							<property name="widget-id">Loading</property>
+							<property name="duration">0.3</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">articleTitle</property>
+							<values>
+								<property name="text">[session:article_title]</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">articleBody</property>
+							<values>
+								<property name="text">articleBody:[data:dataArticle("//html[1]")]</property>
+							</values>
+						</modify>
+						<modify on="success">
+							<property name="widget-id">Article</property>
+							<property name="duration">0.6</property>
+							<values>
+								<property name="top-position">0</property>
+							</values>
+						</modify>
+					</actions>
+				</RFHTMLDataProvider>
+				<!-- END article datasource loader -->
+
+
+			</datasources>
+
+
+			<widgets>
+
+				<!-- Location timer - this will fire until we have a latitude/longitude 
+					location -->
+				<RFTimerWidget id="timerLocation">
+					<property name="interval-in-seconds">2.0</property>
+					<property name="repeat">YES</property>
+					<actions>
+						<set on="timer-fired">
+							<values>
+								<property name="location_aquired" if="'[app:user-lat]'!=''">YES</property>
+							</values>
+						</set>
+						<load_datasource on="timer-fired">
+							<property name="datasource-id" if="'[session:location_aquired]'=='YES'">locationData</property>
+						</load_datasource>
+						<function on="timer-fired">
+							<property name="widget-id">timerLocation</property>
+							<property name="function-name">stop</property>
+						</function>
+					</actions>
+				</RFTimerWidget>
+
+
+				<!-- START background image -->
+				<RFImageWidget>
+					<property name="image">/resources/background_portrait.png</property>
+					<property name="image" orientation="landscape">/resources/background_landscape.png</property>
+					<property name="width">768</property>
+					<property name="height">1004</property>
+					<property name="width" orientation="landscape">1024</property>
+					<property name="height" orientation="landscape">748</property>
+					<property name="layout-type">absolute</property>
+				</RFImageWidget>
+				<!-- END background image -->
+
+
+				<!-- START more info image -->
+				<RFImageWidget>
+					<property name="image">/resources/icon_moreinfo.png</property>
+					<property name="width">22</property>
+					<property name="height">22</property>
+					<property name="layout-type">absolute</property>
+					<property name="top-position">10</property>
+					<property name="left-position">30</property>
+					<property name="animate-touch">YES</property>
+				</RFImageWidget>
+				<!-- END more info image -->
+
+
+				<!-- START updated date -->
+				<RFTextWidget id="txtUpdated">
+					<property name="text"></property>
+					<property name="font">Helvetica:14.0</property>
+					<property name="color">#c2c2c2</property>
+					<property name="layout-type">float</property>
+					<property name="vertical-alignment">top</property>
+					<property name="horizontal-alignment">right</property>
+					<property name="right-margin">65</property>
+					<property name="top-margin">12</property>
+				</RFTextWidget>
+				<!-- END updated date -->
+
+
+				<!-- START refresh -->
+				<RFImageWidget>
+					<property name="image">/resources/icon_refresh_48x52.png</property>
+					<property name="width">24</property>
+					<property name="height">26</property>
+					<property name="layout-type">float</property>
+					<property name="vertical-alignment">top</property>
+					<property name="horizontal-alignment">right</property>
+					<property name="right-margin">32</property>
+					<property name="top-margin">8</property>
+					<property name="animate-touch">YES</property>
+					<actions>
+						<load_datasource on="touch">
+							<property name="datasource-id">dataHeadlines</property>
+						</load_datasource>
+					</actions>
+				</RFImageWidget>
+				<!-- END refresh -->
+
+
+
+				<RFLayoutWidget id="mainLayout">
+					<property name="width">100%</property>
+					<property name="fill-remaining-height">YES</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="margin">32</property>
+					<property name="top-margin">38</property>
+					<property name="alpha">0.0</property>
+					<widgets>
+
+						<!-- START left column -->
+						<RFLayoutWidget>
+							<property name="width">220</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<!-- Header logo -->
+								<RFImageWidget>
+									<property name="image">/resources/logo_main.png</property>
+									<property name="width">220</property>
+									<property name="height">182</property>
+									<property name="margin">0</property>
+									<property name="layout-type">float</property>
+								</RFImageWidget>
+
+
+								<!-- START block sections -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="top-margin">192</property>
+									<widgets>
+
+
+										<!-- START weather section -->
+										<RFLayoutWidget id="sectionWeather">
+											<property name="width">100%</property>
+											<property name="height">120</property>
+											<property name="visible">NO</property>
+											<property name="background-color">#e4e5e6</property>
+											<property name="padding">10</property>
+											<property name="top-padding">6</property>
+											<property name="margin">0</property>
+											<property name="bottom-margin">10</property>
+											<property name="border-radius">5.0</property>
+											<widgets>
+
+												<RFImageWidget>
+													<property name="image">/resources/box_weather_12.png</property>
+													<property name="width">12</property>
+													<property name="height">12</property>
+													<property name="margin">0</property>
+													<property name="animate-touch">NO</property>
+													<property name="layout-type">float</property>
+													<property name="vertical-alignment">top</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="top-margin">10</property>
+													<property name="left-margin">10</property>
+												</RFImageWidget>
+
+												<RFTextWidget>
+													<property name="text">Weather</property>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#333333</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">5</property>
+													<property name="left-margin">18</property>
+												</RFTextWidget>
+
+												<RFHorizontalRuleWidget>
+													<property name="color">#cccccc</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+												<RFHorizontalRuleWidget>
+													<property name="color">#ffffff</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+
+
+												<RFTextWidget id="txtWeatherLocation">
+													<property name="text">New York, NY</property>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#333333</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+													<property name="margin">0</property>
+													<property name="top-margin">10</property>
+													<property name="max-lines">1</property>
+												</RFTextWidget>
+
+
+												<RFLayoutWidget>
+													<property name="width">100%</property>
+													<property name="layout-flow">horizontal</property>
+													<property name="top-margin">10</property>
+													<widgets>
+
+														<RFTextWidget id="txtWeatherTemp">
+															<property name="text">24°F</property>
+															<property name="font">Helvetica-Bold:30.0</property>
+															<property name="color">#333333</property>
+															<property name="enable-shadow">YES</property>
+															<property name="shadow-color">#ffffff</property>
+															<property name="shadow-offset-right">0.0</property>
+															<property name="shadow-offset-down">1.0</property>
+															<property name="shadow-blur">0.1</property>
+															<property name="margin">0</property>
+														</RFTextWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END weather section -->
+
+
+										<!-- START scores section -->
+										<RFLayoutWidget id="sectionSportsScores">
+											<property name="width">100%</property>
+											<property name="height">120</property>
+											<property name="height" orientation="portrait">180</property>
+											<property name="visible">NO</property>
+											<property name="background-color">#e4e5e6</property>
+											<property name="padding">10</property>
+											<property name="top-padding">6</property>
+											<property name="margin">0</property>
+											<property name="bottom-margin">10</property>
+											<property name="border-radius">5.0</property>
+											<property name="animate-touch">NO</property>
+											<widgets>
+
+												<RFImageWidget>
+													<property name="image">/resources/box_scores_12.png</property>
+													<property name="width">12</property>
+													<property name="height">12</property>
+													<property name="margin">0</property>
+													<property name="animate-touch">NO</property>
+													<property name="layout-type">float</property>
+													<property name="vertical-alignment">top</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="top-margin">10</property>
+													<property name="left-margin">10</property>
+												</RFImageWidget>
+
+												<RFTextWidget>
+													<property name="text">Scores</property>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#333333</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">5</property>
+													<property name="left-margin">18</property>
+												</RFTextWidget>
+
+												<RFHorizontalRuleWidget>
+													<property name="color">#cccccc</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+												<RFHorizontalRuleWidget>
+													<property name="color">#ffffff</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+
+												<RFRepeaterWidget>
+													<property name="row-data-id">dataSportsScores</property>
+													<property name="row-data-path">//games</property>
+													<property name="item-width">100%</property>
+													<property name="item-height">50</property>
+													<property name="width">100%</property>
+													<property name="fill-remaining-height">YES</property>
+													<property name="separator-color">#cccccc</property>
+													<property name="padding">0</property>
+													<property name="margin">0</property>
+													<property name="fade-rows">NO</property>
+													<property name="animate-new-rows">NO</property>
+													<property name="highlight-row-on-touch">NO</property>
+													<property name="top-margin">2</property>
+													<property name="left-padding">25</property>
+													<property name="highlight-row-on-touch">YES</property>
+													<actions>
+														<modify on="touch">
+															<property name="widget-id">modalCoverup</property>
+															<property name="duration">0.5</property>
+															<values>
+																<property name="alpha">0.65</property>
+															</values>
+														</modify>
+														<modify on="touch">
+															<property name="widget-id">popupModal_Scores</property>
+															<values>
+																<property name="visible">YES</property>
+															</values>
+														</modify>
+														<modify on="touch">
+															<property name="widget-id">popupModal</property>
+															<values>
+																<property name="visible">YES</property>
+															</values>
+														</modify>
+													</actions>
+													<widgets>
+
+														<RFLayoutWidget>
+															<property name="width">100%</property>
+															<property name="layout-flow">horizontal</property>
+															<property name="margin">0</property>
+															<property name="top-margin">5</property>
+															<widgets>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("home/name")]</property>
+																	<property name="font">Helvetica-Bold:14.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">110</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("home/score")]</property>
+																	<property name="font">Helvetica:14.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">60</property>
+																	<property name="justification">right</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+															</widgets>
+														</RFLayoutWidget>
+
+														<RFLayoutWidget>
+															<property name="width">100%</property>
+															<property name="layout-flow">horizontal</property>
+															<property name="margin">0</property>
+															<widgets>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("away/name")]</property>
+																	<property name="font">Helvetica-Bold:14.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">110</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("away/score")]</property>
+																	<property name="font">Helvetica:14.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">60</property>
+																	<property name="justification">right</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+															</widgets>
+														</RFLayoutWidget>
+
+													</widgets>
+												</RFRepeaterWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END scores section -->
+
+
+										<!-- START markets section -->
+										<RFLayoutWidget id="sectionMarkets">
+											<property name="width">100%</property>
+											<property name="height">245</property>
+											<property name="height" orientation="portrait">300</property>
+											<property name="visible">NO</property>
+											<property name="background-color">#e4e5e6</property>
+											<property name="padding">10</property>
+											<property name="top-padding">6</property>
+											<property name="margin">0</property>
+											<property name="bottom-margin">10</property>
+											<property name="border-radius">5.0</property>
+											<widgets>
+
+												<RFImageWidget>
+													<property name="image">/resources/box_markets_12.png</property>
+													<property name="width">12</property>
+													<property name="height">12</property>
+													<property name="margin">0</property>
+													<property name="animate-touch">NO</property>
+													<property name="layout-type">float</property>
+													<property name="vertical-alignment">top</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="top-margin">10</property>
+													<property name="left-margin">10</property>
+												</RFImageWidget>
+
+												<RFTextWidget>
+													<property name="text">Markets</property>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#333333</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">5</property>
+													<property name="left-margin">18</property>
+												</RFTextWidget>
+
+												<RFHorizontalRuleWidget>
+													<property name="color">#cccccc</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+												<RFHorizontalRuleWidget>
+													<property name="color">#ffffff</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+
+												<RFImageWidget>
+													<property name="image">http://www.google.com/finance/chart?cht=c&amp;q=INDEXDJX:.DJI,INDEXSP:.INX,INDEXNASDAQ:.IXIC&amp;tlf=12h</property>
+													<property name="width">100%</property>
+													<property name="height">80</property>
+													<property name="margin">0</property>
+													<property name="top-margin">10</property>
+													<property name="border-style">rounded</property>
+													<property name="allow-stretch">YES</property>
+												</RFImageWidget>
+
+												<RFRepeaterWidget>
+													<property name="row-data-id">dataMarkets</property>
+													<property name="row-data-path">//finance</property>
+													<property name="item-width">100%</property>
+													<property name="item-height">35</property>
+													<property name="width">100%</property>
+													<property name="fill-remaining-height">YES</property>
+													<property name="separator-color">#cccccc</property>
+													<property name="padding">0</property>
+													<property name="margin">0</property>
+													<property name="fade-rows">NO</property>
+													<property name="animate-new-rows">NO</property>
+													<property name="highlight-row-on-touch">NO</property>
+													<property name="top-margin">10</property>
+													<widgets>
+
+														<RFLayoutWidget>
+															<property name="width">100%</property>
+															<property name="height">100%</property>
+															<property name="layout-flow">horizontal</property>
+															<widgets>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("symbol/@data")]</property>
+																	<property name="font">Helvetica-Bold:15.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">60</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("last/@data")]</property>
+																	<property name="font">Helvetica:15.0</property>
+																	<property name="color">#333333</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">80</property>
+																	<property name="justification">right</property>
+																	<property name="max-lines">1</property>
+																</RFTextWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("change/@data")]</property>
+																	<property name="font">Helvetica:15.0</property>
+																	<property name="color">[eval:("var c = '[data:row("change/@data")]'; if (c.indexOf('+') == 0) { '#2f9436' } else if (c.indexOf('-') == 0) { '#b10000' } else { '#333333' }")]</property>
+																	<property name="max-lines">1</property>
+																	<property name="enable-shadow">YES</property>
+																	<property name="shadow-color">#ffffff</property>
+																	<property name="shadow-offset-right">0.0</property>
+																	<property name="shadow-offset-down">1.0</property>
+																	<property name="shadow-blur">0.1</property>
+																	<property name="margin">0</property>
+																	<property name="vertical-alignment">middle</property>
+																	<property name="width">60</property>
+																	<property name="justification">right</property>
+																</RFTextWidget>
+
+															</widgets>
+														</RFLayoutWidget>
+
+													</widgets>
+												</RFRepeaterWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END markets section -->
+
+
+										<!-- START day in pictures section -->
+										<RFLayoutWidget>
+											<property name="visible">NO</property>
+											<property name="visible" orientation="portrait">YES</property>
+											<property name="width">100%</property>
+											<property name="height">120</property>
+											<property name="background-color">#e4e5e6</property>
+											<property name="padding">10</property>
+											<property name="top-padding">6</property>
+											<property name="margin">0</property>
+											<property name="bottom-margin">10</property>
+											<property name="border-radius">5.0</property>
+											<widgets>
+
+												<RFImageWidget>
+													<property name="image">/resources/box_pictures_12.png</property>
+													<property name="width">12</property>
+													<property name="height">12</property>
+													<property name="margin">0</property>
+													<property name="animate-touch">NO</property>
+													<property name="layout-type">float</property>
+													<property name="vertical-alignment">top</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="top-margin">10</property>
+													<property name="left-margin">10</property>
+												</RFImageWidget>
+
+												<RFTextWidget>
+													<property name="text">Day in Pictures</property>
+													<property name="font">Helvetica-Bold:15.0</property>
+													<property name="color">#333333</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">5</property>
+													<property name="left-margin">18</property>
+												</RFTextWidget>
+
+												<RFHorizontalRuleWidget>
+													<property name="color">#cccccc</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+												<RFHorizontalRuleWidget>
+													<property name="color">#ffffff</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END day in pictures section -->
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END block sections -->
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END left column -->
+
+
+						<!-- START left column separator -->
+						<RFWidget>
+							<property name="width">1</property>
+							<property name="height">100%</property>
+							<property name="background-color">#bfbfbf</property>
+							<property name="margin">0</property>
+							<property name="left-margin">12</property>
+							<property name="right-margin">12</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFWidget>
+						<!-- END left column separator -->
+
+
+						<!-- START middle column (this is also the main column in portrait 
+							orientation -->
+						<RFLayoutWidget>
+							<property name="width" orientation="landscape">475</property>
+							<property name="width" orientation="portrait">460</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<!-- START top section -->
+								<RFLayoutWidget id="sectionHeadlines">
+									<property name="width">100%</property>
+									<property name="height">200</property>
+									<property name="include-in-parent-autosize">NO</property>
+									<property name="layout-type">float</property>
+									<property name="background-color">#f8f9f9</property>
+									<widgets>
+
+										<!-- Headline timer -->
+										<RFTimerWidget id="timerHeadlines">
+											<property name="interval-in-seconds">10.0</property>
+											<property name="repeat">YES</property>
+											<actions>
+												<set on="timer-fired">
+													<values>
+														<property name="headlines_index">[eval:("parseInt('[session:headlines_index]') + 1")]</property>
+													</values>
+												</set>
+												<function on="timer-fired">
+													<property name="widget-id">headlinesTop</property>
+													<property name="function-name">goto-row</property>
+													<values>
+														<property name="row-index">[session:headlines_index]</property>
+													</values>
+												</function>
+												<function on="timer-fired">
+													<property name="widget-id">timerLocation</property>
+													<property name="function-name">stop</property>
+												</function>
+											</actions>
+										</RFTimerWidget>
+
+										<RFRepeaterWidget id="headlinesTop">
+											<property name="row-data-id">dataHeadlines</property>
+											<property name="row-data-path">//item[position() &gt;= 3 and not(description = "&lt;p/&gt;")]</property>
+											<property name="orientation">horizontal</property>
+											<property name="enable-paging">YES</property>
+											<property name="item-width">100%</property>
+											<property name="item-height">170</property>
+											<property name="width">100%</property>
+											<property name="height">170</property>
+											<property name="separator-color">#ffffff</property>
+											<property name="padding">0</property>
+											<property name="margin">0</property>
+											<property name="animate-touch">NO</property>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="article_url">[data:row("link")]</property>
+														<property name="article_title">[data:row("title")-&gt;clean_html]</property>
+														<property name="article_image">[data:row("enclosure/@url")]</property>
+														<property name="article_date">[data:row("pubDate")]</property>
+													</values>
+												</set>
+												<load_datasource on="touch">
+													<property name="datasource-id">dataArticle</property>
+												</load_datasource>
+											</actions>
+											<widgets>
+
+												<RFLayoutWidget>
+													<property name="width">100%</property>
+													<property name="height">100%</property>
+													<property name="layout-flow">horizontal</property>
+													<property name="background-color">[eval:("var c='[data:row("category")]'; if(c=='Money'){'#edf9f1'}else if(c=='Sports'){'#ffe9eb'}else if(c=='Life'){'#f8edf5'}else{'#edf2f7'}")]</property>
+													<widgets>
+
+														<RFImageWidget>
+															<property name="visible">NO</property>
+															<property name="visible"
+																if="'[data:row(&quot;enclosure/@url&quot;)]' != ''">YES</property>
+															<property name="image">[data:row("enclosure/@url")]</property>
+															<property name="width">175</property>
+															<property name="height">100%</property>
+															<property name="hide-loading-indicator">NO</property>
+															<property name="margin">0</property>
+														</RFImageWidget>
+
+														<RFLayoutWidget>
+															<property name="height">100%</property>
+															<property name="padding">10</property>
+															<widgets>
+
+
+																<RFLayoutWidget>
+																	<property name="width">100%</property>
+																	<property name="layout-flow">horizontal</property>
+																	<widgets>
+
+																		<RFImageWidget>
+																			<property name="image">/resources/box_[eval:("var c='[data:row("category")]'; if(c=='Money'){'markets'}else if(c=='Sports'){'scores'}else if(c=='Life'){'life'}else{'news'}")]_12.png</property>
+																			<property name="width">12</property>
+																			<property name="height">12</property>
+																			<property name="margin">0</property>
+																			<property name="vertical-alignment">middle</property>
+																		</RFImageWidget>
+
+																		<RFTextWidget>
+																			<property name="text">[data:row("category")]</property>
+																			<property name="font">Helvetica-Bold:14.0</property>
+																			<property name="color">#333333</property>
+																			<property name="enable-shadow">YES</property>
+																			<property name="shadow-color">#ffffff</property>
+																			<property name="shadow-offset-right">0.0</property>
+																			<property name="shadow-offset-down">1.0</property>
+																			<property name="shadow-blur">0.1</property>
+																			<property name="margin">0</property>
+																			<property name="bottom-margin">5</property>
+																			<property name="left-margin">5</property>
+																			<property name="vertical-alignment">middle</property>
+																		</RFTextWidget>
+
+																	</widgets>
+																</RFLayoutWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("title")-&gt;clean_html]</property>
+																	<property name="font">TimesNewRomanPS-BoldMT:20.0</property>
+																	<property name="color">#333333</property>
+																	<property name="margin">0</property>
+																	<property name="bottom-margin">5</property>
+																	<property name="max-lines">2</property>
+																</RFTextWidget>
+
+																<RFTextWidget>
+																	<property name="text">[data:row("description")-&gt;clean_html]</property>
+																	<property name="font">Helvetica:14.0</property>
+																	<property name="color">666666</property>
+																	<property name="margin">0</property>
+																	<property name="max-lines">4</property>
+																</RFTextWidget>
+
+															</widgets>
+														</RFLayoutWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+
+											</widgets>
+										</RFRepeaterWidget>
+
+										<RFHorizontalRuleWidget>
+											<property name="color">#bfbfbf</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="margin">0</property>
+											<property name="top-margin">15</property>
+											<property name="include-in-parent-autosize">NO</property>
+										</RFHorizontalRuleWidget>
+
+
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END top section -->
+
+
+								<!-- START news section -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="top-margin">190</property>
+									<widgets>
+
+										<!-- START main news article -->
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="animate-touch">NO</property>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="article_url">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/link")]</property>
+														<property name="article_title">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/title")-&gt;clean_html]</property>
+														<property name="article_image">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/enclosure/@url")]</property>
+														<property name="article_date">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/pubDate")]</property>
+													</values>
+												</set>
+												<load_datasource on="touch">
+													<property name="datasource-id">dataArticle</property>
+												</load_datasource>
+											</actions>
+											<widgets>
+
+												<RFTextWidget>
+													<property name="text">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/title")-&gt;clean_html]</property>
+													<property name="font">TimesNewRomanPS-BoldMT:26.0</property>
+													<property name="color">#333333</property>
+													<property name="max-lines">2</property>
+													<property name="margin">0</property>
+													<property name="top-margin">10</property>
+													<property name="bottom-margin">5</property>
+												</RFTextWidget>
+
+												<RFImageWidget>
+													<property name="visible">NO</property>
+													<property name="visible"
+														if="'[data:dataNews(&quot;//item[not(description = &quot;&lt;p/&gt;&quot;)]/enclosure/@url&quot;)]' != ''">YES</property>
+													<property name="image">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/enclosure/@url")]</property>
+													<property name="width">100%</property>
+													<property name="height">260</property>
+													<property name="hide-loading-indicator">NO</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">5</property>
+												</RFImageWidget>
+
+												<RFTextWidget>
+													<property name="text">[data:dataNews("//item[not(description = "&lt;p/&gt;")]/description")-&gt;clean_html]</property>
+													<property name="font">Helvetica:14.0</property>
+													<property name="color">#666666</property>
+													<property name="max-lines">1</property>
+													<property name="margin">0</property>
+													<property name="bottom-margin">10</property>
+												</RFTextWidget>
+
+												<RFHorizontalRuleWidget>
+													<property name="color">#cccccc</property>
+													<property name="width">100%</property>
+													<property name="height">1</property>
+													<property name="margin">0</property>
+												</RFHorizontalRuleWidget>
+
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END main news article -->
+
+
+										<RFRepeaterWidget>
+											<property name="item-height">120</property>
+											<property name="height">100%</property>
+											<property name="width">100%</property>
+											<property name="row-data-id">dataNews</property>
+											<property name="row-data-path">//item[position() &gt;= 2 and not(description = "&lt;p/&gt;")]</property>
+											<property name="separator-color">#cccccc</property>
+											<property name="fade-rows">NO</property>
+											<property name="animate-new-rows">NO</property>
+											<property name="highlight-row-on-touch">NO</property>
+											<property name="footer-padding">500</property>
+											<widgets>
+
+												<!-- START main layout -->
+												<RFLayoutWidget>
+													<property name="width">100%</property>
+													<property name="height">100%</property>
+													<property name="layout-flow">horizontal</property>
+													<property name="top-padding">10</property>
+													<actions>
+														<set on="touch">
+															<values>
+																<property name="article_url">[data:row("link")]</property>
+																<property name="article_title">[data:row("title")-&gt;clean_html]</property>
+																<property name="article_image">[data:row("enclosure/@url")]</property>
+																<property name="article_date">[data:row("pubDate")]</property>
+															</values>
+														</set>
+														<load_datasource on="touch">
+															<property name="datasource-id">dataArticle</property>
+														</load_datasource>
+													</actions>
+													<widgets>
+
+														<RFImageWidget>
+															<property name="visible">NO</property>
+															<property name="visible"
+																if="'[data:row(&quot;enclosure/@url&quot;)]' != ''">YES</property>
+															<property name="image">[data:row("enclosure/@url")]</property>
+															<property name="width">75</property>
+															<property name="height">75</property>
+															<property name="horizontal-alignment">right</property>
+															<property name="vertical-alignment">top</property>
+														</RFImageWidget>
+
+														<RFLayoutWidget>
+															<property name="layout-flow">vertical</property>
+															<property name="vertical-alignment">top</property>
+															<property name="left-padding">10</property>
+															<widgets>
+																<RFTextWidget>
+																	<property name="font">TimesNewRomanPS-BoldMT:20.0</property>
+																	<property name="color">#333333</property>
+																	<property name="text">[data:row("title")-&gt;clean_html]</property>
+																	<property name="max-lines">2</property>
+																</RFTextWidget>
+																<RFTextWidget>
+																	<property name="font">Helvetica:14.0</property>
+																	<property name="color">#666666</property>
+																	<property name="text">[data:row("description")-&gt;clean_html]</property>
+																	<property name="max-lines">2</property>
+																</RFTextWidget>
+															</widgets>
+														</RFLayoutWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+												<!-- END row layout -->
+
+											</widgets>
+										</RFRepeaterWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END news section -->
+
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END middle column -->
+
+
+						<!-- START right column separator -->
+						<RFWidget>
+							<property name="visible">YES</property>
+							<property name="visible" orientation="portrait">NO</property>
+							<property name="width">1</property>
+							<property name="height">100%</property>
+							<property name="background-color">#bfbfbf</property>
+							<property name="margin">0</property>
+							<property name="left-margin">12</property>
+							<property name="right-margin">12</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFWidget>
+						<!-- END right column separator -->
+
+
+						<!-- START right column -->
+						<RFLayoutWidget>
+							<property name="visible">YES</property>
+							<property name="visible" orientation="portrait">NO</property>
+							<property name="width" orientation="landscape">215</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">185</property>
+									<property name="include-in-parent-autosize">NO</property>
+									<property name="layout-type">float</property>
+									<property name="margin">0</property>
+									<widgets>
+
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="height">170</property>
+											<property name="background-color">#e4e5e6</property>
+											<property name="padding">10</property>
+											<property name="top-padding">6</property>
+											<property name="margin">0</property>
+											<property name="border-radius">5.0</property>
+											<property name="border-width">1.0</property>
+											<property name="border-color">#cccccc</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="width">100%</property>
+													<property name="font">Helvetica:20.0</property>
+													<property name="color">#cccccc</property>
+													<property name="text">Ad Space</property>
+													<property name="justification">center</property>
+													<property name="top-margin">60</property>
+													<property name="enable-shadow">YES</property>
+													<property name="shadow-color">#ffffff</property>
+													<property name="shadow-offset-right">0.0</property>
+													<property name="shadow-offset-down">1.0</property>
+													<property name="shadow-blur">0.1</property>
+												</RFTextWidget>
+											</widgets>
+										</RFLayoutWidget>
+
+										<RFHorizontalRuleWidget>
+											<property name="color">#bfbfbf</property>
+											<property name="width">100%</property>
+											<property name="height">1</property>
+											<property name="margin">0</property>
+											<property name="layout-type">float</property>
+											<property name="top-position">185</property>
+											<property name="include-in-parent-autosize">NO</property>
+										</RFHorizontalRuleWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+
+
+
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="top-margin">190</property>
+									<widgets>
+
+										<RFRepeaterWidget>
+											<property name="item-height">200</property>
+											<property name="height">100%</property>
+											<property name="width">100%</property>
+											<property name="row-data-id">dataSection</property>
+											<property name="row-data-path">//item[not(description = "&lt;p/&gt;")]</property>
+											<property name="separator-color">#cccccc</property>
+											<property name="fade-rows">NO</property>
+											<property name="animate-new-rows">NO</property>
+											<property name="highlight-row-on-touch">NO</property>
+											<property name="footer-padding">500</property>
+											<actions>
+												<set on="touch">
+													<values>
+														<property name="article_url">[data:row("link")]</property>
+														<property name="article_title">[data:row("title")-&gt;clean_html]</property>
+														<property name="article_image">[data:row("enclosure/@url")]</property>
+														<property name="article_date">[data:row("pubDate")]</property>
+													</values>
+												</set>
+												<load_datasource on="touch">
+													<property name="datasource-id">dataArticle</property>
+												</load_datasource>
+											</actions>
+											<widgets>
+
+												<RFLayoutWidget>
+													<property name="width">100%</property>
+													<property name="top-padding">10</property>
+													<widgets>
+
+														<RFTextWidget>
+															<property name="font">TimesNewRomanPS-BoldMT:20.0</property>
+															<property name="color">#333333</property>
+															<property name="text">[data:row("title")-&gt;clean_html]</property>
+															<property name="max-lines">2</property>
+														</RFTextWidget>
+
+														<RFLayoutWidget>
+															<property name="layout-flow">horizontal</property>
+															<property name="width">100%</property>
+															<widgets>
+																<RFImageWidget>
+																	<property name="visible">NO</property>
+																	<property name="visible"
+																		if="'[data:row(&quot;enclosure/@url&quot;)]' != ''">YES</property>
+																	<property name="image">[data:row("enclosure/@url")]</property>
+																	<property name="width">75</property>
+																	<property name="height">75</property>
+																	<property name="horizontal-alignment">right</property>
+																	<property name="vertical-alignment">top</property>
+																</RFImageWidget>
+																<RFTextWidget>
+																	<property name="font">Helvetica:14.0</property>
+																	<property name="color">#666666</property>
+																	<property name="text">[data:row("description")-&gt;clean_html]</property>
+																	<property name="max-lines">7</property>
+																	<property name="left-padding">10</property>
+																</RFTextWidget>
+															</widgets>
+														</RFLayoutWidget>
+
+													</widgets>
+												</RFLayoutWidget>
+
+											</widgets>
+										</RFRepeaterWidget>
+
+									</widgets>
+								</RFLayoutWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END right column -->
+
+
+
+
+					</widgets>
+				</RFLayoutWidget>
+
+
+				<RFImageWidget>
+					<property name="image">/resources/bottom_gradient.png</property>
+					<property name="width">100%</property>
+					<property name="height">20</property>
+					<property name="margin">0</property>
+					<property name="allow-stretch">YES</property>
+					<property name="layout-type">absolute</property>
+					<property name="vertical-alignment">bottom</property>
+				</RFImageWidget>
+
+
+
+				<!-- START modal cover-up -->
+				<RFLayoutWidget id="modalCoverup">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="background-color">#000000</property>
+					<property name="alpha">0.0</property>
+					<property name="layout-type">float</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<actions>
+						<modify on="touch">
+							<property name="widget-id">modalCoverup</property>
+							<property name="duration">0.3</property>
+							<values>
+								<property name="alpha">0.0</property>
+							</values>
+						</modify>
+						<modify on="touch">
+							<property name="widget-id">popupModal</property>
+							<values>
+								<property name="visible">NO</property>
+							</values>
+						</modify>
+					</actions>
+					<widgets>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END modal cover-up -->
+
+
+
+
+				<!-- START article modal -->
+				<RFLayoutWidget id="Article">
+					<property name="width">768</property>
+					<property name="height">1004</property>
+					<property name="width" orientation="landscape">1024</property>
+					<property name="height" orientation="landscape">748</property>
+					<property name="background-color">#ffffff</property>
+					<property name="layout-type">float</property>
+					<property name="top-position">[app:screen-height]</property>
+					<property name="margin">0</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<widgets>
+
+						<!-- START background image -->
+						<RFImageWidget>
+							<property name="image">/resources/background_portrait.png</property>
+							<property name="image" orientation="landscape">/resources/background_landscape.png</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="layout-type">absolute</property>
+							<property name="margin">0</property>
+							<property name="include-in-parent-autosize">NO</property>
+						</RFImageWidget>
+						<!-- END background image -->
+
+
+
+						<!-- START article header -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="layout-flow">horizontal</property>
+							<property name="margin">0</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<RFImageWidget>
+									<property name="image">/resources/icon_closearticle.png</property>
+									<property name="width">25</property>
+									<property name="height">20</property>
+									<property name="animate-touch">YES</property>
+									<property name="layout-type">float</property>
+									<property name="horizontal-alignment">left</property>
+									<property name="vertical-alignment">top</property>
+									<property name="top-margin">20</property>
+									<property name="left-margin">30</property>
+									<property name="margin">0</property>
+									<actions>
+										<modify on="touch">
+											<property name="widget-id">Article</property>
+											<property name="duration">0.5</property>
+											<values>
+												<property name="top-position">[app:screen-height]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFImageWidget>
+
+								<RFImageWidget>
+									<property name="image">/resources/article_logo.png</property>
+									<property name="width">189</property>
+									<property name="height">22</property>
+									<property name="layout-type">float</property>
+									<property name="horizontal-alignment">center</property>
+									<property name="vertical-alignment">top</property>
+									<property name="top-margin">20</property>
+								</RFImageWidget>
+
+								<RFImageWidget>
+									<property name="image">/resources/icon_share.png</property>
+									<property name="width">25</property>
+									<property name="height">20</property>
+									<property name="layout-type">float</property>
+									<property name="horizontal-alignment">right</property>
+									<property name="vertical-alignment">top</property>
+									<property name="animate-touch">YES</property>
+									<property name="top-margin">20</property>
+									<property name="right-margin">32</property>
+								</RFImageWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END article header -->
+
+
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="margin">0</property>
+							<property name="top-margin">5</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">32</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<widgets>
+
+								<RFHorizontalRuleWidget>
+									<property name="color">#cccccc</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+								<RFHorizontalRuleWidget>
+									<property name="color">#ffffff</property>
+									<property name="width">100%</property>
+									<property name="height">1</property>
+									<property name="margin">0</property>
+								</RFHorizontalRuleWidget>
+
+
+
+							</widgets>
+						</RFLayoutWidget>
+
+
+
+
+
+
+						<!-- START inner article -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="left-margin">30</property>
+							<property name="right-margin">32</property>
+							<widgets>
+
+								<RFTextWidget id="articleTitle">
+									<property name="text"></property>
+									<property name="font">TimesNewRomanPS-BoldMT:32.0</property>
+									<property name="color">#333333</property>
+									<property name="max-lines">2</property>
+									<property name="margin">0</property>
+									<property name="top-margin">10</property>
+								</RFTextWidget>
+
+
+								<RFTextWidget id="articleBody">
+									<property name="text"></property>
+									<property name="font">Helvetica:14.0</property>
+									<property name="color">666666</property>
+									<property name="margin">0</property>
+									<property name="top-margin">10</property>
+								</RFTextWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END inner article -->
+
+
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END article modal -->
+
+
+
+
+
+
+				<!-- START popup modal -->
+				<RFLayoutWidget id="popupModal">
+					<property name="visible">NO</property>
+					<property name="height">658</property>
+					<property name="width">628</property>
+					<property name="background-color">#f6f6f6</property>
+					<property name="layout-type">float</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<property name="border-radius">10.0</property>
+					<property name="enable-shadow">YES</property>
+					<property name="shadow-color">#000000</property>
+					<property name="shadow-offset-right">0.0</property>
+					<property name="shadow-offset-down">0.0</property>
+					<property name="shadow-blur">12.0</property>
+					<property name="shadow-alpha">0.9</property>
+					<widgets>
+						
+						<!-- START scores modal -->
+						<RFLayoutWidget id="popupModal_Scores">
+							<property name="visible">NO</property>
+							<property name="height">100%</property>
+							<property name="width">100%</property>
+							<widgets>
+								
+								<!-- START header bar -->
+								<RFLayoutWidget>
+									<property name="width">100%</property>
+									<property name="height">60</property>
+									<property name="background-color">#ed2b22</property>
+									<property name="layout-type">float</property>
+									<widgets>
+										<RFImageWidget>
+											<property name="image">/resources/header_scores.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="top-position">0</property>
+											<property name="left-position">0</property>
+											<property name="width">100%</property>
+											<property name="height">100%</property>
+											<property name="allow-stretch">YES</property>
+										</RFImageWidget>
+										<RFImageWidget>
+											<property name="image">/resources/header_logo_scores.png</property>
+											<property name="layout-type">absolute</property>
+											<property name="top-position">10</property>
+											<property name="left-position">10</property>
+											<property name="width">192</property>
+											<property name="height">20</property>
+										</RFImageWidget>
+									</widgets>
+								</RFLayoutWidget>
+								<!-- END header bar -->
+								
+								
+								
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END scores modal -->
+						
+						
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END popup modal -->
+
+
+
+
+
+				<!-- START loading dialog -->
+				<RFTextWidget id="Loading">
+					<property name="height">100</property>
+					<property name="width">200</property>
+					<property name="background-color">#000000A0</property>
+					<property name="font">Helvetica:16.0</property>
+					<property name="layout-type">float</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<property name="text">Loading...</property>
+					<property name="border-radius">10.0</property>
+					<property name="justification">center</property>
+					<property name="alpha">1.0</property>
+				</RFTextWidget>
+				<!-- END loading dialog -->
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

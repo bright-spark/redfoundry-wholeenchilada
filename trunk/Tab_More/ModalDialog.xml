@@ -52,7 +52,7 @@
 							<property name="include-in-parent-autosize">NO</property>
 							<property name="enable-shadow">YES</property>
 							<property name="shadow-color">#4c545f</property>
-							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-color" device="iPad">#000000</property>
 							<property name="shadow-offset-right">0.0</property>
 							<property name="shadow-offset-down">-1.0</property>
 							<property name="shadow-blur">0.1</property>
@@ -205,7 +205,7 @@
 							<property name="include-in-parent-autosize">NO</property>
 							<property name="enable-shadow">YES</property>
 							<property name="shadow-color">#4c545f</property>
-							<property name="shadow-color" device="iPad">#ffffff</property>
+							<property name="shadow-color" device="iPad">#000000</property>
 							<property name="shadow-offset-right">0.0</property>
 							<property name="shadow-offset-down">-1.0</property>
 							<property name="shadow-blur">0.1</property>
