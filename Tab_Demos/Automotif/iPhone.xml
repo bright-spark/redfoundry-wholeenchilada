@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title-bar-visible">NO</property>
+		
+			<widgets>
+
+				<RFTextWidget>
+					<property name="text">Sorry, this app is designed for an iPad!</property>
+					<property name="font">Helvetica-Bold:20.0</property>
+					<property name="layout-type">float</property>
+					<property name="vertical-alignment">middle</property>
+					<property name="horizontal-alignment">center</property>
+					<property name="justification">center</property>
+				</RFTextWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

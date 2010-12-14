@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Stocks and Markets</property>
+			<property name="background-color">#ffffff</property>
+			<property name="background-image">/resources/background_iphone.png</property>
+			<property name="background-image" device="iPad">/resources/background_ipad.jpg</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+			<property name="top-padding">44</property>
+			<property name="top-padding" orientation="landscape">32</property>
+			<property name="top-padding" orientation="landscape" device="iPad">44</property>
+
+			<datasources>
+
+				<!-- START stocks datasource -->
+				<RFXMLDataProvider id="dataStocks">
+					<property name="data-location">http://www.google.com/ig/api?stock=NASDAQ&amp;stock=DJI&amp;stock=INX&amp;stock=GOOG&amp;stock=AAPL&amp;stock=CSCO&amp;stock=MSFT&amp;stock=ADBE&amp;stock=CAT&amp;stock=DIS&amp;stock=INTC&amp;stock=BAC&amp;stock=HPQ&amp;stock=GE</property>
+					<property name="allow-cache">YES</property>
+				</RFXMLDataProvider>
+				<!-- END stocks datasource -->
+
+			</datasources>
+
+			<widgets>
+
+				<!-- START title bar -->
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="height">44</property>
+					<property name="height" orientation="landscape">32</property>
+					<property name="height" orientation="landscape" device="iPad">44</property>
+					<property name="layout-flow">horizontal</property>
+					<property name="background-color">#7b90ad</property>
+					<property name="background-color" device="iPad">#000000</property>
+					<property name="layout-type">float</property>
+					<widgets>
+						<RFImageWidget>
+							<property name="image">/resources/header_iphone_blue.png</property>
+							<property name="image" orientation="landscape">/resources/header_iphone_landscape_blue.png</property>
+							<property name="image" device="iPad">/resources/header_ipad_black.png</property>
+							<property name="image" device="iPad" orientation="landscape">/resources/header_ipad_black.png</property>
+							<property name="layout-type">absolute</property>
+							<property name="top-position">0</property>
+							<property name="left-position">0</property>
+							<property name="width">100%</property>
+							<property name="height">100%</property>
+							<property name="alpha">.98</property>
+							<property name="allow-stretch">YES</property>
+						</RFImageWidget>
+						<RFTextWidget>
+							<property name="font">Helvetica-Bold:20.0</property>
+							<property name="text"> Stocks and Markets</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="horizontal-alignment">center</property>
+							<property name="layout-type">absolute</property>
+							<property name="color">#FFFFFF</property>
+							<property name="max-lines">1</property>
+							<property name="left-padding">30</property>
+							<property name="right-padding">10</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="enable-shadow">YES</property>
+							<property name="shadow-color">#4c545f</property>
+							<property name="shadow-color" device="iPad">#000000</property>
+							<property name="shadow-offset-right">0.0</property>
+							<property name="shadow-offset-down">-1.0</property>
+							<property name="shadow-blur">0.1</property>
+						</RFTextWidget>
+						<RFButtonWidget>
+							<actions>
+								<navigate on="touch">
+									<property name="navigation-stack-type">pop</property>
+								</navigate>
+							</actions>
+							<property name="text"> Back</property>
+							<property name="width">60</property>
+							<property name="height">30</property>
+							<property name="style">glossy-back</property>
+							<property name="horizontal-alignment">left</property>
+							<property name="vertical-alignment">middle</property>
+							<property name="background-color">#496b9b</property>
+							<property name="background-color" device="iPad">#333333</property>
+							<property name="font">Helvetica-Bold:14.0</property>
+							<property name="color">#FFFFFF</property>
+							<property name="left-margin">10</property>
+							<property name="alpha">.90</property>
+						</RFButtonWidget>
+					</widgets>
+				</RFLayoutWidget>
+				<!-- END title bar -->
+
+
+				<RFLayoutWidget id="outerContent">
+					<property name="width">100%</property>
+					<property name="height">100%</property>
+					<property name="padding">10</property>
+					<widgets>
+
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<widgets>
+								<RFTextWidget>
+									<property name="font">Helvetica-Bold:14.0</property>
+									<property name="text">Updated: [eval:("new Date().toUTCString()")-&gt;mediumdatetime] </property>
+									<property name="color">#4c566c</property>
+									<property name="color" device="iPad">#ffffff</property>
+									<property name="margin">0</property>
+									<property name="left-padding">15</property>
+									<property name="right-padding">15</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="shadow-color">#f7f7f7</property>
+									<property name="shadow-color" device="iPad">#000000</property>
+									<property name="shadow-offset-right">0.0</property>
+									<property name="shadow-offset-down">2.0</property>
+									<property name="shadow-blur">0.1</property>
+								</RFTextWidget>
+							</widgets>
+						</RFLayoutWidget>
+
+
+						<!-- START Top Section -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<property name="padding">8</property>
+							<widgets>
+
+								<RFImageWidget>
+									<property name="image">http://www.google.com/finance/chart?cht=c&amp;q=INDEXDJX:.DJI,INDEXSP:.INX,INDEXNASDAQ:.IXIC&amp;tlf=12h</property>
+									<property name="width">250</property>
+									<property name="height">130</property>
+									<property name="margin">0</property>
+									<property name="top-margin">5</property>
+									<property name="border-style">rounded</property>
+									<property name="allow-stretch">YES</property>
+									<property name="horizontal-alignment">center</property>
+								</RFImageWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Top Section -->
+
+
+						<!-- START Bottom Section -->
+						<RFLayoutWidget>
+							<property name="width">100%</property>
+							<property name="background-color">#ffffff</property>
+							<property name="border-width">1.0</property>
+							<property name="border-color">#ababab</property>
+							<property name="border-radius">10</property>
+							<property name="fill-remaining-height">YES</property>
+							<widgets>
+
+								<RFRepeaterWidget id="menu">
+									<property name="row-data-id">dataStocks</property>
+									<property name="row-data-path">//finance</property>
+									<property name="width">100%</property>
+									<property name="height">100%</property>
+									<property name="item-height">60</property>
+									<property name="separator-color">#ababab</property>
+									<property name="padding">0</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="animate-new-rows">NO</property>
+									<property name="fade-rows">NO</property>
+									<property name="highlight-row-on-touch">NO</property>
+									<widgets>
+
+										<!-- START row -->
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="top-padding">10</property>
+											<property name="left-padding">15</property>
+											<property name="right-padding">15</property>
+											<property name="margin">0</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="font">Helvetica-Bold:16.0</property>
+													<property name="text">[data:row("symbol/@data")]</property>
+													<property name="color">#000000</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="margin">0</property>
+												</RFTextWidget>
+
+												<RFTextWidget>
+													<property name="font">Helvetica:16.0</property>
+													<property name="text">[data:row("last/@data")]</property>
+													<property name="color">[eval:("var c = '[data:row("change/@data")]'; if (c.indexOf('+') == 0) { '#2f9436' } else if (c.indexOf('-') == 0) { '#b10000' } else { '#333333' }")]</property>
+													<property name="margin">0</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="justify">right</property>
+												</RFTextWidget>
+											</widgets>
+										</RFLayoutWidget>
+
+										<RFLayoutWidget>
+											<property name="width">100%</property>
+											<property name="layout-flow">horizontal</property>
+											<property name="left-padding">15</property>
+											<property name="right-padding">15</property>
+											<property name="margin">0</property>
+											<widgets>
+												<RFTextWidget>
+													<property name="font">Helvetica:14.0</property>
+													<property name="text">[data:row("company/@data")]</property>
+													<property name="color">#000000</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="horizontal-alignment">left</property>
+													<property name="margin">0</property>
+													<property name="max-lines">1</property>
+												</RFTextWidget>
+
+												<RFTextWidget>
+													<property name="font">Helvetica:14.0</property>
+													<property name="text">[data:row("change/@data")] ([data:row("perc_change/@data")]%)</property>
+													<property name="color">[eval:("var c = '[data:row("change/@data")]'; if (c.indexOf('+') == 0) { '#2f9436' } else if (c.indexOf('-') == 0) { '#b10000' } else { '#333333' }")]</property>
+													<property name="margin">0</property>
+													<property name="vertical-alignment">middle</property>
+													<property name="horizontal-alignment">right</property>
+													<property name="justify">right</property>
+												</RFTextWidget>
+											</widgets>
+										</RFLayoutWidget>
+										<!-- END row -->
+
+									</widgets>
+								</RFRepeaterWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+						<!-- END Bottom Section -->
+
+					</widgets>
+				</RFLayoutWidget>
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

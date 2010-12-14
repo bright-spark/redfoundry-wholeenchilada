@@ -4,6 +4,12 @@
 	<property name="show-status-bar">NO</property>
 	<views>
 		<view>
+		
+			<actions>
+				<navigate on="appeared">
+					<property name="to" device="iPhone">iPhone.xml</property>
+				</navigate>
+			</actions>
 
 			<datasources>
 				<RFXMLDataProvider id="PagesData">
@@ -30,7 +36,6 @@
 					<property name="page-data-path">pages/page</property>
 					<property name="show-page-indicator">YES</property>
 				</RFPagedViewWidget>
-
 
 			</widgets>
 		</view>

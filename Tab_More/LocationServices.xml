@@ -126,7 +126,7 @@
 							<property name="horizontal-alignment">left</property>
 							<property name="vertical-alignment">middle</property>
 							<property name="background-color">#496b9b</property>
-							<property name="background-color" device="iPad">#333333</property>
+							<property name="shadow-color" device="iPad">#000000</property>
 							<property name="font">Helvetica-Bold:14.0</property>
 							<property name="color">#FFFFFF</property>
 							<property name="left-margin">10</property>
