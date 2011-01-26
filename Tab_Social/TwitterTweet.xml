@@ -31,6 +31,7 @@
 					<property name="oauth-request-token-url">https://api.twitter.com/oauth/request_token</property>
 					<property name="oauth-access-token-url">https://api.twitter.com/oauth/access_token</property>
 					<property name="oauth-authorize-url">https://api.twitter.com/oauth/authorize</property>
+					<property name="oauth-callback-url">MY_TWITTER_CALLBACKURL</property>
 					<submit_values>
 						<property name="status">[form:message]</property>
 					</submit_values>

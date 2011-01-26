@@ -61,6 +61,7 @@
 					<property name="oauth-request-token-url">http://foursquare.com/oauth/request_token</property>
 					<property name="oauth-access-token-url">http://foursquare.com/oauth/access_token</property>
 					<property name="oauth-authorize-url">http://foursquare.com/oauth/authorize</property>
+					<property name="oauth-callback-url">MY_FOURSQUARE_CALLBACKURL</property>
 					<submit_values>
 						<property name="vid">[form:vid]</property>
 						<property name="geolat">[app:user-lat]</property>

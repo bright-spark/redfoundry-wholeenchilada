@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rfapp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
+	<views>
+		<view>
+			<property name="title">Styled Menu</property>
+			<property name="background-color">#000000</property>
+			<property name="padding">0</property>
+			<property name="title-bar-visible">NO</property>
+
+			<actions>
+				<modify on="rotated-landscape">
+					<property name="widget-id">backgroundImage</property>
+					<values>
+						<property name="left-position">0</property>
+						<property name="top-position">0</property>
+					</values>
+				</modify>
+				<modify on="rotated-landscape">
+					<property name="widget-id">backgroundImage</property>
+					<property name="duration">45.0</property>
+					<values>
+						<property name="left-position">-250</property>
+						<property name="top-position">-250</property>
+					</values>
+				</modify>
+				<modify on="rotated-portrait">
+					<property name="widget-id">backgroundImage</property>
+					<values>
+						<property name="left-position">0</property>
+						<property name="top-position">0</property>
+					</values>
+				</modify>
+				<modify on="rotated-portrait">
+					<property name="widget-id">backgroundImage</property>
+					<property name="duration">45.0</property>
+					<values>
+						<property name="left-position">-250</property>
+						<property name="top-position">-250</property>
+					</values>
+				</modify>
+			</actions>
+
+			<datasources>
+
+				<RFXMLDataProvider id="menuData">
+					<property name="allow-cache">YES</property>
+					<property name="data">
+						  <![CDATA[
+				          <items>
+				            <item>
+				              <name>Photos</name>
+				              <submit_to>/Tab_Modules/PhotoGallery.xml</submit_to>
+				            </item>
+				            <item>
+				              <name>Music</name>
+				              <submit_to>/Tab_Modules/MusicGallery.xml</submit_to>
+				            </item>
+				            <item>
+				              <name>News</name>
+				              <submit_to>/Tab_Modules/RSSNewspaper.xml</submit_to>
+				            </item>
+				            <item>
+				              <name>Style</name>
+				              <submit_to>/Tab_Modules/RSSMagazine.xml</submit_to>
+				              <description>A sexy living magazine automatically generated from an RSS feed.</description>
+				            </item>
+				            <item>
+				              <name>Directions</name>
+				              <submit_to>/Tab_Modules/GoogleGeo.xml</submit_to>
+				              <description>Google's location based APIs including geo services and directions.</description>
+				            </item>
+				          </items>
+				          ]]>
+			        </property>
+				</RFXMLDataProvider>
+
+			</datasources>
+
+			<widgets>
+
+
+				<!-- START background -->
+				<RFImageWidget id="backgroundImage">
+					<property name="image">http://farm4.static.flickr.com/3663/3431233355_8970220598_o.jpg</property>
+					<property name="width">[eval:("parseInt('[app:screen-width]') + 250")]</property>
+					<property name="height">[eval:("parseInt('[app:screen-height]') + 250")]</property>
+					<property name="layout-type">absolute</property>
+					<property name="include-in-parent-autosize">NO</property>
+					<actions>
+						<modify on="image-loaded">
+							<property name="widget-id">backgroundImage</property>
+							<values>
+								<property name="left-position">0</property>
+							</values>
+						</modify>
+						<modify on="image-loaded">
+							<property name="widget-id">backgroundImage</property>
+							<property name="duration">45.0</property>
+							<values>
+								<property name="left-position">-250</property>
+								<property name="top-position">-250</property>
+							</values>
+						</modify>
+					</actions>
+				</RFImageWidget>
+				<!-- END background -->
+
+
+				<RFLayoutWidget>
+					<property name="width">100%</property>
+					<property name="layout-flow">horizontal</property>
+					<widgets>
+
+						<RFLayoutWidget>
+							<property name="width">70%</property>
+							<property name="top-padding">30</property>
+
+							<widgets>
+
+								<RFTimerWidget id="timerTime">
+									<property name="interval-in-seconds">1.0</property>
+									<property name="repeat">YES</property>
+									<property name="bottom-margin">0</property>
+									<actions>
+										<modify on="timer-fired">
+											<property name="widget-id">currentTime</property>
+											<values>
+												<property name="text">[eval:("
+												var d=new Date();
+												var h=d.getHours(); if (h&gt;12) {h=h-12}
+												var m=d.getMinutes(); if (m&lt;10) {m='0'+m}
+												h+':'+m")]</property>
+											</values>
+										</modify>
+									</actions>
+								</RFTimerWidget>
+
+								<RFTextWidget id="currentTime">
+									<property name="width">100%</property>
+									<property name="font">interval-light.otf:60.0</property>
+									<property name="text">[eval:("
+												var d=new Date();
+												var h=d.getHours(); if (h&gt;12) {h=h-12}
+												var m=d.getMinutes(); if (m&lt;10) {m='0'+m}
+												h+':'+m")]</property>
+									<property name="color">#ffffff</property>
+									<property name="margin">0</property>
+									<property name="bottom-margin">10</property>
+									<property name="justification">right</property>
+								</RFTextWidget>
+
+								<RFTextWidget>
+									<property name="width">100%</property>
+									<property name="font">interval-ultra-light.otf:20.0</property>
+									<property name="text">[eval:("
+												var d=new Date();
+												var da = ['SUN','MON','TUE','WED','THU','FRI','SAT','SUN'];
+												da[new Date().getDay()]")]</property>
+									<property name="color">#ffffff</property>
+									<property name="margin">0</property>
+									<property name="bottom-margin">10</property>
+									<property name="justification">right</property>
+								</RFTextWidget>
+
+								<RFTextWidget>
+									<property name="width">100%</property>
+									<property name="font">interval-ultra-light.otf:20.0</property>
+									<property name="text">[eval:("
+												var d=new Date();
+												var ma = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+												ma[d.getMonth()] + ' ' + d.getDate()")]</property>
+									<property name="color">#ffffff</property>
+									<property name="margin">0</property>
+									<property name="bottom-margin">60</property>
+									<property name="justification">right</property>
+								</RFTextWidget>
+
+
+								<RFRepeaterWidget id="menu">
+									<property name="row-data-id">menuData</property>
+									<property name="row-data-path">//item</property>
+									<property name="width">100%</property>
+									<property name="fill-remaining-height">YES</property>
+									<property name="item-height">45</property>
+									<property name="padding">0</property>
+									<property name="vertical-alignment">middle</property>
+									<property name="animate-new-rows">YES</property>
+									<property name="fade-rows">YES</property>
+									<actions>
+										<navigate on="touch">
+											<property name="to">[data:row("submit_to")]</property>
+										</navigate>
+									</actions>
+									<widgets>
+										<RFTextWidget>
+											<property name="width">100%</property>
+											<property name="font">interval.otf:22.0</property>
+											<property name="color">#FFFFFF</property>
+											<property name="text">[data:row("name")]</property>
+											<property name="vertical-alignment">middle</property>
+											<property name="justification">right</property>
+											<property name="max-lines">1</property>
+											<property name="include-in-parent-autosize">NO</property>
+										</RFTextWidget>
+									</widgets>
+								</RFRepeaterWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+
+
+						<RFLayoutWidget>
+							<property name="width">31</property>
+							<property name="include-in-parent-autosize">NO</property>
+							<property name="left-padding">15</property>
+							<widgets>
+
+								<RFWidget>
+									<property name="width">1</property>
+									<property name="fill-remaining-height">YES</property>
+									<property name="background-color">#ffffff</property>
+									<property name="top-margin">10</property>
+									<property name="bottom-margin">0</property>
+								</RFWidget>
+
+								<RFImageWidget>
+									<property name="image">/resources/divit_up.png</property>
+									<property name="width">24</property>
+									<property name="height">15</property>
+									<property name="layout-type">float</property>
+									<property name="top-position">5</property>
+									<property name="horizontal-alignment">center</property>
+								</RFImageWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+
+
+						<RFLayoutWidget>
+							<property name="top-padding">30</property>
+							<property name="fill-remaining-width">YES</property>
+							<property name="width">100</property>
+							<widgets>
+
+								<RFTextWidget>
+									<property name="width">100%</property>
+									<property name="font">interval-light.otf:30.0</property>
+									<property name="text">PM</property>
+									<property name="color">#ffffff</property>
+									<property name="margin">0</property>
+									<property name="bottom-margin">10</property>
+									<property name="top-margin">20</property>
+									<property name="max-lines">1</property>
+								</RFTextWidget>
+
+							</widgets>
+						</RFLayoutWidget>
+
+					</widgets>
+				</RFLayoutWidget>
+
+
+				<RFImageWidget>
+					<property name="visible" if="'[get:view('is-root')]'=='YES'">NO</property>
+					<property name="image">/resources/titlebar_backarrow.png</property>
+					<property name="height">32</property>
+					<property name="width">32</property>
+					<property name="layout-type">float</property>
+					<property name="top-position">15</property>
+					<property name="left-position">15</property>
+					<property name="animate-touch">YES</property>
+					<actions>
+						<navigate on="touch">
+							<property name="navigation-stack-type">pop</property>
+						</navigate>
+					</actions>
+				</RFImageWidget>
+
+
+			</widgets>
+		</view>
+	</views>
+</rfapp>

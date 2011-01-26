@@ -4,6 +4,7 @@
 	xsi:noNamespaceSchemaLocation="http://developer.redfoundry.com/rfml.xsd">
 	<property name="use-standard-tab-bar">YES</property>
 	<property name="enable-location-services">YES</property>
+	<property name="enable-debug-console">YES</property>
 	<views>
 
 
@@ -73,6 +74,11 @@
 				              <name>Map View</name>
 				              <submit_to>/Tab_Modules/MapView.xml</submit_to>
 				              <description>A full-screen interactive map. See how one view can work on both the iPhone and iPad.</description>
+				            </item>
+				            <item>
+				              <name>Styled Menu</name>
+				              <submit_to>/Tab_Modules/StyledMenu1.xml</submit_to>
+				              <description>A styled menu.</description>
 				            </item>
 				          </items>
 				          ]]>
