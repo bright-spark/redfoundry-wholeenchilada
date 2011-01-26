@@ -15,13 +15,14 @@
 
 			<widgets>
 
-				<!-- START slide show -->
+				<!-- START background -->
 				<RFImageWidget id="backgroundImage">
 					<property name="image">http://farm1.static.flickr.com/85/233472093_1f1d235e7b_b.jpg</property>
 					<property name="width">[eval:("parseInt('[app:screen-width]') + 450")]</property>
 					<property name="height">[eval:("parseInt('[app:screen-height]') + 450")]</property>
-					<property name="layout-type">float</property>
+					<property name="layout-type">absolute</property>
 					<property name="hide-loading-indicator">NO</property>
+					<property name="include-in-parent-autosize">NO</property>
 
 					<!-- START background animation actions -->
 					<actions>
@@ -50,7 +51,7 @@
 					<!-- END background animation actions -->
 
 				</RFImageWidget>
-				<!-- END slide show -->
+				<!-- END background -->
 
 
 
